@@ -1,0 +1,16 @@
+# Local / third-party tools
+Deep-Research-skills/
+
+# Dependencies & environments
+node_modules/
+.env
+.env.local
+__pycache__/
+*.pyc
+
+# OS & Editor artifacts
+.DS_Store
+Thumbs.db
+nul
+.vscode/
+.idea/

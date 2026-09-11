@@ -19,6 +19,10 @@ This is the **shared knowledge database** for all Claude Code sessions working o
 | [08-technical-foundations.md](08-technical-foundations.md) | Technical ref: ASR, document AI, ABDM/FHIR, dialogue architecture, deployment | Ref |
 | [09-module-a-design.md](09-module-a-design.md) | Module A design from the 2026-09-09 Codex sessions: scope, architecture, verified stack, candidate survey, failure policy | Candidate (unratified) |
 | [10-positioning-evidence.md](10-positioning-evidence.md) | Judge-facing positioning pack: sourced evidence brief, competitor scan, differentiator, SDG/theme case, feasibility & impact (PS SIH26047 verified: Ministry of Ayush/AIIA, Smart Automation) | Research output (2026-09-11) |
+| [11-sih-idea-submission.md](11-sih-idea-submission.md) | SIH idea-portal draft: the 10 must-have fields (problem, evidence, theme, SDG, gap, innovation, MVP, impact, scalability, stakeholders) | Draft (2026-09-11) |
+| [12-prototype-demo.md](12-prototype-demo.md) | Module A interactive demo prototype: how to run, demo scripts, what's real vs simulated, verification | Built & verified (2026-09-11) |
+| [13-module-b-deep-dive.md](13-module-b-deep-dive.md) | Module B deep-dive: verified ABDM/NRCeS output contract, MIRAGE accuracy ceilings, engine-by-engine license/footprint/Indic fit, what's appropriate vs not | Research output (2026-09-11) |
+| [14-module-b-cpu-research.md](14-module-b-cpu-research.md) | Module B CPU-only model research: paper-level comparison table (CPU latency/RAM/license/maintenance), Indic-accuracy evidence, flagged unverified candidates, deciding benchmark | Research output (2026-09-11) |
 | [05-research-log.md](research/05-research-log.md) | Ever-growing research log, activities, findings, findings dates | Live |
 | [06-decisions-log.md](decisions/06-decisions-log.md) | Architecture and design decisions with rationale | Live |
 | [07-open-questions.md](research/07-open-questions.md) | Open questions and TODO backlog | Live |
@@ -44,3 +48,4 @@ This is the **shared knowledge database** for all Claude Code sessions working o
 - `solution.pdf` / `solution.txt` - draft solution write-up (NOT yet confirmed)
 - `ocr_asr_rnd.md` - prior OCR/ASR research (unconfirmed framing)
 - `Research_SOCRATES.pdf` - PDF export of the clinical-domain research (2026-09-01)
+- `prototype/module-a-kiosk-demo.html` - **runnable Module A demo prototype** (see doc 12)

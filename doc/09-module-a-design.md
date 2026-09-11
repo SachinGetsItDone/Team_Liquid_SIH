@@ -43,9 +43,12 @@ the original brief's "25 min" was a typo).
 - **Data residency (non-negotiable per the brief):** no non-Indian cloud API may touch patient
   health data - not as primary, not as fallback, not for a minor sub-task. Cloud components need
   confirmed India hosting/residency or get flagged as blocking risks.
-- **Hardware ceiling (hard ceiling, NOT a target - figures are inherited assumptions, unsourced):**
-  - Profile A: 4 GB VRAM / 12 GB DDR5
-  - Profile B: 6 GB VRAM / 16 GB DDR5
+- **Hardware tier (GROUNDED 2026-09-11 - replaces the inherited 4GB/6GB VRAM assumption,
+  which had zero basis in market reality): CPU/iGPU-only kiosk, ~4 GB RAM, no discrete GPU.**
+  Evidence: Yolo Health datasheet (ARM Cortex / Intel i3 / Snapdragon / Ryzen 3, 4GB+ RAM,
+  128GB+, no dGPU); TradeIndia i3-4th-gen kiosk listing; Clinics On Cloud battery-operated
+  portable ATM (ARM/mobile-class implied). Full data in `research/05-research-log.md`
+  (2026-09-11 hardware-grounding entry). Scale-up path: room-server-per-hospital + thin kiosk.
 
 ## 2. Architectural safety rules (from `ocr_asr_rnd.md`, session 1)
 
@@ -66,8 +69,8 @@ These are **architectural requirements, not tooling preferences** - each traceab
 - **ASR = pluggable adapter + bake-off gate.** One interface; working default vs. IndicConformer
   swap decided by measurement on real OPD audio. (Session 1 default: faster-whisper INT8;
   session 2 refined this - see §5.)
-- **Hardware profiles = unknown.** The 4 GB / 6 GB figures are inherited assumptions. Must be
-  replaced with real Indian OPD kiosk specs before the hardware budget is final (see §10, Step 0).
+- **Hardware tier = grounded (2026-09-11).** CPU/iGPU-only kiosk, ~4 GB RAM, no dGPU
+  (see §1; Step 0 closed, §10 item 1).
 
 ## 4. Architecture (session 2)
 
@@ -141,33 +144,34 @@ Module A kiosk
 | Component | Recommended tool | License | Footprint | Hosting | Last updated | Source |
 |---|---|---|---|---|---|---|
 | VAD and audio | Silero VAD + WebRTC Audio Processing | MIT + BSD-3-Clause | VAD model ~2 MB; CPU-only | Local | Silero 2026-08-24; APM date not pinned | [Silero](https://github.com/snakers4/silero-vad), [WebRTC APM](https://webrtc.googlesource.com/src/+/refs/heads/main/modules/audio_processing/) |
-| ASR | `whisper.cpp` multilingual Whisper-small, quantized; Qwen3-ASR-0.6B as Profile-B experiment | MIT runtime; model artifact terms must be pinned | ~0.8-1.5 GB RAM small quantized; ~1-2 GB VRAM | Local | 2026-09-08 | [whisper.cpp](https://github.com/ggml-org/whisper.cpp), [Qwen3-ASR](https://github.com/QwenLM/Qwen3-ASR) |
-| Dialogue NLU/state | `pytransitions` + `llama.cpp` with Qwen3-1.7B Q4 | MIT + Apache-2.0 | ~1.5-2.5 GB RAM/VRAM; state machine negligible | Local | llama.cpp 2026-09-09; pytransitions 2025-09-11 | [llama.cpp](https://github.com/ggml-org/llama.cpp), [Qwen3-1.7B](https://huggingface.co/Qwen/Qwen3-1.7B), [transitions](https://github.com/pytransitions/transitions) |
+| ASR | `whisper.cpp` multilingual Whisper-small, quantized (CPU); Qwen3-ASR-0.6B REJECTED for kiosk (needs CUDA dGPU), room-server experiment only | MIT runtime; model artifact terms must be pinned | ~0.8-1.5 GB RAM small quantized | Local | 2026-09-08 | [whisper.cpp](https://github.com/ggml-org/whisper.cpp), [Qwen3-ASR](https://github.com/QwenLM/Qwen3-ASR) |
+| Dialogue NLU/state | `pytransitions` + `llama.cpp` with Qwen3-1.7B Q4 | MIT + Apache-2.0 | ~1.5-2.5 GB RAM (CPU-only kiosk); state machine negligible | Local | llama.cpp 2026-09-09; pytransitions 2025-09-11 | [llama.cpp](https://github.com/ggml-org/llama.cpp), [Qwen3-1.7B](https://huggingface.co/Qwen/Qwen3-1.7B), [transitions](https://github.com/pytransitions/transitions) |
 | TTS | `sherpa-onnx` with an approved Hindi Piper-format voice | Apache-2.0 runtime; voice license checked separately | ~100-300 MB per voice; CPU-capable | Local | 2026-09-09 | [sherpa-onnx](https://github.com/k2-fsa/sherpa-onnx), [Hindi voice catalog](https://k2-fsa.github.io/sherpa/onnx/tts/pretrained_models/piper.html) |
 | Storage and IPC | SQLCipher-backed SQLite + FastAPI + Tauri shell | BSD-3-Clause + public domain + MIT/Apache-2.0 | <300 MB incl. process overhead | Local or hospital LAN (India) | SQLCipher 2026-09-08; FastAPI 2026-07-29; Tauri 2026-09-09 | [SQLCipher](https://github.com/sqlcipher/sqlcipher), [SQLite](https://sqlite.org/copyright.html), [FastAPI](https://github.com/fastapi/fastapi), [Tauri](https://github.com/tauri-apps/tauri) |
 | Cloud fallback | **None approved** | Bhashini service terms not sufficiently verified | Network-dependent | Claimed India service; residency/retention not confirmed | Unknown | [Bhashini ULCA](https://bhashini.gov.in/ulca) |
 
 Memory numbers are engineering estimates, not vendor guarantees. Pin exact model files and
-benchmark on the actual kiosk motherboard, GPU driver, and quantization before procurement.
+benchmark on a real kiosk-class CPU (i3/ARM, integrated graphics only - no dGPU) before procurement.
 
 Key changes vs. the 2026-09-01 candidate runtime (decisions log): NLU model **Qwen3-1.7B Q4**
-(not 4B - too large for safe concurrency on Profile A); ASR baseline **quantized whisper.cpp**
-(not sherpa-onnx ASR); **Bhashini demoted from "fallback" to "blocked risk"** (residency/
-retention/quotas unverified). Also: Qwen3-ASR now documents streaming + 52 languages, so
-"no streaming Hindi ASR exists" is **no longer safe to state** - its resource use still needs
-a hardware benchmark.
+(not 4B - too large for a 4GB-RAM CPU-only kiosk); ASR baseline **quantized whisper.cpp**
+(not sherpa-onnx ASR); **Bhashini demoted from "fallback" to "blocked risk"** (2026-09-11:
+written adverse ToS/retention evidence, 0/5 conditions met). Also: Qwen3-ASR documents streaming
++ 52 languages, so "no streaming Hindi ASR exists" is **no longer safe to state** - but it needs
+a CUDA dGPU no Indian health kiosk ships, so it is **rejected for the kiosk tier** (room-server
+experiment only).
 
 ## 6. Hardware fit, scheduling, and kiosk count
 
-| Profile | Default deployment | Expected peak | Verdict |
+| Tier | Default deployment | Expected peak | Verdict |
 |---|---|---:|---|
-| 4 GB VRAM / 12 GB RAM | Whisper-small Q5/Q8, Qwen3-1.7B Q4, Silero VAD, sherpa TTS | ~2.5-3.5 GB VRAM, 7-10 GB RAM with ASR and NLU scheduled serially | Fits; ≥2 GB RAM headroom required |
-| 6 GB VRAM / 16 GB RAM | Same stack; optionally test Qwen3-ASR-0.6B or Qwen3-4B Q4 (one at a time) | ~4.5-5.8 GB VRAM, 10-14 GB RAM | Fits only with strict scheduling; larger models are a stretch |
+| Kiosk CPU/iGPU, ~4 GB RAM (grounded 2026-09-11) | Whisper-small/base Q5/Q8 (CPU), Qwen3-1.7B Q4 (CPU, to be measured), Silero VAD, sherpa TTS | ASR and NLU scheduled strictly serially; RAM budget unmeasured on real hardware | Bake-off must measure; smaller-NLU / rule-based fallback arm required |
+| Room server + thin kiosk (scale-up) | Qwen3-ASR-0.6B experiment, Qwen3-4B Q4 NLU (one at a time) | Per server GPU | Only path for GPU-class models; stays inside hospital DPDP/ABDM boundary |
 
-**Never run ASR, NLU, and TTS concurrently on one GPU.** Scheduler rules:
-1. Keep VAD resident. 2. ASR only while the patient is speaking. 3. Release/reduce ASR GPU
-allocation after a final segment. 4. NLU only after an utterance/answer completes. 5. TTS on
-CPU where possible. 6. Hard memory watchdog - on allocation failure, fall back to the smaller
+**Never run ASR, NLU, and TTS concurrently on a kiosk CPU.** Scheduler rules:
+1. Keep VAD resident. 2. ASR only while the patient is speaking. 3. Release ASR allocation
+after a final segment. 4. NLU only after an utterance/answer completes. 5. TTS on
+CPU. 6. Hard memory watchdog - on allocation failure, fall back to the smaller
 model, then to touch input.
 
 **Kiosk-count math (sizing estimate, not validated hospital data):** at a 10-hour OPD day and
@@ -294,8 +298,8 @@ solving a real Module A requirement.
 | Failure | Response |
 |---|---|
 | Noisy audio | Prompt patient to move closer; acoustic enclosure + directional mic; then RNNoise/DeepFilterNet |
-| ASR timeout / GPU allocation failure | Switch to smaller Whisper model; offer touch-entry questions |
-| Qwen3-ASR instability | Use quantized `whisper.cpp` segmented decoding |
+| ASR timeout / memory allocation failure | Switch to smaller Whisper model; offer touch-entry questions |
+| Qwen3-ASR instability | Not deployed on kiosk (rejected 2026-09-11: needs CUDA dGPU); room-server experiment only |
 | NLU timeout | Deterministic slot parser + repeat the question; never accept an unvalidated LLM field |
 | Low confidence on drug, dose, allergy, or date | Mark `unreadable/unknown`; require touch confirmation or clinician review |
 | TTS failure | Play pre-recorded Hindi/English prompts; show text/icons |
@@ -306,9 +310,12 @@ solving a real Module A requirement.
 
 ## 9. Trade-offs and reconsideration points
 
-- The 4 GB profile forces segmented near-real-time ASR, not a large always-streaming model.
-- The 6 GB profile can test Qwen3-ASR-0.6B but must not run it concurrently with a 4B NLU model.
-- Qwen3-4B would improve extraction quality but is a stretch; Qwen3-1.7B is the production default.
+- The CPU/iGPU-only kiosk tier forces segmented near-real-time ASR (whisper.cpp INT8),
+  not a large always-streaming model.
+- Qwen3-ASR via vLLM streaming is REJECTED for the kiosk (needs a CUDA dGPU no Indian health
+  kiosk ships); it survives only as a room-server experiment.
+- Qwen3-1.7B Q4 is the NLU default but its fit on i3/ARM-class CPUs is unmeasured - bake-off
+  must include a smaller-NLU / heavier rule-based fallback arm.
 - Hindi/Hinglish medical accuracy depends heavily on a local corpus, microphone design, decoder
   vocabulary, and evaluation of medication names/dosages - not just model choice.
 - Bhashini cannot be a compliant fallback until India-only processing, retention, pricing, and
@@ -326,12 +333,11 @@ solving a real Module A requirement.
 
 ## 10. Open items carried forward
 
-1. **Step 0 (BLOCKING, from session 1's plan): ground the hardware profiles.** The 4 GB / 6 GB
-   ceilings appear nowhere in a sourced doc. Research targets: commercial Indian health-kiosk
-   vendor specs; ABDM-linked kiosk deployments (ABHA registration kiosks, e-Sanjeevani terminals)
-   and tender hardware; whether real Indian public-hospital kiosks have a discrete GPU at all.
-   **If they don't, the entire on-device LLM premise changes** - pivot to CPU/iGPU-quantized tier
-   or room-server-per-hospital with thin kiosk clients.
+1. **Step 0 (CLOSED 2026-09-11): hardware profiles grounded.** The 4 GB / 6 GB VRAM
+    ceilings had no sourced basis and are replaced: real Indian health kiosks are CPU/iGPU-only
+    (~4 GB RAM, no dGPU). Detail in `research/05-research-log.md` (2026-09-11 entry). §1 and §9
+    above updated accordingly; on-device LLM premise narrowed to the CPU-quantized tier, with
+    room-server-per-hospital + thin kiosk clients as the scale-up path.
 2. **Bhashini residency verification** (blocked risk, not a fallback, until terms are in writing).
 3. **CCRAS Prakriti Assessment Scale items** - must not be invented; official item set unresolved.
 4. **OPD scale figures (4,000-10,000/day) unvalidated** - session 2's web searches found no
