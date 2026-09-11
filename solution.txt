@@ -1,0 +1,5 @@
+    MediKiosk is a self-service kiosk deployed in Indian public hospital OPDs that captures a patient's complete medical history before consultation through two channels: a voice-and-touch clinical interview
+    (Module A) and a document scanning pipeline (Module B). Module A uses a slot-filling dialogue manager that owns clinical state (SOCRATES for HPI, Dashavidha Pariksha for AYUSH) while a language model
+    handles natural phrasing in the patient's preferred language, with explicit unelicited states preventing fabrication. Module B routes between a VLM and classical OCR with disagreement detection, returning
+    every extracted value with a visual bounding box. Module C synthesizes both streams into an editable, physician-ready summary, and Module D handles ABDM/FHIR integration and DPDP Act compliance. The
+    physician receives a structured history in seconds, retaining full editorial control.
