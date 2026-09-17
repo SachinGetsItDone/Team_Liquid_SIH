@@ -1732,6 +1732,39 @@ question on a timer, so a presenter could not speak and be heard. Reworked the i
   "Module A starts empty", "waits for the person — no auto-advance" and "paper hand-over step waits
   for an upload".
 
+**Follow-up 3 (same day, user directive):** the default speaker voice sounded poor for a recording.
+`Voice.voiceFor` used to take the first language match, which on Windows is usually the legacy
+offline voice. Added a scored default (Natural/Neural ≫ Google ≫ Online ≫ offline, with the
+well-known Indian voice names weighted up) and a header **Speaker** picker listing every installed
+voice with a **Test** button; the choice is stored in `localStorage`. Verified: **27/27 checks**.
+
+**Bug found and fixed (same day):** the voice change above made the page open blank with
+"Maximum call stack size exceeded". `Voice.bestFor()` called `refresh()`, which fired the boot
+callback, which called `bestFor()` again — infinite recursion. On a real browser the voice list
+starts empty and arrives asynchronously, so the callback fired with zero voices and the loop never
+resolved; the stubbed test passed because its fake voice list was non-empty immediately. Fix:
+`refresh()` now delegates to a non-notifying `snapshot()`, `bestFor()`/`voiceFor()` use `snapshot()`,
+and `refresh()` has a re-entrancy guard. `verify-prototype.py` now opens a **clean page with no
+stubs** and asserts the opening screen renders with no boot errors, so this class of failure cannot
+pass unnoticed again. Verified: **29/29 checks**.
+
+**Follow-up 4 (same day, user directive — "use exact same UI of archive/sep11 module a"):**
+rebuilt the prototype on the archived Sep-11 Module A visual system. `build-prototype.py` now
+extracts that file's stylesheet at build time (comments stripped; the one badge string neutralised;
+presenter-bar classes renamed) and appends only `medikiosk-src/sep11-additions.css`. All screens
+were rewritten to the archived markup: dark presenter bar (neutral title), gradient header with
+brand mark + read-aloud toggle + speaker picker + language/module chips, left progress rail,
+conversation log beside the question card, chips/scale/yes-no/cc/body-map cards with skip links,
+safety overlay + inline panel, read-back summary, physician handoff sheet. Deviations from the
+archive (all required by earlier directives): the realistic shaded body replaces the stick figure;
+no prepared answers or script picker (Module A is live capture); consent + 18-language notice +
+voice self-check rows adapted to this flow; red flags are evaluated over the answers actually given
+instead of firing statically; RTL for Urdu/Sindhi/Kashmiri. Verification rewritten to drive the new
+markup: **33/33 checks, 0 console/page errors**. Two failures found and fixed during the port: a
+case-sensitive step-tag assertion, and a microphone retry loop that re-rendered faster than the
+test could click (the kiosk now waits after an unmatched answer instead of re-listening on its
+own).
+
 **Honest limits:** voice quality depends on the OS/browser voices installed (a machine with no
 Tamil voice cannot read Tamil); recogniser accuracy is the vendor's and needs the network; the
 clinical content is fixed to one walk-in case; UI label packs exist for 14 languages and fall back
@@ -1769,3 +1802,21 @@ Full per-worker reports in session transcript; this entry is the de-duplicated s
 - External 16 (doc/22 App.B): P0 = INPS, dataEraseAt originator duty, Fidelius primary URL, author semantics, CDSCO wording.
 
 **SUBMISSION:** pick delta + proxy as the 2 innovations (body-map = accessibility); sharpen differentiator (offline + NRCeS-pinned + provenance + app-enforced attestation + AYUSH); lead with execution depth; fix evidence dates/links before printing.
+
+---
+
+## 2026-09-17 - Per-module Excalidraw diagrams (A/B/C/D) created
+
+**What was done:** `doc/diagrams/` had three Sep-11 overviews but no per-module diagram.
+Created four, one per module, in the `medikiosk-modules-onepage` visual language
+(code font, roughness 0, semantic palette, bound texts, legend + open-gates strip each):
+`module-a-interview` (68 els: 9-step timeline + VAD→ASR→NLU→FSM + red-flag diamond +
+HistoryBundle evidence + AYUSH layer), `module-b-digitization` (43 els: B1-B9 flow +
+router/gate diamonds + fallback lane + verify-default + B6 emission evidence),
+`module-c-summary` (47 els: A+B convergence + merger hero + 4 renderer views +
+attestation lifecycle timeline + ranges gate + MCFP-1), `module-d-consent`
+(37 els: D1-D8 flow + D4 gate + D7 crypto + token/audit/D9-D12 + 16-blocker gate).
+Built with the excalidraw-diagram skill (palette + templates), JSON refs validated,
+rendered via the skill's Playwright script, view-fix loop closed 4 arrow-routing
+defects (A NO-branch, B structurer→gate, C conflict→FHIR, D queue→crypto→gateway).
+PNG previews sit next to each file. Open any `.excalidraw` in Excalidraw to edit.

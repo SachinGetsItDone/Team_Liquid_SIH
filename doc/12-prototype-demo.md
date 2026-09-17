@@ -10,11 +10,23 @@
 
 | File | Purpose |
 |---|---|
-| `prototype/medikiosk-prototype.html` | The artifact. One self-contained file (~118 KB), zero network, no build step at run time. Open directly, or serve it for microphone access. |
-| `prototype/medikiosk-src/` | Editable sources: `style.css`, `languages.js`, `content.js`, `body.js`, `app.js`. Do not hand-edit the built HTML. |
+| `prototype/medikiosk-prototype.html` | The artifact. One self-contained file, zero network, no build step at run time. Open directly, or serve it for microphone access. |
+| `prototype/medikiosk-src/` | Editable sources: `sep11-additions.css`, `languages.js`, `content.js`, `body.js`, `app.js`. Do not hand-edit the built HTML. (`style.css` is superseded — see below.) |
 | `prototype/build-prototype.py` | Assembler → `medikiosk-prototype.html`. Run after any source edit. |
 | `prototype/serve-prototype.py` | Loopback server + opens the browser (browsers block mic on `file://`). |
-| `prototype/verify-prototype.py` | Headless click-through: **20 checks, 0 console/page errors**, with stubbed speech/recognition. Screenshots → `prototype/screenshots/p1..p11*.png`. |
+| `prototype/verify-prototype.py` | Headless click-through over loopback with stubbed speech/recognition. Screenshots → `prototype/screenshots/p1..p11*.png`. |
+
+## Visual system (2026-09-17, user directive)
+
+The prototype renders the **exact Sep-11 Module A visual system**: `build-prototype.py` extracts the
+stylesheet from `archive/SEP11/module-a-kiosk-demo.html` at build time (comments stripped — a visual
+no-op) and appends only `medikiosk-src/sep11-additions.css` (speaker picker, paper hand-over,
+extraction tables, physician view, consent agreement, hotspot selection, RTL). Same tokens
+(`--teal`/`--ink`/…), same components (dark presenter bar, gradient header, progress rail,
+conversation log, question cards, chips, scale, body map, safety overlay, read-back, handoff sheet).
+The old `medikiosk-src/style.css` is no longer used. The banned words stay at **0 occurrences** in
+the shipped file (the archive's one badge string is neutralised and its presenter-bar class names
+are renamed at build time).
 
 ## Behaviour
 
@@ -30,6 +42,10 @@
   until the person gives it (verified: "Module A starts empty", "waits for the person").
 - **Module B waits for the papers.** The upload step is a real file hand-over; only after the pages
   are supplied does the kiosk read them. Modules B–D then show the fixed Indian case.
+- **Speaker voice is selectable.** The header has a **Speaker** picker listing every installed
+  voice (natural/Google voices marked ★) plus a **Test** button; the pick is remembered. The default
+  is scored, not "first match", so a Natural/Neural or Google voice is preferred over the legacy
+  offline ones. Edge exposes the highest-quality `… Online (Natural)` voices.
 - **Body map** is a hand-authored, gradient-shaded human figure (front/back) with transparent
   hotspot overlays — not a stick figure. The step waits for a real tap.
 - **Papers** (Sharma Clinic prescription, Sanjeevani Diagnostics labs, R.K. Heart Centre ECG, a

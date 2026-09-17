@@ -62,9 +62,9 @@ This is the **shared knowledge database** for all Claude Code sessions working o
 - `ocr_asr_rnd.md` - prior OCR/ASR research (unconfirmed framing)
 - `Research_SOCRATES.pdf` - PDF export of the clinical-domain research (2026-09-01)
 - `prototype/medikiosk-prototype.html` - **video-submission walkthrough of all four modules** (single self-contained file; sources in `prototype/medikiosk-src/`, build with `python prototype/build-prototype.py`; verify with `python prototype/verify-prototype.py`) (see doc 12)
-- `prototype/module-a-kiosk-demo.html` - **runnable Module A demo prototype** (see doc 12)
-- `prototype/module-b-kiosk-demo.html` - **runnable Module B demo prototype** (see doc 12)
-- `prototype/module-c-kiosk-demo.html` - **runnable Module C demo prototype** (see doc 12)
+- `archive/SEP11/module-a-kiosk-demo.html` - Sep-12 Module A demo, SUPERSEDED by the Sep-17 video walkthrough above (see doc 12)
+- `archive/SEP11/module-b-kiosk-demo.html` - Sep-11 Module B demo, SUPERSEDED (see doc 12)
+- `archive/SEP11/module-c-kiosk-demo.html` - Sep-11 Module C demo, SUPERSEDED (see doc 12)
 - `module-a/` - **Module A implementation** (`media` package: FSM, deterministic red-flag engine, NLU adapters, Speech adapters, HistoryBundle emitter) — offline scripted runner `python -m media.cli --demo`; signed red-flag spec `module-a/media/redflags.spec.json`
 - `module-b/` - Module B reference implementation (`medib` package)
 - `module-c/` - Module C reference implementation (`medic` package)
@@ -72,3 +72,4 @@ This is the **shared knowledge database** for all Claude Code sessions working o
 - `kiosk/` - **A+B integration runtime + kiosk app** (`kiosk` package: single-slot scheduler J1, shared LLM runtime J2, Encounter orchestrator, plus a parallel-session web/API layer) — end-to-end runner `python -m kiosk.cli --demo [--voice] [--fixtures] [--profile 4gb]` (real OCR by default; `--voice` = real mic + offline ASR + TTS); benchmark `python -m kiosk.benchmark`; API/web server `python -m kiosk.server`
 - `conftest.py` / `pytest.ini` - repo-wide test path setup + importlib collection (run all suites with `pytest`)
 - `doc/module-a-pipeline.excalidraw` - **Module A full pipeline diagram** (opened in Excalidraw; 8 sections: session entry, interview sequence, capture pipeline, safety layer, storage/output, failure policy, safety rules, verified stack) + `module-a-pipeline.png` preview
+- `doc/diagrams/` - per-module diagrams, one per module, same visual language (open in Excalidraw; PNG preview next to each): `module-a-interview` (9-step interview + capture + safety), `module-b-digitization` (B1-B9 pipeline + router + verify-default), `module-c-summary` (merger + renderer + attestation lifecycle), `module-d-consent` (D1-D12 consent/ABDM/audit); older overviews `medikiosk-modules-onepage`, `medikiosk-pipeline`, `module-b-cpu-pipeline` (2026-09-11)
