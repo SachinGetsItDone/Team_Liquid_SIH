@@ -1,0 +1,35 @@
+{
+  "schema": "medikiosk-red-flags/1",
+  "comment": "Deterministic, versioned red-flag rules evaluated SERVER-SIDE on the assembled answer corpus. No UI computes safety. Evidence terms are matched as lowercased substrings (English + Romanized + Devanagari). Rules are auditable and returned with matched evidence. Clinician sign-off of the rule set is a production gate (doc/19 safety case).",
+  "rule_set_version": "rf-demo-0",
+  "rules": [
+    {
+      "id": "RF-1", "kind": "and", "groups": ["headache", "sudden"],
+      "en": "Sudden, very severe (\"thunderclap\") headache",
+      "hi": "अचानक बहुत तेज़ सिरदर्द"
+    },
+    {
+      "id": "RF-2", "kind": "and", "groups": ["chest", "breath"],
+      "en": "Chest pain together with breathlessness",
+      "hi": "छाती में दर्द के साथ सांस फूलना"
+    },
+    {
+      "id": "RF-3", "kind": "any", "groups": ["stroke"],
+      "en": "Sudden one-sided weakness, slurred speech or face drooping",
+      "hi": "अचानक एक तरफ़ कमज़ोरी, लिसडर बोलना या चेहरा टेढ़ा होना"
+    },
+    {
+      "id": "RF-4", "kind": "severity", "groups": ["concern"],
+      "en": "Pain 8/10 or worse, with sweating, fainting or vomiting",
+      "hi": "दर्द 8/10 या ज़्यादा — पसीने, बेहोशी या उल्टी के साथ"
+    }
+  ],
+  "terms": {
+    "headache": ["headache", "sir dard", "sar dard", "sir mein dard", "sir me dard", "सिर दर्द", "सिर में दर्द", "माथा दर्द", "सिरदर्द"],
+    "sudden": ["sudden", "suddenly", "achanak", "ekdum", "अचानक", "एकदम"],
+    "chest": ["chest pain", "pain in chest", "pain in my chest", "chest discomfort", "chest hurts", "seene mein dard", "seene me dard", "seene dard", "seene pe dard", "chati mein dard", "chati dard", "chati me dard", "सीने में दर्द", "छाती में दर्द", "सीने दर्द", "छाती दर्द"],
+    "breath": ["breathless", "shortness of breath", "difficulty breathing", "saans lene", "saans phool", "saans ki takleef", "saans lentakleef", "hawa phool", "dum phool", "सांस लेने में", "सांस फूल", "सांस की", "साँस फूल", "सांस फूलना"],
+    "stroke": ["one side", "ek taraf", "एक तरफ़", "एक तरफ", "falij", "फालिज", "paralysis", "पक्षाघात", "slurred", "lisdar", "लिसडर", "face droop", "munh teda", "मुंह टेढ़ा", "आधा शरीर"],
+    "concern": ["sweating", "sweat", "pasina", "पसीना", "fainting", "behosh", "बेहोश", "syncope", "vomiting", "उल्टी", "ulti", "मतली", "nausea", "चक्कर", "chakkar", "dizzy"]
+  }
+}

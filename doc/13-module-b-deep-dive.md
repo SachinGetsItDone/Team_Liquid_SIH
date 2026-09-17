@@ -180,11 +180,16 @@ From the EY compliance guide + PIB notification (research log 2026-09-11):
   local-language consent design. Itemized-list requirement means "we scan your documents" is not
   enough; enumerate what is extracted (meds, labs, diagnoses) and the purpose (this consultation).
 - **Breach**: notify Board + affected principals without delay; detailed report within **72h**.
-- **Timeline**: Rules notified 13 Nov 2025; phased; full compliance by **13 May 2027** - i.e., a
+- **Timeline**: Rules notified **14 Nov 2025** (corrected 2026-09-16 from the earlier 13 Nov
+  value; see research log 2026-09-16); phased; full compliance by **13 May 2027** - i.e., a
   2026-27 pilot ships under live obligations, not a grace period.
 - **Open legal reads** (doc/07): Data Fiduciary vs Processor posture for the kiosk operator; the
   retention question (persist scan to ABDM Health Locker vs transient session - changes storage
   obligations); India-residency citation (ABDM HDM Policy clause unfetched).
+  - *Update (2026-09-16, doc/22 §D-A/§D-F):* **posture RESOLVED** — hospital = Data Fiduciary +
+    HIP, MediKiosk = Data Processor (via DPA); India-residency is HDM Policy (Apr-2022 rev.)
+    **Clause 26**. Retention: transient-by-default, per-purpose clocks. Remaining legal read =
+    the DPDP "compatible purpose" question + Fourth Schedule scope (doc/22 D-K-15).
 
 ---
 

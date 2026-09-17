@@ -1,0 +1,172 @@
+# Field definitions for the Module 3 (Module C) deep-research sweep.
+# Schema: fields.<category> -> list of {name, description, detail_level, required}
+# `required: true` fields must appear in every result JSON or validation fails.
+fields:
+  basic_info:
+    - name: name
+      description: Official name of the system, standard, tool, engine or benchmark.
+      detail_level: brief
+      required: true
+    - name: category
+      description: One of deployed-product, research-prototype, competitor, standard, regulation, oss-tool, engine, benchmark.
+      detail_level: brief
+      required: true
+    - name: description
+      description: What the item is, in one dense paragraph, including the single most load-bearing fact about it.
+      detail_level: moderate
+      required: true
+    - name: organization
+      description: Vendor, maintainer, research group or governing body behind the item.
+      detail_level: brief
+      required: false
+    - name: country
+      description: Country or region of origin / primary market.
+      detail_level: brief
+      required: false
+    - name: status
+      description: Current lifecycle status - production, pilot, research, deprecated, dormant, or site-down.
+      detail_level: brief
+      required: true
+    - name: source_urls
+      description: List of authoritative URLs actually fetched during this research, with a short label for each.
+      detail_level: moderate
+      required: true
+    - name: last_verified_date
+      description: Date on which the key claims were verified, in YYYY-MM-DD form.
+      detail_level: brief
+      required: true
+
+  technical_features:
+    - name: what_it_does
+      description: Functional description of the capability, focused on summary generation, clinical history handling, or FHIR conformance as applicable.
+      detail_level: moderate
+      required: true
+    - name: architecture
+      description: High-level architecture, stack, models or components involved.
+      detail_level: moderate
+      required: false
+    - name: inputs
+      description: What data the item consumes (dialogue, documents, structured FHIR, vitals, etc.).
+      detail_level: brief
+      required: false
+    - name: outputs
+      description: What artifact the item produces and in what format (note, Composition, Bundle, summary text, codes).
+      detail_level: moderate
+      required: false
+    - name: standards_compliance
+      description: Which standards it actually conforms to, and whether that conformance is validated or only claimed - for example NRCeS FHIR IG profiles, FHIR R4 versus R4B, HL7 IPS, SNOMED CT, LOINC, ICD.
+      detail_level: detailed
+      required: false
+    - name: offline_capability
+      description: Whether and how it works without connectivity, including any local storage, encryption, sync or store-and-forward mechanism.
+      detail_level: moderate
+      required: false
+    - name: languages_supported
+      description: Languages and scripts supported, especially Hindi, Devanagari or code-mixed Hinglish.
+      detail_level: brief
+      required: false
+    - name: deployment_model
+      description: Where it runs - on-device, kiosk, clinic LAN, room server, cloud - including hardware requirements if stated.
+      detail_level: moderate
+      required: false
+
+  performance_metrics:
+    - name: accuracy_or_quality_metrics
+      description: Any reported accuracy, F1, ROUGE, BERTScore, BLEURT, concept recall, concordance or error-rate figures, with the exact number and its evaluation context.
+      detail_level: detailed
+      required: false
+    - name: latency
+      description: Reported or measured latency, throughput or time-to-summary, with hardware context.
+      detail_level: moderate
+      required: false
+    - name: resource_requirements
+      description: RAM, VRAM, CPU class, model size or storage footprint needed to run.
+      detail_level: moderate
+      required: false
+    - name: scale_metrics
+      description: Adoption or volume numbers - users, organizations, records, sessions, installs, visits, stars.
+      detail_level: moderate
+      required: false
+    - name: evaluation_protocol
+      description: How the item's quality was measured - dataset, metrics, judge design, human review, and whether the evaluation is peer-reviewed or vendor-claimed.
+      detail_level: detailed
+      required: false
+
+  milestone_significance:
+    - name: relevance_to_module_c
+      description: Specifically why this item matters for MediKiosk Module C (the structured history summary generator) - what it validates, threatens, or supplies.
+      detail_level: detailed
+      required: true
+    - name: what_to_adopt_or_reject
+      description: Concrete elements worth adopting, adapting or explicitly rejecting in the Module C design, with the reason.
+      detail_level: detailed
+      required: false
+    - name: limitations_and_risks
+      description: Known weaknesses, failure modes, caveats, unverified claims or blocked status.
+      detail_level: detailed
+      required: false
+    - name: differentiator_vs_medikiosk
+      description: How this item differs from MediKiosk's intended approach - and whether it strengthens or erodes MediKiosk's stated differentiation (offline, India residency, NRCeS-conformant emission, per-field provenance, physician attestation).
+      detail_level: detailed
+      required: false
+
+  business_info:
+    - name: license
+      description: Exact license, or an explicit note that no license file exists.
+      detail_level: brief
+      required: false
+    - name: pricing
+      description: Published pricing or commercial terms, if any.
+      detail_level: brief
+      required: false
+    - name: funding
+      description: Funding raised or commercial backing, with round and date where reported.
+      detail_level: brief
+      required: false
+    - name: commercial_status
+      description: Whether it is a commercial product, free service, government programme, or unpaid project.
+      detail_level: brief
+      required: false
+
+  competition_ecosystem:
+    - name: competitors
+      description: Named direct competitors or alternatives, especially any that overlap the offline plus ABDM plus pre-consultation-summary space.
+      detail_level: moderate
+      required: false
+    - name: integrations
+      description: Notable integrations (EHR/HIS vendors, ABDM gateway roles such as HIP/HIU/PHR, health lockers, messaging).
+      detail_level: moderate
+      required: false
+    - name: ecosystem_notes
+      description: Anything about the surrounding ecosystem that affects MediKiosk - procurement tailwinds, government programmes, standards bodies, or collapsing vendors.
+      detail_level: moderate
+      required: false
+
+  history:
+    - name: release_date
+      description: First release, publication or notification date.
+      detail_level: brief
+      required: false
+    - name: key_milestones
+      description: Dated milestones in the item's history that matter for judging momentum.
+      detail_level: moderate
+      required: false
+    - name: recent_changes_last_6_months
+      description: Any change, release, policy notification or activity within the last 6 months - the currency check for this sweep.
+      detail_level: detailed
+      required: false
+
+  market_positioning:
+    - name: target_users
+      description: Who it is built for - patients, doctors, hospitals, health systems, developers, governments.
+      detail_level: brief
+      required: false
+    - name: market_segment
+      description: Segment it plays in - intake, ambient scribing, PHR, FHIR tooling, AYUSH software, diagnostics kiosk, benchmarking.
+      detail_level: brief
+      required: false
+    - name: positioning_statement
+      description: How the item pitches itself today, in its own words where possible.
+      detail_level: moderate
+      required: false
+uncertain: []

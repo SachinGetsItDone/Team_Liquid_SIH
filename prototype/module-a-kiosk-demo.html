@@ -101,6 +101,10 @@ h1,h2,h3,h4,p{margin:0}
 }
 .hdrChip .dot{width:8px;height:8px;border-radius:50%;background:#7BE3B0;display:inline-block}
 .hdrChip.demoChip{background:rgba(255,255,255,.9);color:var(--teal-dd);border-color:#fff}
+button.hdrChip{cursor:pointer;font-family:inherit}
+button.hdrChip:hover{background:rgba(255,255,255,.28)}
+button.hdrChip.soundChip{background:rgba(255,255,255,.9);color:var(--teal-dd);border-color:#fff}
+button.hdrChip.soundChip.on{background:#FFF3D6;border-color:#E8D3A6;color:var(--amber)}
 
 /* urgent strip under header once a flag is active */
 .urgentStrip{
@@ -514,7 +518,59 @@ h1,h2,h3,h4,p{margin:0}
   .hoRow .hSrc{grid-column:2}
   .card{padding:20px 18px}
   .scaleGrid{grid-template-columns:repeat(6,1fr)}
+  .bmWrap{flex-direction:column}
+  .bmSvg{width:min(300px,80vw)}
 }
+
+/* ============ innovation features: body map / carry / delta / proxy ============ */
+.bmWrap{display:flex;gap:18px;align-items:flex-start;margin-top:14px;flex-wrap:wrap}
+.bmViewToggle{display:flex;gap:8px;margin-bottom:8px}
+.bmViewBtn{border:2px solid var(--line2);background:#fff;border-radius:999px;padding:8px 18px;font-size:.95rem;font-weight:700;color:var(--ink);cursor:pointer}
+.bmViewBtn.sel{border-color:var(--teal);background:var(--teal-bg);color:var(--teal-dd)}
+.bmSvg{width:230px;height:auto;background:var(--surface2);border:2px solid var(--line);border-radius:var(--radius);padding:8px}
+.bmSvg .bmRegion{fill:var(--teal-bg);stroke:var(--teal);stroke-width:2;cursor:pointer}
+.bmSvg .bmRegion:hover{fill:var(--teal-line)}
+.bmSvg .bmPlain{fill:#EFEAE0;stroke:var(--line2);stroke-width:1.5}
+.bmLegend{display:flex;flex-wrap:wrap;gap:8px;max-width:340px;align-content:flex-start}
+.bmBtn{border:2px solid var(--line2);background:#fff;border-radius:12px;padding:8px 12px;cursor:pointer;text-align:left}
+.bmBtn:hover{border-color:var(--teal)}
+.bmBtn .cEn{display:block;font-weight:700;font-size:.95rem}
+.bmBtn .cHi{display:block;font-size:.85rem;color:var(--muted)}
+.carryBox{background:var(--surface2);border:2px dashed var(--line2);border-radius:12px;padding:12px 16px;margin:14px 0}
+.carrySnap{font-size:1.2rem;font-weight:800}
+.carryHi{color:var(--muted);margin-top:2px}
+.deltaBlock{border:2px solid var(--teal-line);background:var(--teal-bg);border-radius:14px;padding:14px 16px}
+.deltaBlock h3{color:var(--teal-dd)}
+.deltaRow{display:grid;grid-template-columns:200px 1fr auto;gap:10px;align-items:center;padding:8px 0;border-top:1px solid var(--teal-line)}
+.dFrom{color:var(--muted);text-decoration:line-through}
+.dArrow{margin:0 8px;font-weight:800;color:var(--teal-d)}
+.dTo{font-weight:800;color:var(--teal-dd)}
+.dSame{margin-top:10px;font-size:.9rem;color:var(--teal-d)}
+.proxyBanner{background:var(--amber-bg);border:2px solid var(--amber-line);border-radius:14px;padding:12px 16px;margin:0 0 14px;color:var(--ink);line-height:1.5}
+.provTag{display:inline-block;margin-left:8px;font-size:.75rem;font-weight:700;background:var(--amber-bg);border:1px solid var(--amber-line);color:var(--amber);border-radius:999px;padding:2px 10px;vertical-align:middle}
+.carryTag{display:inline-block;margin-left:8px;font-size:.75rem;font-weight:700;background:var(--ok-bg);border:1px solid #BCE3C9;color:var(--ok);border-radius:999px;padding:2px 10px;vertical-align:middle}
+.relRow{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:10px}
+.relLab{font-weight:700;font-size:.9rem;margin-right:4px}
+.relBtn{border:2px solid var(--line2);background:#fff;border-radius:999px;padding:6px 14px;cursor:pointer;font-size:.9rem}
+.relBtn.sel{border-color:var(--teal);background:var(--teal-bg);color:var(--teal-dd);font-weight:800}
+.wNote{background:var(--surface2);border:1px solid var(--line);border-radius:10px;padding:8px 12px;font-size:.88rem;color:var(--muted);margin-top:8px}
+
+/* ---- voice self-check panel (welcome screen) ---- */
+.voiceCheck{margin-top:20px;background:var(--surface2);border:1.5px solid var(--line);border-radius:14px;padding:14px 16px}
+.vcList{display:flex;flex-direction:column;gap:6px}
+.vcRow{display:grid;grid-template-columns:22px 200px 1fr;gap:8px;align-items:start;font-size:.84rem;line-height:1.35}
+.vcMark{font-weight:800;text-align:center}
+.vcLabel{color:var(--muted);font-weight:600}
+.vcVal{color:var(--ink)}
+.vcFix{display:block;color:var(--muted);font-size:.78rem;margin-top:2px}
+.vcOk .vcMark{color:var(--ok)}
+.vcWarn .vcMark{color:var(--amber)}
+.vcBad .vcMark{color:var(--red)}
+.vcBad .vcVal{color:var(--red-d);font-weight:600}
+.vcTest{display:flex;align-items:center;gap:12px;margin-top:12px;flex-wrap:wrap}
+.vcTestNote{font-size:.8rem;color:var(--muted)}
+.vcHint{font-size:.76rem;color:var(--muted);margin-left:auto;text-align:right}
+@media (max-width:720px){.vcRow{grid-template-columns:22px 1fr}.vcLabel{grid-column:2}.vcVal{grid-column:2}.vcHint{margin-left:0;text-align:left}}
 </style>
 </head>
 <body>
@@ -936,6 +992,39 @@ function complaintById(id) {
   return GENERAL_COMPLAINT;
 }
 
+// ---- Innovation 3: body-map touch entry (zero-literacy conversation starter) ----
+// Tappable regions on the front/back figure. Each maps to the existing complaint
+// vocabulary, so safety rules + ROS sets apply with no special-casing.
+var BODYMAP_REGIONS = [
+  { id: "head", complaint: "headache", en: "Head", hi: "सिर", rom: "Sir" },
+  { id: "chest", complaint: "chest", en: "Chest", hi: "छाती", rom: "Chaati", frontOnly: true },
+  { id: "abdomen", complaint: "abdomen", en: "Belly", hi: "पेट", rom: "Pet", frontOnly: true },
+  { id: "armL", complaint: "general", en: "Left arm", hi: "बायाँ हाथ", rom: "Baayan haath" },
+  { id: "armR", complaint: "general", en: "Right arm", hi: "दायाँ हाथ", rom: "Daayan haath" },
+  { id: "legL", complaint: "knee", en: "Left leg / knee", hi: "बायाँ पैर", rom: "Baayan pair" },
+  { id: "legR", complaint: "knee", en: "Right leg / knee", hi: "दायाँ पैर", rom: "Daayan pair" },
+  { id: "back", complaint: "back", en: "Back", hi: "पीठ", rom: "Peeth", backOnly: true }
+];
+
+function bodyRegionById(id) {
+  for (var i = 0; i < BODYMAP_REGIONS.length; i++) if (BODYMAP_REGIONS[i].id === id) return BODYMAP_REGIONS[i];
+  return null;
+}
+
+// One tap produces TWO answers: the region slot + a pointed-to narrative so the
+// chief-complaint step becomes a one-tap confirm. Returns { slot, narrative, complaintId }.
+function bodymapPick(regionId, ts, by) {
+  var r = bodyRegionById(regionId) || BODYMAP_REGIONS[1];
+  var comp = complaintById(r.complaint);
+  var t = ts || Date.now();
+  var who = by || "patient";
+  return {
+    slot: { state: "captured", v: r.id, en: r.en, hi: r.hi, utterance: null, source: "touch", by: who, complaintId: comp.id, ts: t },
+    narrative: { state: "captured", v: "bodymap-point", en: "Pointed to the " + r.en.toLowerCase() + " on the body picture", hi: "शरीर के चित्र में " + r.hi + " की ओर इशारा किया", utterance: null, source: "touch", by: who, ts: t },
+    complaintId: comp.id
+  };
+}
+
 var ROS_SETS = {
   chest: [
     { id: "ros.rest_breathless", en: "Breathless even while sitting at rest?", hi: "बैठे-बैठे भी सांस फूलती है?" },
@@ -999,6 +1088,15 @@ TURNS.cc = {
     en: "In one line — what is your main problem today?",
     hi: "एक लाइन में बताइए — आज आपकी मुख्य समस्या क्या है?",
     rom: "Ek line mein bataiye — aaj aapki mushkil samasya kya hai?"
+  }
+};
+
+TURNS.bodymap = {
+  id: "bodymap", kind: "bodymap", section: "story",
+  ask: {
+    en: "Show us where it hurts — tap the picture. No need to read or speak.",
+    hi: "दिखाइए दर्द कहाँ है — चित्र पर उंगली रखिए। पढ़ने या बोलने की ज़रूरत नहीं।",
+    rom: "Dikhaiye dard kahan hai — chitra par ungli rakhiye. Padhne ya bolne ki zaroorat nahi."
   }
 };
 
@@ -1292,7 +1390,7 @@ var SOCRATES_LABELS = {
 };
 
 var SECTIONS = [
-  { id: "story", en: "Your story", hi: "आपकी बात", turns: ["narrative", "cc"] },
+  { id: "story", en: "Your story", hi: "आपकी बात", turns: ["bodymap", "narrative", "cc"] },
   { id: "symptoms", en: "Symptom details", hi: "लक्षण विवरण", turns: SOCRATES_IDS.slice() },
   { id: "safety", en: "Safety check", hi: "सुरक्षा जाँच", turns: ["safety"] },
   { id: "history", en: "Health history", hi: "स्वास्थ्य इतिहास", turns: ["pmh", "meds", "allergies", "family", "social.smoke", "social.alcohol"] },
@@ -1302,7 +1400,7 @@ var SECTIONS = [
 ];
 
 function turnListFor(complaintId) {
-  var list = [TURNS.narrative, TURNS.cc];
+  var list = [TURNS.bodymap, TURNS.narrative, TURNS.cc];
   for (var i = 0; i < SOCRATES_IDS.length; i++) list.push(TURNS[SOCRATES_IDS[i]]);
   list.push(TURNS.safety);
   list.push(TURNS.pmh, TURNS.meds, TURNS.allergies, TURNS.family, TURNS["social.smoke"], TURNS["social.alcohol"]);
@@ -1410,6 +1508,7 @@ var DEMO_SCRIPTS = {
       en: "Doctor, since this morning I have chest pain. It started suddenly two hours ago while walking. With the pain I feel breathless and I am sweating."
     },
     answers: {
+      "bodymap": { region: "chest" },
       "cc": { confirm: true },
       "socrates.site": { chip: "chest_center" },
       "socrates.onset": { text: { rom: "Do ghante pehle, chalte hue achanak shuru hua", hi: "दो घंटे पहले, चलते हुए अचानक शुरू हुआ", en: "Two hours ago — sudden, while walking" } },
@@ -1444,6 +1543,7 @@ var DEMO_SCRIPTS = {
       en: "Doctor, for three weeks I have pain in my right knee. It gets worse when I climb stairs or squat. Mild swelling also comes by evening."
     },
     answers: {
+      "bodymap": { region: "legR" },
       "cc": { confirm: true },
       "socrates.site": { chip: "knee_right" },
       "socrates.onset": { text: { rom: "Teen hafte pehle dheere-dheere shuru hua", hi: "तीन हफ़्तों पहले धीरे-धीरे शुरू हुआ", en: "Three weeks ago — gradually" } },
@@ -1466,8 +1566,184 @@ var DEMO_SCRIPTS = {
       "ice.worry": { text: { rom: "Ghutne ke dard se chalne-phirne mein takleef ho rahi hai", hi: "घुटने के दर्द से चलने-फिरने में तकलीफ हो रही है", en: "Because of the knee pain, walking around has become difficult" } },
       "ice.expect": { chip: "relief" }
     }
+  },
+  repeat: {
+    id: "repeat",
+    persona: "Demo patient — Ramesh, 54 (repeat visit, with son)",
+    visitType: "repeat",
+    respondent: "proxy",
+    relation: "son",
+    baselineId: "ramesh-prior",
+    complaint: "chest",
+    narrative: {
+      rom: "Papa ko phir se seene mein halka dard ho raha hai, do din se. Saans ab theek hai.",
+      hi: "पापा को फिर से सीने में हल्का दर्द हो रहा है, दो दिन से। सांस अब ठीक है।",
+      en: "My father has mild chest pain again, for two days. His breathing is fine now."
+    },
+    answers: {
+      "bodymap": { region: "chest" },
+      "cc": { confirm: true },
+      "socrates.site": { chip: "chest_center" },
+      "socrates.onset": { text: { rom: "Do din pehle dheere-dheere shuru hua", hi: "दो दिन पहले धीरे-धीरे शुरू हुआ", en: "Two days ago — gradually" } },
+      "socrates.character": { chip: "pressing" },
+      "socrates.radiation": { chip: "no_spread" },
+      "socrates.associations": { chips: ["none_assoc"] },
+      "socrates.timing": { chip: "comes_goes" },
+      "socrates.exacerbating": { chips: ["worse_exertion"] },
+      "socrates.severity": { n: 3 },
+      "pmh": { carry: true },
+      "meds": { text: { rom: "Metoprolol 25 mg — roz subah ek goli", hi: "मेटोप्रोलोल 25 मि.ग्रा. — रोज़ सुबह एक गोली", en: "Metoprolol 25 mg — one tablet every morning" } },
+      "allergies": { carry: true },
+      "family": { carry: true },
+      "social.smoke": { carry: true },
+      "social.alcohol": { carry: true },
+      "ros.rest_breathless": { yn: "no" },
+      "ros.palpitations": { yn: "no" },
+      "ros.fever_cough": { yn: "no" },
+      "ros.calf": { yn: "no" },
+      "ice.worry": { text: { rom: "Dawa badli hai — nayi dawa suit karegi ya nahi, ye chinta hai", hi: "दवा बदली है — नई दवा सूट करेगी या नहीं, ये चिंता है", en: "His medicine was changed — I am worried whether the new one will suit him" } },
+      "ice.expect": { chip: "relief" }
+    },
+    doseConfirmed: true
   }
 };
+
+// ---- Innovation 1: repeat-visit delta summaries ----
+// Product track: the baseline is the patient's prior HistoryBundle, pulled from the
+// ABHA-linked record (Module D/HIS). Demo track: canned fixture, disclosed in-UI.
+// Stable sections (PMH/meds/allergies/family/social) are carry-confirmed, never re-asked.
+var PRIOR_VISITS = {
+  "ramesh-prior": {
+    id: "ramesh-prior",
+    visitDate: "15 Aug 2026",
+    visitDateHi: "15 अगस्त 2026",
+    complaintId: "chest",
+    answers: {
+      cc: { en: "chest pain", hi: "छाती में दर्द" },
+      "socrates.site": { en: "Centre of the chest", hi: "छाती के बीच में" },
+      "socrates.severity": { n: 6 },
+      "socrates.associations": { en: "Breathlessness", hi: "सांस फूलना" },
+      "ros.rest_breathless": { en: "Yes", hi: "हाँ" },
+      pmh: { en: "High blood pressure", hi: "उच्च रक्तचाप (BP)" },
+      meds: { en: "Amlodipine 5 mg — one tablet every morning", hi: "एम्लोडिपिन 5 मि.ग्रा. — रोज़ सुबह एक गोली" },
+      allergies: { en: "No known allergy", hi: "कोई एलर्जी नहीं है" },
+      family: { en: "Father had heart disease", hi: "पापा को दिल की बीमारी थी" },
+      "social.smoke": { en: "Used to — now quit", hi: "पहले करता था — अब छोड़ दिया" },
+      "social.alcohol": { en: "No", hi: "नहीं" }
+    }
+  }
+};
+
+function baselineFor(scriptId) {
+  var sc = DEMO_SCRIPTS[scriptId];
+  if (!sc || !sc.baselineId) return null;
+  return PRIOR_VISITS[sc.baselineId] || null;
+}
+
+// Stable sections: asked once, carry-confirmed on return visits.
+var STABLE_TURNS = ["pmh", "meds", "allergies", "family", "social.smoke", "social.alcohol"];
+
+// ---- Innovation 2: attendant/proxy mode ----
+// Subjective answers spoken by an attendant are auto-flagged for clinician
+// confirmation. Applied in the reducer (answerTurn) AND cannedState via
+// applyProxyRule, so no input path can bypass it.
+var PROXY_SUBJECTIVE = ["socrates.severity", "ice.worry", "ice.expect"];
+
+function applyProxyRule(slot, turnId, respondent) {
+  if (respondent === "proxy" && PROXY_SUBJECTIVE.indexOf(turnId) !== -1 &&
+      slot && slot.state === "captured" && !slot.carriedFrom) {
+    slot.state = "needs_review";
+    slot.proxyReview = true;
+  }
+  return slot;
+}
+
+// "Same as last time" — verbatim copy of the baseline slot, never re-inferred.
+// Provenance stays the patient's own prior words (by: patient); the confirmer is
+// recorded separately so the physician knows who confirmed what.
+function carrySlot(baseline, turnId, confirmer, ts) {
+  var snap = baseline && baseline.answers ? baseline.answers[turnId] : null;
+  if (!snap) return null;
+  var s;
+  if (typeof snap.n === "number") {
+    s = { state: "captured", v: snap.n, en: snap.n + " / 10", hi: snap.n + " / 10", utterance: null, source: "touch", ts: ts || Date.now() };
+  } else {
+    s = { state: "captured", v: snap.en, en: snap.en, hi: snap.hi || null, utterance: null, source: "touch", ts: ts || Date.now() };
+  }
+  s.by = "patient";
+  s.carriedFrom = baseline.visitDate;
+  s.carryConfirmedBy = confirmer || "patient";
+  return s;
+}
+
+function deltaValOf(turnId, slot) {
+  if (!slot || slot.state === "not_answered" || slot.state === "not_elicited") return null;
+  if (typeof slot.v === "number") return slot.v + " / 10";
+  return slot.en || null;
+}
+
+function deltaBaseOf(snap) {
+  if (!snap) return null;
+  if (typeof snap.n === "number") return snap.n + " / 10";
+  return snap.en || null;
+}
+
+function deltaLabel(id) {
+  if (id === "cc") return { en: "Main problem", hi: "मुख्य समस्या" };
+  var t = TURNS[id];
+  if (t && t.field && SOCRATES_LABELS[t.field]) return SOCRATES_LABELS[t.field];
+  var map = {
+    pmh: { en: "Long-standing illness", hi: "पुरानी बीमारी" },
+    meds: { en: "Medicines", hi: "दवाएँ" },
+    allergies: { en: "Allergies", hi: "एलर्जी" },
+    family: { en: "Family history", hi: "पारिवारिक इतिहास" },
+    "social.smoke": { en: "Tobacco", hi: "तंबाकू" },
+    "social.alcohol": { en: "Alcohol", hi: "शराब" }
+  };
+  if (map[id]) return map[id];
+  var ros = null;
+  for (var k in ROS_SETS) {
+    for (var i = 0; i < ROS_SETS[k].length; i++) {
+      if (ROS_SETS[k][i].id === id) ros = ROS_SETS[k][i];
+    }
+  }
+  if (ros) return { en: ros.en, hi: ros.hi };
+  return { en: id, hi: id };
+}
+
+// Compares today's answers against the baseline. Returns
+// { visitDate, visitDateHi, changed: [{id,from,to}], same: [ids] }.
+function computeDelta(baseline, answers, complaintId) {
+  if (!baseline) return null;
+  var ids = ["cc"].concat(SOCRATES_IDS, STABLE_TURNS,
+    rosTurns(complaintId || baseline.complaintId || "general").map(function (t) { return t.id; }));
+  var seen = {}, changed = [], same = [];
+  for (var i = 0; i < ids.length; i++) {
+    var id = ids[i];
+    if (seen[id]) continue;
+    seen[id] = true;
+    var from = deltaBaseOf(baseline.answers[id]);
+    var to = deltaValOf(id, answers[id]);
+    if (from === null || to === null) continue; // baseline lacks it, or skipped today — not comparable
+    if (from === to) same.push(id);
+    else changed.push({ id: id, from: from, to: to });
+  }
+  return { visitDate: baseline.visitDate, visitDateHi: baseline.visitDateHi, changed: changed, same: same };
+}
+
+// Attendant-reported answers (carried confirmations excluded — those are the
+// patient's own prior words). Used for the proxy banner + handoff provenance line.
+function proxyStats(answers) {
+  var byProxy = [], subjProxy = [];
+  for (var k in answers) {
+    if (!answers.hasOwnProperty(k)) continue;
+    var s = answers[k];
+    if (!s || s.by !== "proxy" || s.carriedFrom) continue;
+    byProxy.push(k);
+    if (PROXY_SUBJECTIVE.indexOf(k) !== -1) subjProxy.push(k);
+  }
+  return { count: byProxy.length, ids: byProxy, subjective: subjProxy };
+}
 
 function mkToken() {
   var chars = "ABCDEFGHJKMNPQRSTVWXYZ23456789";
@@ -1481,7 +1757,11 @@ function initialState() {
     phase: "welcome",
     lang: "rom",
     scriptId: "redflag",
-    cursor: "narrative",
+    visitType: "first",
+    respondent: "patient",
+    relation: null,
+    baseline: null,
+    cursor: "bodymap",
     complaintId: null,
     answers: {},
     log: [],
@@ -1606,15 +1886,24 @@ function advance(state, turnList) {
 function answerTurn(state, turnId, slot, opts) {
   opts = opts || {};
   var turn = TURNS[turnId];
+  slot = Object.assign({}, slot);
+  // Provenance: every slot records who spoke. Proxy-subjective answers are
+  // auto-flagged for clinician confirmation — no input path bypasses this.
+  if (!slot.by) slot.by = state.respondent || "patient";
+  applyProxyRule(slot, turnId, state.respondent);
   var answers = Object.assign({}, state.answers);
   answers[turnId] = slot;
-  var list = turnListFor(answers.cc ? (answers.cc.v && answers.cc.v.id) || state.complaintId : state.complaintId);
-  if (turnId === "cc" && slot.v && slot.v.id) {
-    state = Object.assign({}, state, { complaintId: slot.v.id });
+  var nextState = state;
+  if (turnId === "bodymap" && slot.complaintId) {
+    nextState = Object.assign({}, state, { complaintId: slot.complaintId });
   }
-  var entry = { who: "patient", turnId: turnId, text: slot.en || "" };
-  var log = state.log.concat(opts.noLog ? [] : [entry]);
-  var next = Object.assign({}, state, { answers: answers, log: log });
+  var list = turnListFor(answers.cc ? (answers.cc.v && answers.cc.v.id) || nextState.complaintId : nextState.complaintId);
+  if (turnId === "cc" && slot.v && slot.v.id) {
+    nextState = Object.assign({}, nextState, { complaintId: slot.v.id });
+  }
+  var entry = { who: nextState.respondent === "proxy" ? "proxy" : "patient", turnId: turnId, text: slot.en || "" };
+  var log = nextState.log.concat(opts.noLog ? [] : [entry]);
+  var next = Object.assign({}, nextState, { answers: answers, log: log });
   if (turnId === "meds" && slot.state === "captured" && slot.source === "voice" && hasNumber(slot.en)) {
     next.pendingDose = extractDose(slot.en);
     return next;
@@ -1632,7 +1921,11 @@ function reducer(state, action) {
         phase: "interview",
         lang: action.lang,
         scriptId: action.scriptId,
-        cursor: "narrative",
+        visitType: action.visitType || "first",
+        respondent: action.respondent || "patient",
+        relation: action.respondent === "proxy" ? (action.relation || null) : null,
+        baseline: action.visitType === "repeat" ? baselineFor(action.scriptId) : null,
+        cursor: "bodymap",
         complaintId: null,
         answers: {},
         log: [],
@@ -1675,7 +1968,7 @@ function reducer(state, action) {
     case "TO_READBACK":
       return Object.assign({}, state, { phase: "readback" });
     case "RESTART":
-      return Object.assign(initialState(), { lang: state.lang, scriptId: state.scriptId });
+      return Object.assign(initialState(), { lang: state.lang, scriptId: state.scriptId, visitType: state.visitType, respondent: state.respondent, relation: state.relation });
     case "JUMP":
       return action.state;
     default:
@@ -1683,9 +1976,17 @@ function reducer(state, action) {
   }
 }
 
-function scriptSlotFor(turn, script, lang, ts) {
+function scriptSlotFor(turn, script, lang, ts, ctx) {
   var a = script.answers[turn.id];
   if (!a) return null;
+  if (turn.id === "bodymap" && a.region) {
+    return bodymapPick(a.region, ts, (ctx && ctx.respondent) || script.respondent || "patient").slot;
+  }
+  if (a.carry) {
+    var b = (ctx && ctx.baseline) || baselineFor(script.id);
+    if (!b) return null;
+    return carrySlot(b, turn.id, (ctx && ctx.respondent) || script.respondent || "patient", ts);
+  }
   var opts = turnOptions(turn, { complaintId: script.complaint });
   if (a.chip) {
     var o = findOpt(opts, a.chip);
@@ -1726,12 +2027,23 @@ function cannedState(scriptId, phase, stopAtTurn, lang, keepToken) {
     phase: "interview",
     lang: lang || "rom",
     scriptId: scriptId,
-    cursor: "narrative",
+    cursor: "bodymap",
     startedAt: Date.now() - 210000
   });
   if (!script) {
     return Object.assign(state, { phase: phase || "readback" });
   }
+  var visitType = script.visitType || "first";
+  var respondent = script.respondent || "patient";
+  var baseline = visitType === "repeat" ? baselineFor(scriptId) : null;
+  state = Object.assign(state, {
+    visitType: visitType,
+    respondent: respondent,
+    relation: respondent === "proxy" ? (script.relation || null) : null,
+    baseline: baseline
+  });
+  var who = respondent === "proxy" ? "proxy" : "patient";
+  var ctx = { baseline: baseline, respondent: respondent };
   var list = turnListFor(script.complaint);
   var isSafetyShot = phase === "safety";
   var answers = {};
@@ -1751,10 +2063,24 @@ function cannedState(scriptId, phase, stopAtTurn, lang, keepToken) {
       continue;
     }
     if (stopAtTurn && turn.id === stopAtTurn) break;
-    var slot = scriptSlotFor(turn, script, state.lang, ts);
+    if (turn.id === "bodymap") {
+      var ba = script.answers.bodymap;
+      if (ba && ba.region) {
+        var pick = bodymapPick(ba.region, ts, respondent);
+        answers.bodymap = pick.slot;
+        answers.narrative = pick.narrative;
+        log.push(logEntry(who, "bodymap", pick.slot.en || ""));
+        log.push(logEntry(who, "narrative", pick.narrative.en || ""));
+        ts += 5000;
+      }
+      continue;
+    }
+    var slot = scriptSlotFor(turn, script, state.lang, ts, ctx);
     if (slot) {
+      if (!slot.by) slot.by = slot.carriedFrom ? "patient" : respondent;
+      applyProxyRule(slot, turn.id, respondent);
       answers[turn.id] = slot;
-      log.push(logEntry("patient", turn.id, slot.en || ""));
+      log.push(logEntry(who, turn.id, slot.en || ""));
       ts += 5000;
       if (turn.id === "meds" && slot.source === "voice" && hasNumber(slot.en)) {
         slot.dose = extractDose(slot.en);
@@ -1805,6 +2131,7 @@ function summarySections(state) {
   out.push({
     id: "cc", title: { en: "Main problem", hi: "मुख्य समस्या" },
     rows: [row("cc", "Chief complaint (in your words)", "मुख्य शिकायत (आपके शब्दों में)")]
+      .concat(A.bodymap ? [row("bodymap", "Pointed to (body map)", "चित्र में इशारा")] : [])
   });
   var socratesRows = SOCRATES_IDS.map(function (id) {
     var t = TURNS[id];
@@ -1846,11 +2173,15 @@ function summarySections(state) {
     ]
   });
   var rosIds = rosTurns(state.complaintId).map(function (t) { return t.id; });
+  var rosLabel = {};
+  for (var rk in ROS_SETS) {
+    for (var ri = 0; ri < ROS_SETS[rk].length; ri++) rosLabel[ROS_SETS[rk][ri].id] = ROS_SETS[rk][ri];
+  }
   out.push({
     id: "ros", title: { en: "Other symptoms checked", hi: "अन्य लक्षण जाँचे गए" },
     rows: rosIds.map(function (id) {
-      var t = TURNS[id] || { ask: { en: id, hi: id } };
-      return row(id, t.ask.en, t.ask.hi);
+      var lbl = rosLabel[id] || { en: id, hi: id };
+      return row(id, lbl.en, lbl.hi);
     })
   });
   out.push({
@@ -1860,6 +2191,25 @@ function summarySections(state) {
       row("ice.expect", "Expectation from today", "आज की अपेक्षा")
     ]
   });
+  if (state.baseline) {
+    var d = computeDelta(state.baseline, state.answers, state.complaintId);
+    if (d) {
+      var dRows = d.changed.map(function (c) {
+        var lbl = deltaLabel(c.id);
+        return {
+          turnId: c.id, delta: true,
+          label: lbl,
+          slot: { state: "captured", v: c.to, en: c.from + "  →  " + c.to, hi: c.from + "  →  " + c.to, utterance: null, source: "touch", by: "patient" }
+        };
+      });
+      out.unshift({
+        id: "delta",
+        title: { en: "What changed since " + d.visitDate, hi: d.visitDateHi + " के बाद क्या बदला" },
+        rows: dRows, sameCount: d.same.length,
+        visitDate: d.visitDate, visitDateHi: d.visitDateHi
+      });
+    }
+  }
   return out;
 }
 
@@ -1917,7 +2267,19 @@ var MK = {
   mkToken: mkToken,
   pickLangText: pickLangText,
   clinicalExcerpt: clinicalExcerpt,
-  scriptSlotFor: scriptSlotFor
+  scriptSlotFor: scriptSlotFor,
+  BODYMAP_REGIONS: BODYMAP_REGIONS,
+  bodyRegionById: bodyRegionById,
+  bodymapPick: bodymapPick,
+  PRIOR_VISITS: PRIOR_VISITS,
+  baselineFor: baselineFor,
+  STABLE_TURNS: STABLE_TURNS,
+  PROXY_SUBJECTIVE: PROXY_SUBJECTIVE,
+  applyProxyRule: applyProxyRule,
+  carrySlot: carrySlot,
+  computeDelta: computeDelta,
+  deltaLabel: deltaLabel,
+  proxyStats: proxyStats
 };
 
 if (typeof module !== "undefined" && module.exports) module.exports = MK;
@@ -1971,6 +2333,11 @@ function Lang(props) {
       : (DEVA_RE.test(props.secondary || "") ? props.secondary : (props.primary || props.secondary || ""));
     speechLang = DEVA_RE.test(speechText || "") ? "hi" : "en";
   }
+  React.useEffect(function () {
+    // Kiosk reads the question aloud as it appears (after Start = user gesture;
+    // silenced while the mic listens; toggleable from the header).
+    mkSpeakAuto(speechText, speechLang);
+  }, [speechText, speechLang]);
   return html`<div className="prompt" role="status" aria-live="polite">${props.primary}<${SpeakBtn} text=${speechText} lang=${speechLang} /><//>
     <div className="promptSub">${props.secondary}<//>`;
 }
@@ -2011,6 +2378,34 @@ function findVoiceFor(target) {
   return pool[0];
 }
 
+// ---- Auto-speak (kiosk mode) ----
+// The kiosk reads each question aloud as it appears. Browsers only allow speech
+// synthesis after a user gesture, so auto-speak stays dormant until the patient
+// taps Start (that click "primes" it). While the microphone listens we stay
+// silent so recognition never picks up our own prompt.
+var MK_SOUND = { enabled: true, primed: false, busy: 0 };
+function mkSpeakAuto(text, lang) {
+  if (!MK_SOUND.enabled || !MK_SOUND.primed || MK_SOUND.busy > 0) return;
+  try {
+    var synth = window.speechSynthesis;
+    if (!synth || !window.SpeechSynthesisUtterance || !text) return;
+    var target = lang === "en" ? "en-IN" : "hi-IN";
+    var voice = findVoiceFor(target);
+    var u = new SpeechSynthesisUtterance(text);
+    u.lang = target;
+    u.rate = 0.85;
+    if (voice) u.voice = voice;
+    u.onerror = function (ev) {
+      var code = ev && ev.error ? String(ev.error) : "";
+      if (code === "interrupted" || code === "canceled") return;
+      // Auto-speak stays quiet about failures — the Listen button is the
+      // diagnosable path; the prompt text is always visible on screen.
+    };
+    try { synth.cancel(); } catch (e) {}
+    synth.speak(u);
+  } catch (err) {}
+}
+
 function SpeakBtn(props) {
   var _sn = React.useState(""), note = _sn[0], setNote = _sn[1];
   var target = props.lang === "en" ? "en-IN" : "hi-IN";
@@ -2020,6 +2415,7 @@ function SpeakBtn(props) {
       if (!synth || !window.SpeechSynthesisUtterance) { setNote("Speech playback is unavailable in this browser."); return; }
       if (synth.speaking || synth.pending) { try { synth.cancel(); } catch (e) {} setNote(""); return; } // click again = stop
       var tries = 0;
+      var langName = target === "hi-IN" ? "Hindi" : "Indian English";
       function speakNow() {
         refreshVoices();
         var voice = findVoiceFor(target);
@@ -2028,22 +2424,21 @@ function SpeakBtn(props) {
         u.lang = target;
         u.rate = 0.85;
         if (voice) u.voice = voice;
-        u.onstart = function () { setNote("\u25b6 " + (voice ? voice.name : target)); };
+        u.onstart = function () { setNote("\u25b6 Playing\u2026"); };
         u.onend = function () { setNote(""); };
         u.onerror = function (ev) {
           var code = ev && ev.error ? String(ev.error) : "";
           if (code === "interrupted" || code === "canceled") { setNote(""); return; }
-          setNote(voice ? ("Playback error from \u201c" + voice.name + "\u201d — try another browser, or read the text on screen.")
-            : ("No " + target + " voice on this device. Windows: Settings \u2192 Time & Language \u2192 Speech \u2192 Add voices \u2192 Hindi. Chrome/Edge can also use the online Google/\u0939\u093f\u0928\u094d\u0926\u0940 voice."));
+          setNote("Playback error — you can read the text on screen.");
         };
-        if (!voice) setNote("No " + target + " voice found — trying the engine default. (Windows: Settings \u2192 Time & Language \u2192 Speech \u2192 Add voices \u2192 Hindi.)");
+        if (!voice) setNote("No " + langName + " voice found on this device. (Windows: Settings \u2192 Time & Language \u2192 Speech \u2192 Add voices \u2192 Hindi.)");
         try { synth.cancel(); } catch (e) {}
         synth.speak(u);
       }
       speakNow();
     } catch (err) { setNote("Speech playback failed."); }
   }
-  return html`<span className="speakWrap"><button className="speakBtn" onClick=${speak} title=${props.lang === "en" ? "Speak in Indian English (browser voice — demo aid)" : "\u0939\u093f\u0902\u0926\u0940 \u092e\u0947\u0902 \u0938\u0941\u0928\u0947\u0902 (browser voice \u2014 demo aid)"}>[audio] ${MK.CHROME.listen.en} / ${MK.CHROME.listen.hi}<//>${note ? html`<span className="speakNote" role="status">${note}<//>` : null}<//>`;
+  return html`<span className="speakWrap"><button className="speakBtn" onClick=${speak} title=${props.lang === "en" ? "Listen in Indian English (demo aid)" : "\u0939\u093f\u0902\u0926\u0940 \u092e\u0947\u0902 \u0938\u0941\u0928\u0947\u0902 (demo aid)"}>[audio] ${MK.CHROME.listen.en} / ${MK.CHROME.listen.hi}<//>${note ? html`<span className="speakNote" role="status">${note}<//>` : null}<//>`;
 }
 
 function biText(state, obj) {
@@ -2103,29 +2498,30 @@ function InputRow(props) {
       case "not-allowed": case "service-not-allowed": return "Microphone blocked. Fix: (1) click the tune/lock icon left of the address bar \u2192 Microphone \u2192 Allow; (2) Windows Settings \u2192 Privacy & security \u2192 Microphone \u2192 turn ON and allow desktop apps. Then tap Speak again.";
       case "no-speech": return "Didn\u2019t hear anything. Tap Speak, wait a beat, then talk close to the mic.";
       case "audio-capture": return "No microphone found on this device. Type your answer instead.";
-      case "network": return "This browser\u2019s speech recognition needs internet (it uses the browser vendor\u2019s speech service). Check the connection or type instead.";
-      case "language-not-supported": return localeLabel + " recognition is not supported in this browser. Use Chrome or Edge, or type instead.";
+      case "network": return "Voice input could not reach the speech service — check the internet connection, or type instead.";
+      case "language-not-supported": return localeLabel + " recognition is not supported here. Type your answer instead.";
       case "aborted": return "Voice input stopped.";
       default: return "Voice input failed (" + (code || "unknown error") + "). You can type instead.";
     }
   }
   function toggleVoice() {
     var SR = window.SpeechRecognition || window.webkitSpeechRecognition;
-    if (!SR) { setVoiceError("Voice input is unavailable in this browser (needs Chrome or Edge). Type your answer."); return; }
+    if (!SR) { setVoiceError("Voice input is unavailable here. Type your answer."); return; }
     if (listening && recRef.current) { try { recRef.current.stop(); } catch (e) {} return; }
     if (window.location && window.location.protocol === "file:") {
-      // Chrome/Edge cannot grant microphone permission to file:// pages — recognition can never
+      // The browser cannot grant microphone permission to file:// pages — recognition can never
       // succeed here. Give ONE actionable message instead of a doomed attempt + confusing error.
       setVoiceError("Voice input is blocked because this page was opened as a local file. Close the tab, double-click serve-demo.bat inside the prototype folder, and use the http://127.0.0.1 address it opens. \u092c\u094b\u0932\u0915\u0930 \u092c\u0924\u093e\u0928\u0947 \u0915\u0947 \u0932\u093f\u090f \u092f\u0939 \u092b\u093c\u093e\u0907\u0932 serve-demo.bat \u0938\u0947 \u0916\u094b\u0932\u0947\u0902\u0964 (Typing always works.)");
       return;
     }
     setVoiceError("");
+    try { if (window.speechSynthesis) window.speechSynthesis.cancel(); } catch (e) {} // stop our prompt so the mic hears the patient, not us
     var rec = new SR();
     rec.lang = locale;
     rec.interimResults = true; // live "heard so far" feedback while speaking
     rec.continuous = false;
     rec.maxAlternatives = 1;
-    rec.onstart = function () { setListening(true); setVoiceError("Listening in " + localeLabel + " \u2026 speak now"); };
+    rec.onstart = function () { MK_SOUND.busy++; setListening(true); setVoiceError("Listening in " + localeLabel + " \u2026 speak now"); };
     rec.onresult = function (e) {
       var interim = "", finalText = "";
       for (var i = 0; i < e.results.length; i++) {
@@ -2142,8 +2538,8 @@ function InputRow(props) {
         setVoiceError("\u2026 " + interim.trim());
       }
     };
-    rec.onerror = function (e) { setVoiceError(recErrMsg(e && e.error)); setListening(false); };
-    rec.onend = function () { setListening(false); };
+    rec.onerror = function (e) { MK_SOUND.busy = Math.max(0, MK_SOUND.busy - 1); setVoiceError(recErrMsg(e && e.error)); setListening(false); };
+    rec.onend = function () { MK_SOUND.busy = Math.max(0, MK_SOUND.busy - 1); setListening(false); };
     recRef.current = rec;
     try { rec.start(); } catch (err) { setListening(false); setVoiceError("Voice input could not start. You can type instead."); }
   }
@@ -2331,6 +2727,9 @@ var CcCard = function (props) {
   var state = props.state, dispatch = props.dispatch, turn = props.turn;
   var narr = state.answers.narrative;
   var detected = narr ? MK.detectComplaint(narr.utterance || narr.en || "") : null;
+  if (!detected && state.complaintId && state.complaintId !== "general") {
+    detected = MK.complaintById(state.complaintId); // e.g. set by the body-map tap
+  }
   var _React$useState7 = React.useState(detected ? "confirm" : "type"), stage = _React$useState7[0], setStage = _React$useState7[1];
   var _React$useState8 = React.useState(""), val = _React$useState8[0], setVal = _React$useState8[1];
   var taRef = React.useRef(null);
@@ -2514,11 +2913,125 @@ var LogView = function (props) {
   return html`<div className="log" ref=${ref}>
     ${state.log.length === 0 ? html`<div className="logEmpty">The conversation will appear here · बातचीत यहाँ दिखेगी<//>` : null}
     ${state.log.map(function (m, i) {
-      return html`<div key=${i} className=${"msg " + (m.who === "kiosk" ? "kiosk" : m.who === "patient" ? "patient" : "sys " + (m.variant || ""))}>
-        ${m.who !== "sys" ? html`<div className="mWho">${m.who === "kiosk" ? "Kiosk" : "Patient"}<//>` : null}
+      var whoCls = m.who === "kiosk" ? "kiosk" : (m.who === "patient" || m.who === "proxy") ? "patient" : "sys " + (m.variant || "");
+      var whoLbl = m.who === "kiosk" ? "Kiosk" : m.who === "proxy" ? ("Attendant" + (state.relation ? " (" + state.relation + ")" : "")) : "Patient";
+      return html`<div key=${i} className=${"msg " + whoCls}>
+        ${m.who !== "sys" ? html`<div className="mWho">${whoLbl}<//>` : null}
         <div className="mBody">${m.text}<//>
       <//>`;
     })}
+  <//>`;
+};
+
+function isCarryTurn(state, turn) {
+  return state.visitType === "repeat" && state.baseline && state.baseline.answers &&
+    MK.STABLE_TURNS.indexOf(turn.id) !== -1 && !!state.baseline.answers[turn.id] && !state.answers[turn.id];
+}
+
+function cardForTurn(turn, state, dispatch, stepLabel) {
+  if (turn.kind === "text") return html`<${TextCard} key=${turn.id} turn=${turn} state=${state} dispatch=${dispatch} stepLabel=${stepLabel} />`;
+  if (turn.kind === "cc") return html`<${CcCard} key=${turn.id} turn=${turn} state=${state} dispatch=${dispatch} stepLabel=${stepLabel} />`;
+  if (turn.kind === "multi") return html`<${MultiCard} key=${turn.id} turn=${turn} state=${state} dispatch=${dispatch} stepLabel=${stepLabel} />`;
+  if (turn.kind === "scale") return html`<${ScaleCard} key=${turn.id} turn=${turn} state=${state} dispatch=${dispatch} stepLabel=${stepLabel} />`;
+  if (turn.kind === "yesno") return html`<${YesNoCard} key=${turn.id} turn=${turn} state=${state} dispatch=${dispatch} stepLabel=${stepLabel} />`;
+  if (turn.kind === "bodymap") return html`<${BodyMapCard} key=${turn.id} turn=${turn} state=${state} dispatch=${dispatch} stepLabel=${stepLabel} />`;
+  return html`<${ChipsCard} key=${turn.id} turn=${turn} state=${state} dispatch=${dispatch} stepLabel=${stepLabel} />`;
+}
+
+// ---- Innovation 3 UI: tap-where-it-hurts figure (front/back), zero literacy needed ----
+var BodyMapCard = function (props) {
+  var state = props.state, dispatch = props.dispatch, turn = props.turn;
+  var _bv = React.useState("front"), view = _bv[0], setView = _bv[1];
+  var p = biText(state, turn.ask);
+  function tap(id) {
+    var pick = MK.bodymapPick(id, Date.now(), state.respondent);
+    dispatch({ type: "ANSWER", turnId: "bodymap", slot: pick.slot });
+    dispatch({ type: "ANSWER", turnId: "narrative", slot: pick.narrative });
+  }
+  function reg(id, shapes) {
+    var r = MK.bodyRegionById(id);
+    return html`<g key=${id} className="bmRegion" onClick=${function () { tap(id); }}>
+      <title>${r.en} · ${r.hi}<//>
+      ${shapes}
+    <//>`;
+  }
+  var head = html`<circle cx="110" cy="32" r="24" />`;
+  var neck = html`<rect className="bmPlain" x="100" y="54" width="20" height="16" rx="4" />`;
+  var armL = [html`<rect x="42" y="74" width="24" height="118" rx="12" />`, html`<circle cx="54" cy="200" r="11" />`];
+  var armR = [html`<rect x="154" y="74" width="24" height="118" rx="12" />`, html`<circle cx="166" cy="200" r="11" />`];
+  var legL = [html`<rect x="78" y="214" width="28" height="112" rx="12" />`, html`<circle cx="92" cy="264" r="14" />`, html`<ellipse cx="92" cy="334" rx="14" ry="6" />`];
+  var legR = [html`<rect x="114" y="214" width="28" height="112" rx="12" />`, html`<circle cx="128" cy="264" r="14" />`, html`<ellipse cx="128" cy="334" rx="14" ry="6" />`];
+  var torso = view === "front"
+    ? [reg("chest", html`<rect x="76" y="70" width="68" height="78" rx="12" />`),
+       reg("abdomen", html`<rect x="76" y="148" width="68" height="62" rx="12" />`)]
+    : [reg("back", html`<rect x="76" y="70" width="68" height="140" rx="12" />`)];
+  var legendIds = view === "front"
+    ? ["head", "chest", "abdomen", "armL", "armR", "legL", "legR"]
+    : ["head", "back", "armL", "armR", "legL", "legR"];
+  return html`<div>
+    <${StepTag}>${props.stepLabel || "Start"}<//>
+    <${Lang} primary=${p.primary} secondary=${p.secondary} lang=${state.lang} />
+    <div className="bmWrap">
+      <div className="bmViewToggle" role="tablist">
+        <button className=${"bmViewBtn" + (view === "front" ? " sel" : "")} onClick=${function () { setView("front"); }}>Front · सामने<//>
+        <button className=${"bmViewBtn" + (view === "back" ? " sel" : "")} onClick=${function () { setView("back"); }}>Back · पीछे<//>
+      <//>
+      <svg className="bmSvg" viewBox="0 0 220 348" role="img" aria-label="Body picture — tap where it hurts">
+        ${reg("head", head)}
+        ${neck}
+        ${torso}
+        ${reg("armL", armL)}
+        ${reg("armR", armR)}
+        ${reg("legL", legL)}
+        ${reg("legR", legR)}
+      <//>
+      <div className="bmLegend">
+        ${legendIds.map(function (id) {
+          var r = MK.bodyRegionById(id);
+          return html`<button key=${id} className="bmBtn" onClick=${function () { tap(id); }}>
+            <span className="cEn">${r.en}<//><span className="cHi">${r.hi}<//>
+          <//>`;
+        })}
+      <//>
+    <//>
+    <${SkipLink} onClick=${function () { dispatch({ type: "ANSWER", turnId: turn.id, slot: { state: "not_answered", v: null, en: "Will tell the doctor", hi: "डॉक्टर से बताएँगे", utterance: null, source: "touch", ts: Date.now() } }); }} />
+  <//>`;
+};
+
+// ---- Innovation 1 UI: "still the same?" carry-confirm card for stable sections ----
+var CarryCard = function (props) {
+  var state = props.state, dispatch = props.dispatch, turn = props.turn;
+  var _cc = React.useState(false), changed = _cc[0], setChanged = _cc[1];
+  if (changed) {
+    return cardForTurn(turn, state, dispatch, stepNameFor(turn));
+  }
+  var snap = state.baseline && state.baseline.answers ? state.baseline.answers[turn.id] : null;
+  if (!snap) {
+    return cardForTurn(turn, state, dispatch, stepNameFor(turn));
+  }
+  var snapTxt = (typeof snap.n === "number") ? (snap.n + " / 10") : snap.en;
+  var snapHi = (typeof snap.n === "number") ? (snap.n + " / 10") : (snap.hi || snap.en);
+  function same() {
+    dispatch({ type: "ANSWER", turnId: turn.id, slot: MK.carrySlot(state.baseline, turn.id, state.respondent, Date.now()) });
+  }
+  return html`<div>
+    <${StepTag}>${props.stepLabel || "Question"} · repeat visit<//>
+    <div className="prompt" role="status" aria-live="polite">
+      ${state.lang === "hi" ? "पिछली बार (" + state.baseline.visitDateHi + ") आपने यह बताया था — क्या अभी भी वही है?" : "Last time (" + state.baseline.visitDate + ") you told us this — is it still the same?"}
+    <//>
+    <div className="carryBox">
+      <div className="carrySnap">${snapTxt}<//>
+      ${snapHi !== snapTxt ? html`<div className="carryHi">${snapHi}<//>` : null}
+    <//>
+    <div className="chipGrid" style=${{ gridTemplateColumns: "1fr 1fr" }}>
+      <button className="chip" onClick=${same}>
+        <span className="cEn">✓ Same as last time<//><span className="cHi">पिछली बार जैसा ही है<//>
+      <//>
+      <button className="chip" onClick=${function () { setChanged(true); }}>
+        <span className="cEn">Something changed<//><span className="cHi">कुछ बदला है<//>
+      <//>
+    <//>
+    <${SkipLink} onClick=${function () { dispatch({ type: "ANSWER", turnId: turn.id, slot: { state: "not_answered", v: null, en: "Will tell the doctor", hi: "डॉक्टर से बताएँगे", utterance: null, source: "touch", ts: Date.now() } }); }} />
   <//>`;
 };
 
@@ -2534,14 +3047,15 @@ var Interview = function (props) {
     card = html`<${DoseCard} key="dose" state=${state} dispatch=${dispatch} />`;
   } else if (turn.kind === "safety") {
     card = html`<${SafetyPanel} key="safety" state=${state} dispatch=${dispatch} />`;
+  } else if (turn.kind === "bodymap") {
+    stepLabel = stepNameFor(turn);
+    card = html`<${BodyMapCard} key="bodymap" turn=${turn} state=${state} dispatch=${dispatch} stepLabel=${stepLabel} />`;
+  } else if (isCarryTurn(state, turn)) {
+    stepLabel = stepNameFor(turn);
+    card = html`<${CarryCard} key=${"carry-" + turn.id} turn=${turn} state=${state} dispatch=${dispatch} stepLabel=${stepLabel} />`;
   } else {
     stepLabel = stepNameFor(turn);
-    if (turn.kind === "text") card = html`<${TextCard} key=${turn.id} turn=${turn} state=${state} dispatch=${dispatch} stepLabel=${stepLabel} />`;
-    else if (turn.kind === "cc") card = html`<${CcCard} key=${turn.id} turn=${turn} state=${state} dispatch=${dispatch} stepLabel=${stepLabel} />`;
-    else if (turn.kind === "multi") card = html`<${MultiCard} key=${turn.id} turn=${turn} state=${state} dispatch=${dispatch} stepLabel=${stepLabel} />`;
-    else if (turn.kind === "scale") card = html`<${ScaleCard} key=${turn.id} turn=${turn} state=${state} dispatch=${dispatch} stepLabel=${stepLabel} />`;
-    else if (turn.kind === "yesno") card = html`<${YesNoCard} key=${turn.id} turn=${turn} state=${state} dispatch=${dispatch} stepLabel=${stepLabel} />`;
-    else card = html`<${ChipsCard} key=${turn.id} turn=${turn} state=${state} dispatch=${dispatch} stepLabel=${stepLabel} />`;
+    card = cardForTurn(turn, state, dispatch, stepLabel);
   }
   return html`<div className="logCol">
     <${LogView} state=${state} />
@@ -2551,6 +3065,7 @@ var Interview = function (props) {
 
 function stepNameFor(turn) {
   var names = {
+    bodymap: "Start · Point to the pain",
     narrative: "Step 1 · Your story",
     cc: "Step 2 · Main problem",
     "socrates.site": "SOCRATES · S — Site",
@@ -2579,6 +3094,9 @@ var Readback = function (props) {
   var state = props.state, dispatch = props.dispatch;
   var sections = MK.summarySections(state);
   var hasHits = state.redFlag && state.redFlag.hits.length > 0;
+  var ps = MK.proxyStats(state.answers);
+  var showProxy = state.respondent === "proxy" && ps.count > 0;
+  var relLbl = state.relation ? " (" + state.relation + ")" : "";
   return html`<div className="sumWrap">
     <div className="sumHead">
       <h2>Please check your answers<//>
@@ -2590,11 +3108,18 @@ var Readback = function (props) {
       <//>
     <//>
     ${hasHits ? html`<div className="sumFlagBanner">
-      <span className="fbTag">URGENT FLAG</span>
+      <span className="fbTag">URGENT FLAG</span>${" "}
       ${state.redFlag.hits.map(function (h) { return h.id + " "; })}
       — ${state.redFlag.hits[0].en}. Staff acknowledged · प्राथमिकता कतार में
     <//>` : null}
+    ${showProxy ? html`<div className="proxyBanner">
+      <span className="fbTag">ATTENDANT ANSWERS</span>${" "}
+      ${ps.count} answer${ps.count === 1 ? " was" : "s were"} given by the attendant${relLbl} — tagged on each line.
+      ${ps.subjective.length > 0 ? "Pain score and worries are flagged for the doctor to confirm with the patient." : ""}
+      · ${ps.count} उत्तर परिवार के सदस्य ने दिए — हर पंक्ति पर अंकित।
+    <//>` : null}
     ${sections.map(function (sec) {
+      if (sec.id === "delta") return html`<${DeltaBlock} key="delta" sec=${sec} state=${state} dispatch=${dispatch} />`;
       return html`<div key=${sec.id} className="sumSection">
         <h3>${sec.title.en} <span className="ssHi">· ${sec.title.hi}<//><//>
         ${sec.rows.map(function (r) {
@@ -2614,6 +3139,28 @@ var Readback = function (props) {
   <//>`;
 };
 
+var DeltaBlock = function (props) {
+  var sec = props.sec, state = props.state, dispatch = props.dispatch;
+  return html`<div key="delta" className="sumSection deltaBlock">
+    <h3>⟲ ${sec.title.en} <span className="ssHi">· ${sec.title.hi}<//><//>
+    ${sec.rows.length === 0 ? html`<div className="dSame">Nothing changed since the last visit — everything confirmed the same.<//>` : sec.rows.map(function (r) {
+      var lbl = r.label;
+      return html`<div key=${r.turnId} className="deltaRow">
+        <div className="srLab">${lbl.en}<span className="srLabHi">${lbl.hi}<//><//>
+        <div className="srVal">
+          <span className="dFrom">${r.slot.en.split("  →  ")[0]}<//>
+          <span className="dArrow">→<//>
+          <span className="dTo">${r.slot.en.split("  →  ")[1] || r.slot.en}<//>
+        <//>
+        <div className="srSide">
+          <button className="chgBtn" onClick=${function () { dispatch({ type: "CHANGE_FIELD", turnId: r.turnId }); }}>${MK.CHROME.change.en} · ${MK.CHROME.change.hi}<//>
+        <//>
+      <//>`;
+    })}
+    ${sec.sameCount > 0 ? html`<div className="dSame">+ ${sec.sameCount} field${sec.sameCount === 1 ? "" : "s"} confirmed same as last visit.<//>` : null}
+  <//>`;
+};
+
 var SumRow = function (props) {
   var state = props.state, dispatch = props.dispatch;
   var row = props.row;
@@ -2630,6 +3177,8 @@ var SumRow = function (props) {
       ${slot.utterance && slot.utterance !== slot.en ? html`<div className="vQuote">${slot.utterance}<//>` : null}
       ${slot.doseConfirmed ? html`<div style=${{ marginTop: "4px" }}><span className="badge cap">✓ dose confirmed: ${slot.dose}<//><//>` : null}
       ${slot.source ? html`<span className="vSrc">${slot.source === "voice" ? "voice — original words kept" : "touch"}<//>` : null}
+      ${slot.by === "proxy" && !slot.carriedFrom ? html`<span className="provTag">answered by attendant${state.relation ? " (" + state.relation + ")" : ""}${slot.proxyReview ? " — doctor to confirm" : ""}<//>` : null}
+      ${slot.carriedFrom ? html`<span className="carryTag">same as last visit ✓${slot.carryConfirmedBy === "proxy" ? " — confirmed by attendant" : ""}<//>` : null}
     <//>
     <div className="srSide">
       <span className=${"badge " + (isUrgent ? "urgent" : b.cls)}>${isUrgent ? "URGENT" : b.en}<//>
@@ -2647,6 +3196,8 @@ var Handoff = function (props) {
   var voiceCount = 0, touchCount = 0;
   Object.keys(A).forEach(function (k) { var s = A[k]; if (s && s.state === "captured") { if (s.source === "voice") voiceCount++; else touchCount++; } });
   var persona = state.scriptId !== "free" && MK.DEMO_SCRIPTS[state.scriptId] ? MK.DEMO_SCRIPTS[state.scriptId].persona : "Demo patient (free exploration)";
+  var ps = MK.proxyStats(A);
+  var delta = state.baseline ? MK.computeDelta(state.baseline, A, state.complaintId) : null;
   function hRow(k, label, value, slot) {
     slot = slot || A[k];
     return html`<div key=${k} className="hoRow">
@@ -2654,6 +3205,8 @@ var Handoff = function (props) {
       <span className="hV">${value}
         ${slot && slot.utterance && slot.utterance !== slot.en ? html`<span className="vQuote">as spoken: „${slot.utterance}“<//>` : null}
         ${slot && slot.doseConfirmed ? html`<span className="badge cap">dose ✓ ${slot.dose}<//>` : null}
+        ${slot && slot.by === "proxy" && !slot.carriedFrom ? html`<span className="provTag">stated by attendant${state.relation ? " (" + state.relation + ")" : ""}${slot.proxyReview ? " — confirm with patient" : ""}<//>` : null}
+        ${slot && slot.carriedFrom ? html`<span className="carryTag">same as last visit ✓<//>` : null}
       <//>
       <span className="hSrc">${slot ? (slot.source === "voice" ? "voice" : "touch") : "—"}<//>
     <//>`;
@@ -2676,6 +3229,8 @@ var Handoff = function (props) {
           <span className="hoPill">language: ${state.lang === "en" ? "English" : state.lang === "hi" ? "हिन्दी" : "Hinglish"}<//>
           <span className=${"hoPill " + (hasHits ? "pri" : "ok")}>${hasHits ? "QUEUED: PRIORITY TRIAGE" : "QUEUED: ROUTINE OPD"}<//>
           <span className="hoPill">captured on-device · offline<//>
+          <span className="hoPill">${state.visitType === "repeat" ? "REPEAT VISIT — baseline " + (state.baseline ? state.baseline.visitDate : "") : "FIRST VISIT"}<//>
+          <span className="hoPill">answered by: ${state.respondent === "proxy" ? "attendant" + (state.relation ? " (" + state.relation + ")" : "") : "patient"}<//>
         <//>
       <//>
       ${hasHits ? html`<div className="hoBanner">
@@ -2686,6 +3241,18 @@ var Handoff = function (props) {
         Safety check: 4 fixed rules checked — none matched. Routine queue.
       <//>`}
       <div className="hoBody">
+        ${delta && delta.changed.length > 0 ? html`<div className="hoSec">
+          <h4>⟲ What changed since ${delta.visitDate} (repeat visit)<//>
+          ${delta.changed.map(function (c) {
+            var lbl = MK.deltaLabel(c.id);
+            return hRow("delta-" + c.id, lbl.en, c.from + "  →  " + c.to, null);
+          })}
+          ${delta.same.length > 0 ? html`<div key="delta-same" className="hoRow"><span className="hK">Unchanged<//><span className="hV">${delta.same.length} fields confirmed same as last visit<//><span className="hSrc">—<//><//>` : null}
+        <//>` : null}
+        ${state.respondent === "proxy" && ps.count > 0 ? html`<div className="hoBanner" style=${{ background: "var(--amber-bg)", borderColor: "var(--amber-line)", color: "var(--amber)" }}>
+          Proxy answers: ${ps.count} field${ps.count === 1 ? " was" : "s were"} stated by the attendant${state.relation ? " (" + state.relation + ")" : ""}, tagged per line.
+          ${ps.subjective.length > 0 ? "Subjective items (" + ps.subjective.join(", ") + ") need confirmation with the patient." : ""}
+        <//>` : null}
         <div className="hoSec">
           <h4>Chief complaint<//>
           ${hRow("cc", "In patient’s words", valOrDash("cc"))}
@@ -2732,7 +3299,7 @@ var Handoff = function (props) {
           <h4>Data quality & provenance<//>
           <div style=${{ fontSize: ".9rem", lineHeight: 1.6 }}>
             ${dq.captured} fields captured · ${dq.needs_review} marked for review · ${dq.not_answered} declined (patient will tell doctor) · ${dq.not_elicited} not elicited.
-            Provenance: ${voiceCount} by voice (original words retained), ${touchCount} by touch.
+            Provenance: ${voiceCount} by voice (original words retained), ${touchCount} by touch${ps.count > 0 ? ", " + ps.count + " stated by attendant" + (state.relation ? " (" + state.relation + ")" : "") : ""}.
           <//>
         <//>
         <div className="hoSec">
@@ -2763,10 +3330,119 @@ function socratesLabel(id) {
   return map[t.field] || id;
 }
 
+// ---- Voice self-check: makes every sound failure visible + fixable ----
+// Runs on the welcome screen. The interview code is already correct; when sound
+// "does not work" it is always one of: file:// origin, unsupported browser,
+// missing OS voices, or a denied microphone. This panel says which one it is.
+var VoiceCheck = function (props) {
+  var state = props.state;
+  var _cs = React.useState({ checked: false }), chk = _cs[0], setChk = _cs[1];
+  var _ts = React.useState(""), testNote = _ts[0], setTestNote = _ts[1];
+  React.useEffect(function () {
+    var cancelled = false, attempts = 0;
+    function run() {
+      attempts++;
+      refreshVoices();
+      var SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+      var isFile = !!(window.location && window.location.protocol === "file:");
+      var hasSynth = !!(window.speechSynthesis && window.SpeechSynthesisUtterance);
+      var out = {
+        checked: true,
+        isFile: isFile,
+        hasSR: !!SR,
+        hasSynth: hasSynth,
+        voicesReady: VOICE_STATE.ready,
+        voiceCount: VOICE_STATE.ready ? (VOICE_STATE.list || []).length : 0,
+        hiVoice: VOICE_STATE.ready ? (findVoiceFor("hi-IN") || {}).name || null : undefined,
+        enVoice: VOICE_STATE.ready ? (findVoiceFor("en-IN") || {}).name || null : undefined
+      };
+      function done(perm) {
+        out.micState = perm;
+        if (!cancelled) setChk(out);
+      }
+      if (navigator.permissions && navigator.permissions.query) {
+        navigator.permissions.query({ name: "microphone" })
+          .then(function (st) { done(st.state); })
+          .catch(function () { done("unknown"); });
+      } else done("unknown");
+      // Chromium loads the voice list asynchronously — keep re-checking briefly.
+      if (!VOICE_STATE.ready && attempts < 10) setTimeout(run, 250);
+    }
+    run();
+    return function () { cancelled = true; };
+  }, []);
+  function testSound() {
+    var sample = state.lang === "en"
+      ? "Hello. This is how the kiosk will read each question."
+      : "\u0928\u092e\u0938\u094d\u0924\u0947\u0964 \u0915\u093f\u092f\u094b\u0938\u094d\u0915 \u0907\u0938\u094d\u0924\u0930\u0939 \u0938\u0947 \u0939\u0930 \u0938\u0935\u093e\u0932 \u092a\u0922\u093c\u0947\u0917\u093e\u0964";
+    var target = state.lang === "en" ? "en-IN" : "hi-IN";
+    try {
+      var synth = window.speechSynthesis;
+      if (!synth || !window.SpeechSynthesisUtterance) { setTestNote("Speech playback is unavailable in this browser."); return; }
+      if (synth.speaking || synth.pending) { try { synth.cancel(); } catch (e) {} setTestNote(""); return; }
+      refreshVoices();
+      var voice = findVoiceFor(target);
+      var langName = target === "hi-IN" ? "Hindi" : "Indian English";
+      var u = new SpeechSynthesisUtterance(sample);
+      u.lang = target; u.rate = 0.85;
+      if (voice) u.voice = voice;
+      u.onstart = function () { setTestNote("\u25b6 Playing\u2026"); };
+      u.onend = function () { setTestNote(""); };
+      u.onerror = function (ev) {
+        var code = ev && ev.error ? String(ev.error) : "";
+        if (code === "interrupted" || code === "canceled") { setTestNote(""); return; }
+        setTestNote("Playback error" + (code ? " (" + code + ")" : "") + " — no sound came out. See the voice rows below for the fix.");
+      };
+      if (!voice) setTestNote("No " + langName + " voice found on this device — see the fix below.");
+      try { synth.cancel(); } catch (e) {}
+      synth.speak(u);
+    } catch (err) { setTestNote("Speech playback failed."); }
+  }
+  var row = function (ok, warn, label, value, fix) {
+    var mark = ok ? "\u2713" : (warn ? "\u26a0" : "\u2717");
+    var cls = ok ? "vcOk" : (warn ? "vcWarn" : "vcBad");
+    return html`<div className=${"vcRow " + cls}>
+      <span className="vcMark">${mark}<//>
+      <span className="vcLabel">${label}<//>
+      <span className="vcVal">${value}${fix ? html`<span className="vcFix">${fix}<//>` : null}<//>
+    <//>`;
+  };
+  return html`<div className="voiceCheck" data-voicecheck="1">
+    <div className="wLabel">0 · Voice self-check · आवाज़ जाँच<//>
+    <div className="vcList">
+      ${!chk.checked ? html`<div className="vcRow vcWarn"><span className="vcMark">\u2026<//><span className="vcLabel">Checking this browser\u2026<//><span className="vcVal"><//><//>` : html`<div>
+        ${row(!chk.isFile, false, "Microphone page origin",
+          chk.isFile ? "blocked — opened as a local file (file://)" : "ok — served over " + (window.location ? window.location.protocol : ""),
+          chk.isFile ? "Close this tab and double-click serve-demo.bat in the prototype folder, then use the http://127.0.0.1 address it opens. (Browsers block the microphone for file:// pages. Typing still works.)" : null)}
+        ${row(chk.hasSR, false, "Voice input engine",
+          chk.hasSR ? "available" : "not available",
+          chk.hasSR ? null : "Voice answers are unavailable here — typing always works.")}
+        ${row(chk.hasSynth && chk.voicesReady, chk.hasSynth && !chk.voicesReady, "Voice output engine",
+          !chk.hasSynth ? "unavailable" : (chk.voicesReady ? chk.voiceCount + " system voices found" : "voices still loading\u2026"),
+          null)}
+        ${chk.checked && chk.voicesReady ? row(!!chk.hiVoice, false, "Hindi voice (for Hindi / Hinglish)",
+          chk.hiVoice ? "available" : "not installed",
+          chk.hiVoice ? null : "Windows: Settings \u2192 Time & Language \u2192 Speech \u2192 Add voices \u2192 Hindi. English playback works meanwhile.") : null}
+        ${chk.checked && chk.voicesReady ? row(!!chk.enVoice, false, "English voice",
+          chk.enVoice ? "available" : "not found", null) : null}
+        ${row(chk.micState !== "denied", chk.micState === "unknown", "Microphone permission",
+          chk.micState === "granted" ? "already allowed" : chk.micState === "prompt" ? "will be asked on first use" : chk.micState === "denied" ? "blocked" : "unknown (this browser does not report it)",
+          chk.micState === "denied" ? "Click the tune/lock icon left of the address bar \u2192 Microphone \u2192 Allow, then reload. Also Windows Settings \u2192 Privacy & security \u2192 Microphone." : null)}
+      <//>`}
+    <//>
+    <div className="vcTest">
+      <button className="btn" data-vc-test="1" onClick=${testSound}>🔊 Test sound<//>
+      ${testNote ? html`<span className="vcTestNote" role="status">${testNote}<//>` : null}
+      <span className="vcHint">After Start, the kiosk reads every question aloud; the header has a mute toggle.<//>
+    <//>
+  <//>`;
+};
+
 var Welcome = function (props) {
   var state = props.state, dispatch = props.dispatch;
   function start() {
-    dispatch({ type: "START", lang: state.lang, scriptId: state.scriptId });
+    MK_SOUND.primed = true; // Start tap = user gesture; unlocks kiosk read-aloud for the session
+    dispatch({ type: "START", lang: state.lang, scriptId: state.scriptId, visitType: state.visitType, respondent: state.respondent, relation: state.relation });
   }
   var langTiles = [
     { id: "en", main: "English", sub: "How can we help you today?" },
@@ -2776,7 +3452,23 @@ var Welcome = function (props) {
   var scripts = [
     { id: "redflag", t: "Guided demo 1 — Chest pain (urgent safety path)", flag: "RED-FLAG DEMO", d: "Ramesh, 54. Hinglish narrative → SOCRATES → the deterministic safety check fires (chest pain + breathlessness) → staff ack → priority-triage handoff. Recommended for the 90-second run." },
     { id: "routine", t: "Guided demo 2 — Knee pain (routine path)", d: "Sunita, 42. Full sequence, safety check passes visibly, routine OPD queue. Also shows the “Not sure → needs review” path (allergies)." },
+    { id: "repeat", t: "Guided demo 3 — Repeat visit + attendant (delta summary)", flag: "INNOVATION DEMO", d: "Ramesh returns with his son. Body-map start, stable history carried from 15 Aug with one tap each, medicines changed, severity 6 → 3. Handoff opens with a what-changed table; attendant-spoken answers are tagged." },
     { id: "free", t: "Free exploration (no script)", d: "Answer your own way in any language mode. The safety rules still run on everything you type — try mentioning chest pain with breathlessness in the narrative or the associations step." }
+  ];
+  var visitTiles = [
+    { id: "first", main: "First visit", sub: "पहली बार आए हैं" },
+    { id: "repeat", main: "Repeat visit", sub: "पहले आ चुके हैं — पुराना रिकॉर्ड लगेगा" }
+  ];
+  var respTiles = [
+    { id: "patient", main: "I am the patient", sub: "मैं मरीज़ हूँ — खुद बताऊँगा" },
+    { id: "proxy", main: "Family member", sub: "परिवार का सदस्य — मरीज़ के लिए बताऊँगा" }
+  ];
+  var relations = [
+    { v: "son", en: "Son", hi: "बेटा" },
+    { v: "daughter", en: "Daughter", hi: "बेटी" },
+    { v: "wife", en: "Wife", hi: "पत्नी" },
+    { v: "husband", en: "Husband", hi: "पति" },
+    { v: "other", en: "Other relative", hi: "अन्य रिश्तेदार" }
   ];
   return html`<div className="welcome">
     <div className="wHero">
@@ -2797,7 +3489,35 @@ var Welcome = function (props) {
           <//>`;
         })}
       <//>
-      <div className="wLabel">2 · Demo script · डेमो स्क्रिप्ट<//>
+      <div className="wLabel">2 · Visit · पहली बार या दोबारा?<//>
+      <div className="langRow">
+        ${visitTiles.map(function (l) {
+          return html`<button key=${l.id} className=${"langTile" + (state.visitType === l.id ? " sel" : "")} onClick=${function () { dispatch({ type: "SET_VISIT", visitType: l.id }); }}>
+            <div className="lMain">${l.main}<//>
+            <div className="lSub">${l.sub}<//>
+          <//>`;
+        })}
+      <//>
+      ${state.visitType === "repeat" ? html`<div className="wNote">Repeat visit pulls your last record from the ABHA-linked file (simulated in this demo — Module D/HIS in the product). Stable history is confirmed with one tap per line; only today’s problem is asked fresh.<//>` : null}
+      <div className="wLabel">3 · Who will answer? · कौन बताएगा?<//>
+      <div className="langRow">
+        ${respTiles.map(function (l) {
+          return html`<button key=${l.id} className=${"langTile" + (state.respondent === l.id ? " sel" : "")} onClick=${function () { dispatch({ type: "SET_RESPONDENT", respondent: l.id }); }}>
+            <div className="lMain">${l.main}<//>
+            <div className="lSub">${l.sub}<//>
+          <//>`;
+        })}
+      <//>
+      ${state.respondent === "proxy" ? html`<div className="relRow">
+        <span className="relLab">Relation to patient · मरीज़ से रिश्ता<//>
+        ${relations.map(function (r) {
+          return html`<button key=${r.v} className=${"relBtn" + (state.relation === r.v ? " sel" : "")} onClick=${function () { dispatch({ type: "SET_RELATION", relation: r.v }); }}>
+            ${r.en} · ${r.hi}
+          <//>`;
+        })}
+      <//>
+      <div className="wNote">Every answer is tagged with who spoke. Pain scores and worries spoken by a family member are flagged for the doctor to confirm with the patient.<//>` : null}
+      <div className="wLabel">4 · Demo script · डेमो स्क्रिप्ट<//>
       <div className="scriptRow">
         ${scripts.map(function (s) {
           return html`<button key=${s.id} className=${"scriptCard" + (state.scriptId === s.id ? " sel" : "")} onClick=${function () { dispatch({ type: "SET_SCRIPT", scriptId: s.id }); }}>
@@ -2809,6 +3529,7 @@ var Welcome = function (props) {
           <//>`;
         })}
       <//>
+      <${VoiceCheck} state=${state} />
       <div className="wStart">
         <button className="btn big" onClick=${start}>Start · शुरू करें<//>
       <//>
@@ -2818,9 +3539,10 @@ var Welcome = function (props) {
       <div className="honestyBox">
         <div className="hbT">This is a demo prototype — flow & UX only<//>
         <b>Speech input uses the browser microphone (Hindi hi-IN / English en-IN); text remains the fallback.<//> Spoken answers are reduced to a clinical excerpt — the raw conversation is not retained. No server ASR/NLU runs in this page — it works fully offline in your browser, just like the real kiosk is offline-first on-device.
-        <b>Voice tips:<//> microphone input works only when the demo is served on http://localhost — double-click <code>serve-demo.bat<//> in the prototype folder (browsers block the mic for file:// pages) and use Chrome or Edge. Hindi playback additionally needs a Hindi voice installed (Windows: Settings \u2192 Time & Language \u2192 Speech \u2192 Add voices \u2192 Hindi) — otherwise the Listen button says so honestly.
+        <b>Voice tips:<//> microphone input works only when the demo is served on http://localhost — double-click <code>serve-demo.bat<//> in the prototype folder (browsers block the mic for file:// pages). Hindi playback additionally needs a Hindi voice installed (Windows: Settings \u2192 Time & Language \u2192 Speech \u2192 Add voices \u2192 Hindi) — the voice self-check above shows what this machine has.
         The safety layer is a <b>fixed rule list, not AI judgment<//>; the final clinical rule set will be validated by doctors.
         The kiosk <b>never diagnoses or recommends treatment<//> — it ends at a structured summary for the physician.
+        <b>Innovation demos:<//> repeat visits load a simulated prior record (the product pulls the ABHA-linked file via Module D/HIS); attendant answers are tagged by who spoke; the body-map tap sets the complaint site only — everything else is still asked.
       <//>
       <div className="ayushNote">
         AYUSH (Dashavidha) layer: in the confirmed design this runs as a configurable second layer per hospital. It is not part of this 90-second demo — the official item set is an open question in the project documentation.
@@ -2831,6 +3553,12 @@ var Welcome = function (props) {
 
 var Header = function (props) {
   var state = props.state;
+  var _hs = React.useState(MK_SOUND.enabled), soundOn = _hs[0], setSoundOn = _hs[1];
+  function toggleSound() {
+    MK_SOUND.enabled = !MK_SOUND.enabled;
+    if (!MK_SOUND.enabled) { try { window.speechSynthesis.cancel(); } catch (e) {} }
+    setSoundOn(MK_SOUND.enabled);
+  }
   var showStrip = state.redFlag && state.redFlag.hits.length > 0 && state.redFlag.ack && (state.phase === "interview" || state.phase === "readback");
   return html`<div>
     <header className="hdr">
@@ -2841,6 +3569,10 @@ var Header = function (props) {
           <div className="sub">Module A — Patient History Kiosk · रोगी इतिहास कियोस्क<//>
         <//>
         <div className="hdrChips">
+          <button className=${"hdrChip soundChip" + (soundOn ? " on" : "")} onClick=${toggleSound}
+            title=${soundOn ? "Auto-speak is ON — each question is read aloud. Click to mute." : "Auto-speak is muted. Click to unmute."}>
+            ${soundOn ? "🔊 Read-aloud on" : "🔇 Read-aloud muted"}
+          <//>
           <span className="hdrChip"><span className="dot"><//> On-device · offline-first<//>
           <span className="hdrChip">${state.lang === "en" ? "English" : state.lang === "hi" ? "हिन्दी" : "Hinglish"}<//>
           <span className="hdrChip demoChip">DEMO PROTOTYPE<//>
@@ -2874,11 +3606,20 @@ var DemoBar = function (props) {
     if (state.scriptId !== "free" && MK.DEMO_SCRIPTS[state.scriptId]) {
       var script = MK.DEMO_SCRIPTS[state.scriptId];
       var slot = null;
-      if (turn.id === "narrative") {
+      if (turn.id === "bodymap") {
+        var ba = script.answers ? script.answers.bodymap : null;
+        if (ba && ba.region) {
+          var pick = MK.bodymapPick(ba.region, Date.now(), state.respondent);
+          dispatch({ type: "ANSWER", turnId: "bodymap", slot: pick.slot });
+          var txt = MK.clinicalExcerpt(MK.pickLangText(script.narrative, state.lang), "narrative");
+          dispatch({ type: "ANSWER", turnId: "narrative", slot: { state: "captured", v: txt, en: txt, hi: null, utterance: txt, source: "voice", ts: Date.now() } });
+          return;
+        }
+      } else if (turn.id === "narrative") {
         var txt = MK.clinicalExcerpt(MK.pickLangText(script.narrative, state.lang), "narrative");
         slot = { state: "captured", v: txt, en: txt, hi: null, utterance: txt, source: "voice", ts: Date.now() };
       } else {
-        slot = MK.scriptSlotFor(turn, script, state.lang, Date.now());
+        slot = MK.scriptSlotFor(turn, script, state.lang, Date.now(), { baseline: state.baseline, respondent: state.respondent });
       }
       if (slot) {
         if (turn.id === "cc") slot = { state: "captured", v: MK.complaintById(MK.DEMO_SCRIPTS[state.scriptId].complaint), en: MK.complaintById(MK.DEMO_SCRIPTS[state.scriptId].complaint).en, hi: MK.complaintById(MK.DEMO_SCRIPTS[state.scriptId].complaint).hi, utterance: null, source: "touch", ts: Date.now() };
@@ -2935,6 +3676,18 @@ function App() {
     }
     if (action.type === "SET_SCRIPT") {
       rawDispatch({ type: "JUMP", state: Object.assign({}, state, { scriptId: action.scriptId }) });
+      return;
+    }
+    if (action.type === "SET_VISIT") {
+      rawDispatch({ type: "JUMP", state: Object.assign({}, state, { visitType: action.visitType }) });
+      return;
+    }
+    if (action.type === "SET_RESPONDENT") {
+      rawDispatch({ type: "JUMP", state: Object.assign({}, state, { respondent: action.respondent, relation: action.respondent === "proxy" ? (state.relation || "son") : null }) });
+      return;
+    }
+    if (action.type === "SET_RELATION") {
+      rawDispatch({ type: "JUMP", state: Object.assign({}, state, { relation: action.relation }) });
       return;
     }
     rawDispatch(action);

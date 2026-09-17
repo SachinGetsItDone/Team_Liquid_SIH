@@ -1,0 +1,115 @@
+{
+  "basic_info": {
+    "name": "Augnito Omni",
+    "category": "deployed-product",
+    "description": "Augnito Omni is a doctor-side ambient-clinical-intelligence (AI scribe) product from Augnito India Private Limited (Mumbai, the AI spin-out of Scribetech Healthcare), which listens to the live doctor-patient consultation, transcribes it in real time and generates a structured SOAP note with history, chief complaint, diagnosis, plan of care, prescription and follow-up, plus clinical letters, Clinical Documentation Integrity suggestions and automated ICD-10/SNOMED/Read coding, writing it back into the hospital's EMR/HIS. Its most load-bearing facts are that it is an Indian-origin, multilingual (20-37+ languages including Hindi and regional Indian languages) clinical ASR + generative-AI scribe deployed at 375-500+ hospitals across 25+ countries (Apollo, Medanta, Fortis, Max, Aster, Manipal in India; Almoosa and KFSH&RC in the Gulf) and that it is strictly clinician-facing during the encounter - it performs no patient-facing pre-visit intake and no verified NRCeS FHIR / ABDM OPConsultRecord emission.",
+    "organization": "Augnito India Private Limited (Y72900MH2022PTC377129); founded by Rustom Lawyer and Shiraz Austin; descended from Scribetech Healthcare (UK NHS clinical documentation)",
+    "country": "India (Mumbai), with operations in the UAE, UK, US and Saudi Arabia",
+    "status": "production",
+    "source_urls": [
+      {
+        "url": "https://augnito.ai/omni",
+        "label": "Augnito Omni official product page"
+      },
+      {
+        "url": "https://augnito.ai/",
+        "label": "Augnito corporate homepage (Spectra and Omni products, security posture)"
+      },
+      {
+        "url": "https://indiamedtoday.com/freeing-clinicians-augnitos-blueprint-for-voice-ai-in-healthcaredocumentation/",
+        "label": "IndiaMedToday interview with CEO Rustom Lawyer - Omni launch, languages, deployment, roadmap"
+      },
+      {
+        "url": "https://indiamedtoday.com/medical-voice-ai-solutions-are-redefining-emr-usability-rustom-lawyer-co-founder-augnito/",
+        "label": "IndiaMedToday 2024 interview - accuracy, specialties, 500 hospitals, 15,000 clinicians"
+      },
+      {
+        "url": "https://augnito.ai/docs/Augnito_Whitepaper.pdf",
+        "label": "Augnito whitepaper - documented adopter survey, time/accuracy/ROI figures"
+      },
+      {
+        "url": "https://www.medical-xprt.com/software/augnito-omni-ai-scribe-solution-1159596",
+        "label": "Medical-Xprt product listing - 37+ languages, CDI, ICD-10/SNOMED/SBS coding"
+      },
+      {
+        "url": "https://registry.npmjs.org/augnitoambientsdk",
+        "label": "Augnito Ambient SDK package metadata and API surface (npm, ISC license)"
+      },
+      {
+        "url": "https://scribetech.co.uk/augnito-ambient",
+        "label": "Scribetech UK (Augnito) Omni product page - SOAP output, EPR integration"
+      },
+      {
+        "url": "https://www.healthcareexecutive.in/blog/revolutionizing-clinical-documentation",
+        "label": "Healthcare Executive India - Augnito ambient technology first launch (2023), 99% accent accuracy"
+      },
+      {
+        "url": "https://augnito.ai/1305-2/",
+        "label": "Indian Pharma Post opinion piece by CEO on Ambient Clinical Intelligence (30 June 2026)"
+      },
+      {
+        "url": "https://tracxn.com/d/companies/augnito/__JaSGSbuDQDhdJjM4vEZPKWkhUB91KKgsvK3QyOcOgS0",
+        "label": "Tracxn company profile - incorporation, revenue band, funding, employees"
+      },
+      {
+        "url": "https://elion.health/products/augnito-ambient",
+        "label": "Elion Health deployment profiles (Apollo 37 sites, Aadicura outcomes)"
+      },
+      {
+        "url": "https://apps.apple.com/in/app/augnito-omni/id6447786068",
+        "label": "Augnito Omni iOS App Store listing (publisher, copyright 2026)"
+      }
+    ],
+    "last_verified_date": "2026-09-16"
+  },
+  "technical_features": {
+    "what_it_does": "Doctor-side clinical documentation from conversation: it captures the clinician-patient encounter ambiently (live or uploaded audio), transcribes it in real time with a speciality-tuned medical vocabulary, then uses NLU + generative AI to produce a structured SOAP-style note containing patient symptoms, medical history, chief complaint, diagnosis, plan of care, prescription and follow-up appointment, along with clinical/referral letters, transcription export and Clinical Documentation Integrity prompts. It also generates automated ICD-10, SNOMED and SBS/Read codes, supports configurable note templates and EMR field mapping, and offers a clinical-context update step. It does not elicit a patient's own history, does not produce a patient-facing bilingual summary, and does not emit a standards-validated FHIR Composition/Bundle.",
+    "architecture": "Proprietary pipeline of automatic speech recognition (ASR) trained on medical terminology and accents, natural language understanding (NLU), and generative AI, orchestrated through the Augnito Ambient platform. Clients are a Chrome extension, a native desktop app, a mobile app (v2.0, May 2026), and an npm-distributed TypeScript SDK (augnitoambientsdk, ISC-licensed) that exposes jobs, note parameters (speciality/visit-type ConfigIDs), fetch/transcript endpoints, note editing, CDI suggestion generation and PDF download. Output integrates with EMR/EPR via deep, low-code/no-code APIs and HL7 interfaces. Deployment is cloud SaaS or on-premises with the same engine.",
+    "inputs": "Live doctor-patient consultation audio (multi-speaker, multi-lingual), or an uploaded audio file (wav/mp3), plus configuration metadata (speciality type, visit type, region, note type, gender, patient age, template ID) and optional patient context. Multi-speaker real-room transcription is claimed.",
+    "outputs": "Structured SOAP/clinical notes and referral or clinical letters, raw transcriptions, Clinical Documentation Integrity suggestions, and automated clinical codes (ICD-10, SNOMED, SBS/Read), exportable as PDF and pushed into the EMR/EPR. No composite FHIR document (Composition/Bundle), no OPConsultRecord, and no bilingual patient-language artifact are produced.",
+    "standards_compliance": "[uncertain] Vendor claims: HL7 support and low-code/no-code APIs/SDKs for HIS/EMR/RIS/PACS integration; automated ICD-10, SNOMED CT and SBS/Read coding; compliance with HIPAA, GDPR, ADHICS and NHS data-privacy standards, with ISO 27001 / Cyber Essentials Plus cited for the Scribetech group and UK \"NHS ambient voice tech guidelines\". However no source demonstrates validated conformance to a named FHIR profile - specifically no evidence of NRCeS FHIR IG for ABDM (OPConsultRecord), HL7 IPS or US Core profile validation - and ABDM is referenced only as an ecosystem aspiration (\"produce structured data at source\") rather than an implemented HIP/FHIR-bundle capability. Conformance claims are vendor-level, not independently validated.",
+    "offline_capability": "Partial/enterprise-only: Augnito offers on-premises deployment in addition to cloud, which allows processing to stay inside a hospital's network and can mitigate connectivity dependence, and this is relevant to India/Gulf data-residency demands. There is, however, no documented offline-first store-and-forward mechanism, no local encrypted queue, and no evidence that the client works with zero connectivity; the ambient SDK implies a server endpoint. It is not an edge-offline or kiosk-offline product.",
+    "languages_supported": "[uncertain] Sources disagree on breadth: one interview says more than 20 languages including regional Indian languages and Arabic dialects; the product listing and a 2024 interview say 37+ languages; the older whitepaper says over 10 Indian languages plus Arabic, with 99% accuracy for any accent of spoken English. Hindi and regional Indian languages are explicitly claimed, but Hinglish/code-mixed clinical speech quality is not independently verified.",
+    "deployment_model": "Cloud SaaS or on-premises (hospital/clinic server), consumed via Chrome extension, native desktop app, mobile app and npm SDK/API inside the clinician's existing EMR/EPR workflow. No special hardware required; not a kiosk, and no patient-facing deployment surface."
+  },
+  "performance_metrics": {
+    "accuracy_or_quality_metrics": "Vendor-reported only. Augnito claims 99% speech-recognition accuracy out of the box for any English accent and medical terminology, with CDI/coding output. Time-saving claims: documentation time reduced ~60-75%, doctors saving 2 to 3+ hours/day (whitepaper: 75% time reduction and 4x speed). Named-site outcomes: Apollo Hospitals - 99% accuracy, average 44 hours/month saved per doctor, 21x ROI in six months, five-hour per-case turnaround reduction across 37 sites; Aadicura Hospital - 70% cost saving per discharge summary and 288% productivity gain. None of these are independent, peer-reviewed, or accompanied by a published evaluation dataset; no F1/ROUGE/BERTScore or concept-recall figures for note generation exist. Treat all numbers as vendor-claimed.",
+    "latency": "Real-time transcription during the encounter is claimed; no measured per-second or time-to-note latency is published. One named-site claim is a five-hour per-case turnaround reduction at Apollo and near-immediate note availability, but hardware context is not stated (cloud vs on-prem).",
+    "resource_requirements": "[uncertain] Not published. The product is marketed as requiring 'no expensive hardware' and runs on clinician desktops, mobiles and browsers, with an on-premises server option whose CPU/RAM/GPU requirements are not disclosed. There is no evidence it can run a summarisation model on a ~4GB RAM, CPU/iGPU-only device; the heavy lifting is server-side (cloud or on-prem).",
+    "scale_metrics": "Deployed across 375+ hospitals in 25+ countries (2025 interview), with a later claim of 500+ hospitals and 15,000+ clinicians globally; 100+ enterprise clients across 24-25 Indian states early on; 4,000+ Indian doctors in the bootstrapped launch era. India/Gulf adopters include Apollo, Medanta, Fortis, Max, Aster, Manipal, Hinduja, Lilavati, Almoosa Health, King's College Hospital London Dubai, RAK Hospital; a hospital-wide go-live at Almather Hospital by KFSH&RC Riyadh (integrated with Siratech HIS) occurred in early September 2026. Company size ~85-91 employees in 2025-2026 (slightly shrinking YoY); revenue band reported as INR 10-50 crore FY2025.",
+    "evaluation_protocol": "Vendor-controlled. The whitepaper describes a cross-sectional 12-question survey of 100 Augnito adopters plus a value-calculator modelled on a 1,000-bed hospital; case studies (Apollo, Aadicura, King's College Hospital) are vendor-produced. There is no peer-reviewed independent evaluation, no held-out note-generation benchmark, and no blinded clinician concordance study for summary quality. Accuracy and productivity claims are therefore vendor-claimed, not peer-reviewed."
+  },
+  "milestone_significance": {
+    "relevance_to_module_c": "Augnito Omni is the strongest deployed Indian proof point that clinical speech from real Indian consultations can be transduced into structured clinical documents at hospital scale, across Indian accents, Hindi and regional languages, and written back into HIS/EMR - which de-risks the ASR and structuring layer that Modules A and B of MediKiosk depend on, and validates on-premises deployment as an India data-residency pattern. It matters to Module C mainly as the closest domestic prior art to compare against, and as a boundary marker: it is doctor-side and during-visit, it is a documentation/coding tool rather than a patient-elicited pre-consultation summary, and it does not emit an NRCeS/ABDM OPConsultRecord. That confirms the Module C niche - offline, patient-elicited, bilingual, FHIR-profile-validated, physician-attested summary - remains unoccupied by the leading Indian incumbent.",
+    "what_to_adopt_or_reject": "Adopt: (a) speciality-aware, template-configurable structured note output (map this to the OPConsultRecord section model); (b) the cloud-plus-on-premises deployment pattern as evidence that hospitals will accept in-network processing for residency/compliance; (c) the API/SDK + HL7 integration approach for writing structured output into HIS rather than asking staff to copy-paste; (d) optional CDI/coding enrichment hooks (ICD-10/SNOMED) as a post-summary, physician-gated feature. Reject: (a) a purely doctor-side, during-visit capture model for Module C, which must be pre-visit and patient-facing; (b) any reliance on cloud ASR, since MediKiosk is offline-first on a CPU/iGPU kiosk; (c) accepting the 99% accuracy headline without local validation - measure Hindi/Hinglish clinical WER and summary concept recall on the kiosk hardware; (d) treating coding/CDI as a core output before physician attestation.",
+    "limitations_and_risks": "No patient-facing pre-visit intake or patient-language summary; no verified NRCeS FHIR / ABDM OPConsultRecord emission, so it cannot be dropped into an ABDM output contract unchanged; accuracy, time-saving and ROI figures are vendor or institution reported with no peer-reviewed benchmark; language-breadth claims are inconsistent across sources (20 vs 37+); on-prem server requirements and offline behaviour are undisclosed, and the ambient client appears server-dependent, so it is not offline-first; ICD-10/SNOMED coding introduces diagnosis-shaped output that conflicts with MediKiosk's elicit-never-diagnose rule if copied carelessly; the company is small (~85-91 employees, shrinking YoY) and competes in a crowded ambient-scribe field, so vendor-continuity risk exists.",
+    "differentiator_vs_medikiosk": "Augnito Omni is doctor-side, during-visit, enterprise cloud/on-prem, English-first documentation focused on coding and EMR write-back. MediKiosk is patient-facing, pre-visit, offline-first on a ~4GB CPU/iGPU kiosk, India-resident, bilingual, emits an NRCeS-conformant OPConsultRecord Bundle with per-field provenance and a mandatory physician-attestation step, and deliberately never diagnoses. Augnito therefore is adjacent, not directly competitive; it strengthens rather than erodes MediKiosk's differentiation by validating Indic clinical ASR and on-prem residency while leaving the offline + ABDM + patient-elicited-summary lane open. The main competitive risk is that a hospital could choose Augnito for in-visit documentation and argue the patient-history kiosk is unnecessary - which Module C must answer with pre-visit workflow and ABDM emission value."
+  },
+  "business_info": {
+    "license": "Proprietary commercial product; no open-source license for the Omni application. The Augnito Ambient SDK is published on npm under the ISC license (client/integration library only, not the models).",
+    "pricing": "Not publicly disclosed - enterprise/custom pricing via sales (sales@augnito.ai); no published tiers or per-seat rates located.",
+    "funding": "[uncertain] Tracxn reports ~$7.2M raised over 4 rounds, first round 2022-11-21 and a Series A on 2025-12-02, with one angel investor; the company was initially bootstrapped from parent Scribetech (reportedly ~$1M invested). LinkedIn lists a Seed (2024-06-11) and an Angel (2026-05-01) round. A disclosed-but-unvalued investment from Dharmendra Ghai was reported by Dealroom. Round sizes, exact totals and valuation are unconfirmed across sources.",
+    "commercial_status": "Commercial enterprise product (privately held; Augnito India Private Limited, active), sold to hospitals, hospital groups and clinician practices, plus SDK/API licensing to HIS/EMR vendors."
+  },
+  "competition_ecosystem": {
+    "competitors": "International ambient scribes with India/global reach - Abridge, Microsoft Nuance DAX Copilot, Ambience Healthcare, Suki, Heidi, Sunoh.ai (eClinicalWorks/healow); direct Indian ABDM-scribe peers - EkaScribe (Eka Care), VivalynMedScribe and other FHIR-output scribes; Augnito's own Spectra is the legacy dictation product. Tracxn lists 360 active competitors including Suki, Heidi and Latent.",
+    "integrations": "HIS/EMR/EPR write-back (e.g., Siratech HIS at KFSH&RC Almather; general 'any EMR'), RIS/PACS/triage via APIs; HL7 interfaces; Chrome/desktop/mobile clients; npm SDK for EMR embedding (with note-parameter, job, CDI, coding and PDF endpoints). Third-party directories list custom API/HL7/FHIR support for Epic/Cerner, but no confirmed ABDM HIP/HIU/PHR gateway role, no NRCeS bundle emission and no Health Locker role.",
+    "ecosystem_notes": "Indian procurement is being pushed toward ABDM, EHR Standards 2016 (SNOMED CT, LOINC, ICD-10/11, FHIR R4) and DPDP-aligned data residency, and hospitals increasingly demand on-prem or India-region processing - a tailwind for Augnito's on-prem option and for MediKiosk's offline/resident design. The ambient-scribe market is crowding fast (global and Indian entrants) and Augnito's headcount is slightly declining, so it is a plausible incumbent that MediKiosk should interoperate with rather than displace. Government programmes (ABDM certificates, AB-PMJAY claim linkage) and the DPDP Rules 2025 compliance horizon shape the buying criteria for both."
+  },
+  "history": {
+    "release_date": "Augnito founded 2020 (ambient technology first launched June 2023); Augnito Omni launched around May 2025.",
+    "key_milestones": "2020 Augnito founded out of Scribetech by Rustom Lawyer/Shiraz Austin; 2022-11 first external funding round; 2023-06 first Indian company to launch ambient clinical technology with generative AI; 2024-06-11 strategic investment announced; 2025-02 Almoosa Health enterprise partnership; 2025-05 Omni launch; 2025-07 claim of being among the first to meet new NHS England ambient voice tech guidelines; 2025-12-02 Series A reported; 2026-04-30 Omni Desktop App; 2026-05-22 Omni Mobile App 2.0; 2026-09 Almather Hospital by KFSH&RC Riyadh hospital-wide Omni go-live integrated with Siratech HIS.",
+    "recent_changes_last_6_months": "Within the last six months Augnito shipped the Omni Desktop App (30 April 2026, native, removes browser dependency for strict-IT environments), launched Omni Mobile App 2.0 (22 May 2026) turning the mobile app into a full note-management/documentation platform, published a CEO thought-leadership piece on Ambient Clinical Intelligence in Indian Pharma Post (30 June 2026) and an npm ambient SDK update (2.0.8, April 2026), and announced the hospital-wide Augnito Omni go-live at Almather Hospital by King Faisal Specialist Hospital and Research Center, Riyadh, in early September 2026. The directional theme is platform expansion (desktop + mobile + SDK) and specialty tuning rather than any announced patient-facing pre-visit intake capability."
+  },
+  "market_positioning": {
+    "target_users": "Clinicians (doctors, GPs, specialists, nurses), hospitals and health systems, and EMR/HIS/EPR vendors that embed it via SDK/API. Not patients; there is no patient-facing surface.",
+    "market_segment": "Doctor-side ambient clinical documentation / AI scribing and clinical coding (documentation integrity), adjacent to but distinct from patient intake, pre-visit history and record-digitization segments.",
+    "positioning_statement": "In its own words, Augnito Omni is 'AI-powered Ambient Clinical Intelligence that helps healthcare providers document patient encounters and automate data-structuring tasks', providing 'clinical documentation with voice AI' at '99% accuracy, anywhere, from any device', with 'multi-lingual conversation capture & data structuring for seamless integration into EMRs', and offering cloud or on-premises deployment."
+  },
+  "uncertain": [
+    "technical_features.standards_compliance",
+    "technical_features.languages_supported",
+    "performance_metrics.resource_requirements",
+    "business_info.funding"
+  ]
+}

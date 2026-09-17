@@ -1,0 +1,14 @@
+{
+  "version": "example-2026-09",
+  "signed_by": null,
+  "signed_on": null,
+  "citation": "ILLUSTRATIVE ONLY - replace with a clinician-signed table citing the reference intervals printed on NABL/ISO 15189 compliant reports (doc/21 section C-C). Never ship this file as signed.",
+  "ranges": {
+    "hemoglobin": [12.0, 16.0, "g/dL"],
+    "hb": [12.0, 16.0, "g/dL"],
+    "fasting glucose": [70.0, 100.0, "mg/dL"],
+    "fasting blood sugar": [70.0, 100.0, "mg/dL"],
+    "hba1c": [4.0, 5.6, "%"],
+    "tsh": [0.4, 4.0, "mIU/L"]
+  }
+}

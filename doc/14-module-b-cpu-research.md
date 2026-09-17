@@ -10,6 +10,10 @@
 > benchmark table, or repo/model-card fact fetched live on 2026-09-11. Community/forum numbers
 > are labeled as such and never used as sole support. A `/last30days` sweep (2026-08-12 to
 > 2026-09-11, Reddit/HN/GitHub) found no fresh community evidence clearing its relevance floor.
+>
+> **Pipeline diagram:** `doc/diagrams/module-b-cpu-pipeline.excalidraw` (rendered PNG alongside)
+> — scan → route → primary/fallback + voting → confidence gate → verify-default → structure →
+> FHIR/ABDM, with the phase-2 VLM lane and constraints footer.
 
 ---
 

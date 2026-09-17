@@ -1,0 +1,20 @@
+{
+  "pages": [
+    {
+      "image": "print_en_rx.png",
+      "full_text": "Rx\nTab. Amoxicillin 500mg BD x 5 days\nTab. Paracetamol 650mg TDS x 3 days\nDiagnosis: Acute bronchitis\nSyrup Ascoril 5ml TDS x 7 days"
+    },
+    {
+      "image": "print_en_lab.png",
+      "full_text": "Test Report\nHemoglobin : 10.2 g/dL\nTSH : 4.1 mIU/L\nFasting Glucose : 112 mg/dL\nHbA1c : 6.8 %"
+    },
+    {
+      "image": "print_en_note.png",
+      "full_text": "Patient: 34 yr male\nKnown case of hypertension since 2021\nc/o headache x 3 days, better now\nAdvice: review after 1 week"
+    },
+    {
+      "image": "print_hi_rx.png",
+      "full_text": "निदान: बुखार और खांसी\nटैबलेट पैरासिटामोल 650 एमजी दिन में तीन बार\nमरीज: 40 वर्ष पुरुष\nसलाह: एक सप्ताह बाद दोबारा आएं"
+    }
+  ]
+}

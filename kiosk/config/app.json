@@ -1,0 +1,60 @@
+{
+  "app": "medikiosk",
+  "schema": "medikiosk-kiosk-config/1",
+  "brand": {
+    "name": { "en": "MediKiosk", "hi": "मेडीकियोस्क" },
+    "tagline": {
+      "en": "Tell us your story before you see the doctor",
+      "hi": "डॉक्टर से मिलने से पहले अपनी बात बताइए"
+    }
+  },
+  "languages": [
+    { "code": "en", "label": "English", "native": "English", "speech": "en-IN" },
+    { "code": "hi", "label": "Hindi", "native": "हिन्दी", "speech": "hi-IN" },
+    { "code": "rom", "label": "Hinglish", "native": "Hinglish", "speech": "hi-IN" }
+  ],
+  "default_language": "en",
+  "respondent_roles": [
+    { "code": "patient", "label": { "en": "I am the patient", "hi": "मैं ही मरीज़ हूँ", "rom": "Main hi patient hoon" } },
+    { "code": "proxy", "label": { "en": "I am accompanying the patient", "hi": "मैं मरीज़ के साथ आया/आई हूँ", "rom": "Main patient ke saath aaya/aayi hoon" } }
+  ],
+  "proxy_relations": [
+    { "code": "son", "label": { "en": "Son", "hi": "बेटा" } },
+    { "code": "daughter", "label": { "en": "Daughter", "hi": "बेटी" } },
+    { "code": "spouse", "label": { "en": "Spouse", "hi": "जीवनसाथी" } },
+    { "code": "parent", "label": { "en": "Parent", "hi": "माता/पिता" } },
+    { "code": "sibling", "label": { "en": "Brother / sister", "hi": "भाई/बहन" } },
+    { "code": "attendant", "label": { "en": "Attendant / caregiver", "hi": "परिचारक" } },
+    { "code": "other", "label": { "en": "Other", "hi": "अन्य" } }
+  ],
+  "visit_types": [
+    { "code": "new", "label": { "en": "First visit for this problem", "hi": "इस समस्या के लिए पहली बार" } },
+    { "code": "repeat", "label": { "en": "Follow-up / repeat visit", "hi": "दोबारा / फ़ॉलो-अप" } }
+  ],
+  "versions": {
+    "history_schema": "medikiosk-history-bundle/1",
+    "interview_schema": "medikiosk-interview/1",
+    "ig_pin": "ndhm.in#6.5.0",
+    "range_set": "placeholder-demo-0",
+    "range_set_signed": false
+  },
+  "limits": {
+    "max_documents": 10,
+    "max_document_bytes": 15728640,
+    "allowed_content_types": ["image/png", "image/jpeg", "image/webp", "application/pdf"],
+    "max_answer_chars": 2000,
+    "max_audio_bytes": 6291456,
+    "max_tts_chars": 600
+  },
+  "speech": {
+    "comment": "Real Module A speech lane. The browser captures the mic; the kiosk/edge CPU transcribes with offline faster-whisper. Audio is transient (never stored). Hindi/Hinglish accuracy on real OPD audio is unvalidated.",
+    "enabled": true,
+    "asr_engine": "faster-whisper",
+    "asr_model": "tiny",
+    "asr_language_overrides": {},
+    "tts_enabled": true,
+    "tts_engine": "system",
+    "tts_rate": 165,
+    "auto_speak_default": true
+  }
+}

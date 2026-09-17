@@ -1,0 +1,304 @@
+{
+  "schema": "medikiosk-interview/1",
+  "comment": "Deterministic interview schema for the kiosk (Module A capture contract). Content is the production capture set; red-flag logic is in red_flags.json, ROS sets in ros.json. The UI hardcodes no question text, option, or order.",
+  "sections": [
+    { "id": "story", "label": { "en": "Your story", "hi": "आपकी बात", "rom": "Aapki baat" }, "turns": ["bodymap", "narrative", "cc"] },
+    { "id": "symptoms", "label": { "en": "Symptom details", "hi": "लक्षण विवरण", "rom": "Lakshan vivaran" }, "turns": ["socrates.site", "socrates.onset", "socrates.character", "socrates.radiation", "socrates.associations", "socrates.timing", "socrates.exacerbating", "socrates.severity"] },
+    { "id": "safety", "label": { "en": "Safety check", "hi": "सुरक्षा जाँच", "rom": "Suraksha jaanch" }, "turns": ["safety"] },
+    { "id": "history", "label": { "en": "Health history", "hi": "स्वास्थ्य इतिहास", "rom": "Swasthya itihaas" }, "turns": ["pmh", "meds", "allergies", "family", "social.smoke", "social.alcohol"] },
+    { "id": "ros", "label": { "en": "Other symptoms", "hi": "अन्य लक्षण", "rom": "Anya lakshan" }, "turns": "ROS_DYNAMIC" },
+    { "id": "ice", "label": { "en": "Your thoughts", "hi": "आपके विचार", "rom": "Aapke vichaar" }, "turns": ["ice.worry", "ice.expect"] },
+    { "id": "documents", "label": { "en": "Your papers", "hi": "आपके काग़ज़", "rom": "Aapke kaagaz" }, "turns": ["documents"] },
+    { "id": "readback", "label": { "en": "Check & confirm", "hi": "जाँच और पुष्टि", "rom": "Jaanch aur pushti" }, "turns": ["readback"] }
+  ],
+  "complaints": [
+    { "id": "chest", "en": "chest pain", "hi": "छाती में दर्द", "rom": "seene mein dard", "rosSet": "chest", "bodyRegion": "chest" },
+    { "id": "knee", "en": "knee / joint pain", "hi": "घुटने का दर्द", "rom": "ghutne ka dard", "rosSet": "knee", "bodyRegion": "legL" },
+    { "id": "headache", "en": "headache", "hi": "सिर दर्द", "rom": "sir dard", "rosSet": "general", "bodyRegion": "head" },
+    { "id": "abdomen", "en": "stomach pain", "hi": "पेट दर्द", "rom": "pet dard", "rosSet": "general", "bodyRegion": "abdomen" },
+    { "id": "breathless", "en": "breathlessness", "hi": "सांस की तकलीफ", "rom": "saans ki takleef", "rosSet": "chest", "bodyRegion": "chest" },
+    { "id": "cough", "en": "cough", "hi": "खांसी", "rom": "khansi", "rosSet": "general", "bodyRegion": "chest" },
+    { "id": "fever", "en": "fever", "hi": "बुखार", "rom": "bukhar", "rosSet": "general", "bodyRegion": "general" },
+    { "id": "back", "en": "back pain", "hi": "कमर दर्द", "rom": "kamar dard", "rosSet": "general", "bodyRegion": "back" }
+  ],
+  "general_complaint": { "id": "general", "en": "your main problem", "hi": "आपकी मुख्य समस्या", "rom": "aapki mushkil samasya", "rosSet": "general", "bodyRegion": "general" },
+  "body_regions": [
+    { "id": "head", "complaint": "headache", "label": { "en": "Head", "hi": "सिर", "rom": "Sir" } },
+    { "id": "chest", "complaint": "chest", "label": { "en": "Chest", "hi": "छाती", "rom": "Chaati" } },
+    { "id": "abdomen", "complaint": "abdomen", "label": { "en": "Belly", "hi": "पेट", "rom": "Pet" } },
+    { "id": "back", "complaint": "back", "label": { "en": "Back", "hi": "पीठ", "rom": "Peeth" } },
+    { "id": "armL", "complaint": "general", "label": { "en": "Left arm", "hi": "बायाँ हाथ", "rom": "Baayan haath" } },
+    { "id": "armR", "complaint": "general", "label": { "en": "Right arm", "hi": "दायाँ हाथ", "rom": "Daayan haath" } },
+    { "id": "legL", "complaint": "knee", "label": { "en": "Left leg / knee", "hi": "बायाँ घुटना", "rom": "Baayan ghutna" } },
+    { "id": "legR", "complaint": "knee", "label": { "en": "Right leg / knee", "hi": "दायाँ घुटना", "rom": "Daayan ghutna" } },
+    { "id": "general", "complaint": "general", "label": { "en": "Somewhere else", "hi": "कहीं और", "rom": "Kahin aur" } }
+  ],
+  "yes_no_options": [
+    { "v": "yes", "en": "Yes", "hi": "हाँ" },
+    { "v": "no", "en": "No", "hi": "नहीं" },
+    { "v": "not_sure", "en": "Not sure", "hi": "पता नहीं", "review": true }
+  ],
+  "turns": {
+    "narrative": {
+      "id": "narrative", "kind": "text", "section": "story",
+      "ask": {
+        "en": "Namaste. Please tell us in your own words — what problem brought you to the hospital today? Speak or type as much as you like. Take your time.",
+        "hi": "नमस्ते। अपने शब्दों में बताइए — आज आप अस्पताल किस समस्या से आए हैं? जितना चाहें बोलिए या लिखिए।",
+        "rom": "Namaste. Apne shabdon mein bataiye — aaj aap hospital kis samasya se aaye hain? Jitna chaahein boliye ya likhiye."
+      }
+    },
+    "cc": {
+      "id": "cc", "kind": "cc", "section": "story",
+      "askConfirm": {
+        "en": "We have noted your main problem as shown below. Is that correct?",
+        "hi": "हमने आपकी मुख्य समस्या नीचे दर्ज की है। क्या यह सही है?",
+        "rom": "Humne aapki mushkil samasya neeche darj ki hai. Kya yeh sahi hai?"
+      },
+      "askOpen": {
+        "en": "In one line — what is your main problem today?",
+        "hi": "एक लाइन में बताइए — आज आपकी मुख्य समस्या क्या है?",
+        "rom": "Ek line mein bataiye — aaj aapki mushkil samasya kya hai?"
+      }
+    },
+    "bodymap": {
+      "id": "bodymap", "kind": "bodymap", "section": "story",
+      "ask": {
+        "en": "Show us where it hurts — tap the body region. No need to read or speak.",
+        "hi": "दिखाइए दर्द कहाँ है — शरीर के हिस्से पर उंगली रखिए। पढ़ने या बोलने की ज़रूरत नहीं।",
+        "rom": "Dikhaiye dard kahan hai — sharir ke hisse par ungli rakhiye. Padhne ya bolne ki zaroorat nahi."
+      }
+    },
+    "socrates.site": {
+      "id": "socrates.site", "kind": "chips", "section": "symptoms", "field": "site",
+      "ask": {
+        "en": "Your main problem — where exactly do you feel it? (You can point with one finger.)",
+        "hi": "आपकी समस्या — शरीर के ठीक कहाँ महसूस होती है? (एक उंगली से इशारा कर सकते हैं।)",
+        "rom": "Aapki samasya — sharir ke theek kahan mehsoos hoti hai? (Ek ungli se ishara kar sakte hain.)"
+      },
+      "options_by_complaint": {
+        "chest": [
+          { "v": "chest_center", "en": "Centre of the chest", "hi": "छाती के बीच में" },
+          { "v": "chest_left", "en": "Left side of the chest", "hi": "छाती के बाईं ओर" },
+          { "v": "chest_whole", "en": "Whole chest", "hi": "पूरी छाती" },
+          { "v": "other_site", "en": "Somewhere else", "hi": "कहीं और" }
+        ],
+        "knee": [
+          { "v": "knee_right", "en": "Right knee", "hi": "दायाँ घुटना" },
+          { "v": "knee_left", "en": "Left knee", "hi": "बायाँ घुटना" },
+          { "v": "knee_both", "en": "Both knees", "hi": "दोनों घुटने" },
+          { "v": "other_site", "en": "Somewhere else", "hi": "कहीं और" }
+        ]
+      },
+      "options": [
+        { "v": "other_site", "en": "Somewhere else", "hi": "कहीं और" }
+      ]
+    },
+    "socrates.onset": {
+      "id": "socrates.onset", "kind": "chips", "section": "symptoms", "field": "onset",
+      "ask": {
+        "en": "When did it start — and how: suddenly or gradually?",
+        "hi": "इसकी शुरूआत कब हुई और कैसे — अचानक या धीरे-धीरे?",
+        "rom": "Iski shuruaat kab hui aur kaise — achanak ya dheere-dheere?"
+      },
+      "options": [
+        { "v": "sud_min", "en": "Sudden — within minutes", "hi": "अचानक — कुछ मिनटों में", "terms": ["sudden", "achanak"] },
+        { "v": "hours", "en": "Over a few hours", "hi": "कुछ घंटों में" },
+        { "v": "days", "en": "Over a few days", "hi": "कुछ दिनों में" },
+        { "v": "weeks", "en": "Over a few weeks", "hi": "कुछ हफ़्तों में" },
+        { "v": "month_plus", "en": "More than a month ago", "hi": "एक महीने से ज़्यादा पहले" }
+      ]
+    },
+    "socrates.character": {
+      "id": "socrates.character", "kind": "chips", "section": "symptoms", "field": "character",
+      "ask": {
+        "en": "What does it feel like — what kind of pain or discomfort is it?",
+        "hi": "यह कैसा दर्द है — कैसा महसूस होता है?",
+        "rom": "Yeh kaisa dard hai — kaisa mehsoos hota hai?"
+      },
+      "options": [
+        { "v": "pressing", "en": "Heavy / pressing", "hi": "दबने जैसा" },
+        { "v": "sharp", "en": "Sharp / stabbing", "hi": "चुभने जैसा" },
+        { "v": "burning", "en": "Burning", "hi": "जलन" },
+        { "v": "throbbing", "en": "Throbbing", "hi": "धड़कने जैसा" },
+        { "v": "dull", "en": "Dull ache", "hi": "हल्का दर्द" }
+      ]
+    },
+    "socrates.radiation": {
+      "id": "socrates.radiation", "kind": "chips", "section": "symptoms", "field": "radiation",
+      "ask": {
+        "en": "Does it spread anywhere else in the body?",
+        "hi": "क्या यह दर्द शरीर के किसी और हिस्से तक जाता है?",
+        "rom": "Kya yeh dard sharir ke kisi aur hisse tak jaata hai?"
+      },
+      "options": [
+        { "v": "no_spread", "en": "No — stays in one place", "hi": "नहीं — एक ही जगह रहता है" },
+        { "v": "left_arm", "en": "Goes to the left arm", "hi": "बाईं बाँह तक जाता है" },
+        { "v": "jaw_neck", "en": "Goes to jaw or neck", "hi": "जबड़े या गर्दन तक जाता है" },
+        { "v": "to_back", "en": "Goes to the back", "hi": "पीठ तक जाता है" },
+        { "v": "other_spread", "en": "Somewhere else", "hi": "कहीं और" }
+      ]
+    },
+    "socrates.associations": {
+      "id": "socrates.associations", "kind": "multi", "section": "symptoms", "field": "associations",
+      "ask": {
+        "en": "Along with this, do you have any of these? Choose all that apply.",
+        "hi": "इसके साथ और क्या-क्या तकलीफ है? जो लागू हो, सब चुनिए।",
+        "rom": "Iske saath aur kya-kya takleef hai? Jo lagu ho, sab chuniye."
+      },
+      "options": [
+        { "v": "breathless", "en": "Breathlessness", "hi": "सांस फूलना", "rfTerm": "breath" },
+        { "v": "sweating", "en": "Sweating", "hi": "पसीना आना", "rfTerm": "concern" },
+        { "v": "nausea", "en": "Nausea or vomiting", "hi": "मतली या उल्टी", "rfTerm": "concern" },
+        { "v": "fever", "en": "Fever", "hi": "बुखार" },
+        { "v": "dizzy", "en": "Fainting or dizziness", "hi": "चक्कर या बेहोशी", "rfTerm": "concern" },
+        { "v": "swelling", "en": "Swelling nearby", "hi": "पास में सूजन" },
+        { "v": "none_assoc", "en": "None of these", "hi": "इनमें से कोई नहीं", "exclusive": true }
+      ]
+    },
+    "socrates.timing": {
+      "id": "socrates.timing", "kind": "chips", "section": "symptoms", "field": "timing",
+      "ask": {
+        "en": "Is it there all the time, or does it come and go?",
+        "hi": "यह हमेशा रहती है, या आती-जाती है?",
+        "rom": "Yeh hamesha rehti hai, ya aati-jaati hai?"
+      },
+      "options": [
+        { "v": "constant", "en": "Constant since it started", "hi": "शुरू होने से लगातार है" },
+        { "v": "comes_goes", "en": "Comes and goes", "hi": "आती-जाती है" },
+        { "v": "with_activity", "en": "Only with activity", "hi": "सिर्फ़ काम करते समय" },
+        { "v": "at_night", "en": "Mostly at night", "hi": "ज़्यादातर रात में" }
+      ]
+    },
+    "socrates.exacerbating": {
+      "id": "socrates.exacerbating", "kind": "multi", "section": "symptoms", "field": "exacerbating",
+      "ask": {
+        "en": "What makes it worse, and what makes it better?",
+        "hi": "किन चीज़ों से यह बढ़ती है, और किन से कम होती है?",
+        "rom": "Kin cheezon se yeh badhti hai, aur kin se kam hoti hai?"
+      },
+      "options": [
+        { "v": "worse_exertion", "en": "Worse on walking / exertion", "hi": "चलने-फिरने से बढ़ती है" },
+        { "v": "better_rest", "en": "Better with rest", "hi": "आराम से कम होती है" },
+        { "v": "worse_food", "en": "Worse after food", "hi": "खाने के बाद बढ़ती है" },
+        { "v": "worse_stairs", "en": "Worse on stairs / squatting", "hi": "सीढ़ी या बैठने-उठने से बढ़ती है" },
+        { "v": "nothing_helps", "en": "Nothing makes it better", "hi": "किसी चीज़ से कम नहीं होती", "exclusive": true }
+      ]
+    },
+    "socrates.severity": {
+      "id": "socrates.severity", "kind": "scale", "section": "symptoms", "field": "severity",
+      "min": 0, "max": 10,
+      "ask": {
+        "en": "If 0 is no pain and 10 is the worst you can imagine — what number is it right now?",
+        "hi": "अगर 0 का मतलब कोई दर्द नहीं और 10 का मतलब सबसे बुरा दर्द — तो अभी कौन-सा नंबर लगता है?",
+        "rom": "Agar 0 matlab koi dard nahi, 10 matlab sabse bura dard — toh abhi kaunsa number lagta hai?"
+      }
+    },
+    "safety": { "id": "safety", "kind": "safety", "section": "safety" },
+    "pmh": {
+      "id": "pmh", "kind": "multi", "section": "history",
+      "ask": {
+        "en": "Do you have any long-standing illnesses, or past operations? For example: high BP, sugar (diabetes), asthma, thyroid, heart problem. Choose all that apply — or type.",
+        "hi": "क्या आपको कोई पुरानी बीमारी है, या कोई ऑपरेशन हुआ है? जैसे — उच्च रक्तचाप, शुगर, दमा, थायराइड, दिल की बीमारी। जो लागू हो चुनिए — या लिखिए।",
+        "rom": "Kya aapko koi purani bimari hai, ya koi operation hua hai? Jaise — BP, sugar, daama, thyroid, dil ki bimari. Jo lagu ho chuniye — ya likhiye."
+      },
+      "options": [
+        { "v": "htn", "en": "High blood pressure", "hi": "उच्च रक्तचाप (BP)" },
+        { "v": "dm", "en": "Diabetes (sugar)", "hi": "शुगर (मधुमेह)" },
+        { "v": "asthma", "en": "Asthma / breathing problem", "hi": "दमा / सांस की बीमारी" },
+        { "v": "thyroid", "en": "Thyroid", "hi": "थायराइड" },
+        { "v": "cardiac", "en": "Heart problem", "hi": "दिल की बीमारी" },
+        { "v": "none_pmh", "en": "None of these", "hi": "इनमें से कोई नहीं", "exclusive": true }
+      ]
+    },
+    "meds": {
+      "id": "meds", "kind": "chips", "section": "history",
+      "ask": {
+        "en": "Are you taking any medicines at present? Say or type the name and dose, if you know.",
+        "hi": "क्या आप इस समय कोई दवा ले रहे हैं? नाम और खुराक पता हो तो बताइए या लिखिए।",
+        "rom": "Kya aap is samay koi dawa le rahe hain? Naam aur khurak pata ho toh bataiye ya likhiye."
+      },
+      "options": [
+        { "v": "no_meds", "en": "No medicines right now", "hi": "अभी कोई दवा नहीं" },
+        { "v": "unsure_meds", "en": "Not sure", "hi": "पता नहीं", "review": true }
+      ],
+      "free_text": { "en": "Medicine name and dose", "hi": "दवा का नाम और खुराक" }
+    },
+    "allergies": {
+      "id": "allergies", "kind": "chips", "section": "history",
+      "ask": {
+        "en": "Do you have any allergy to any medicine?",
+        "hi": "किसी भी दवा से कोई एलर्जी है?",
+        "rom": "Kisi bhi dawa se koi allergy hai?"
+      },
+      "options": [
+        { "v": "no_allergy", "en": "No known allergy", "hi": "कोई एलर्जी नहीं है" },
+        { "v": "unsure_allergy", "en": "Not sure", "hi": "पता नहीं", "review": true },
+        { "v": "yes_allergy", "en": "Yes — I will type it", "hi": "हाँ — मैं लिखता हूँ", "focusText": true }
+      ]
+    },
+    "family": {
+      "id": "family", "kind": "chips", "section": "history",
+      "ask": {
+        "en": "Any illness in your close family — parents, brothers, sisters? (sugar, heart disease, BP, cancer…) You can type too.",
+        "hi": "आपके परिवार में — माता-पिता, भाई-बहन — किसी को कोई बीमारी है? (शुगर, दिल की बीमारी, BP, कैंसर…) लिख भी सकते हैं।",
+        "rom": "Aapke parivaar mein — mata-pita, bhai-behen — kisi ko koi bimari hai? (sugar, dil ki bimari, BP, cancer…) Likh bhi sakte hain."
+      },
+      "options": [
+        { "v": "no_family", "en": "None that I know of", "hi": "जहाँ तक पता है — कोई नहीं" },
+        { "v": "unsure_family", "en": "Not sure", "hi": "पता नहीं", "review": true },
+        { "v": "yes_family", "en": "Yes — I will type it", "hi": "हाँ — मैं लिखता हूँ", "focusText": true }
+      ]
+    },
+    "social.smoke": {
+      "id": "social.smoke", "kind": "chips", "section": "history",
+      "ask": {
+        "en": "Do you smoke or use tobacco?",
+        "hi": "क्या आप सिगरेट-बीड़ी या तंबाकू का इस्तेमाल करते हैं?",
+        "rom": "Kya aap cigarette-beedi ya tambaku ka istemaal karte hain?"
+      },
+      "options": [
+        { "v": "never", "en": "Never used", "hi": "कभी इस्तेमाल नहीं किया" },
+        { "v": "former", "en": "Used to — now quit", "hi": "पहले करता था — अब छोड़ दिया" },
+        { "v": "current", "en": "Yes, currently", "hi": "हाँ, अभी करता हूँ" }
+      ]
+    },
+    "social.alcohol": {
+      "id": "social.alcohol", "kind": "chips", "section": "history",
+      "ask": {
+        "en": "Do you drink alcohol?",
+        "hi": "क्या आप शराब पीते हैं?",
+        "rom": "Kya aap sharab peete hain?"
+      },
+      "options": [
+        { "v": "no_alc", "en": "No", "hi": "नहीं" },
+        { "v": "sometimes", "en": "Sometimes", "hi": "कभी-कभी" },
+        { "v": "regular", "en": "Regularly", "hi": "नियमित रूप से" }
+      ]
+    },
+    "ice.worry": {
+      "id": "ice.worry", "kind": "chips", "section": "ice",
+      "ask": {
+        "en": "In your own words — what worries you most about this problem?",
+        "hi": "अपने शब्दों में बताइए — इस समस्या को लेकर सबसे ज़्यादा किस बात की चिंता है?",
+        "rom": "Apne shabdon mein bataiye — is samasya ko lekar sabse zyada kis baat ki chinta hai?"
+      },
+      "options": [
+        { "v": "serious", "en": "That it might be something serious", "hi": "कहीं कोई गंभीर समस्या तो नहीं" },
+        { "v": "wont_heal", "en": "That it will not get better", "hi": "कि यह ठीक नहीं होगा" }
+      ]
+    },
+    "ice.expect": {
+      "id": "ice.expect", "kind": "chips", "section": "ice",
+      "ask": {
+        "en": "What do you hope the doctor will do for you today?",
+        "hi": "आप चाहते हैं कि डॉक्टर आज आपके लिए क्या करें?",
+        "rom": "Aap chahte hain ki doctor aaj aapke liye kya karein?"
+      },
+      "options": [
+        { "v": "find_out", "en": "Find out exactly what is wrong", "hi": "पता चले कि ठीक क्या है" },
+        { "v": "relief", "en": "Relief from the problem", "hi": "समस्या से राहत" },
+        { "v": "tests", "en": "Get some tests done", "hi": "कुछ जाँच करवानी है" }
+      ]
+    }
+  }
+}

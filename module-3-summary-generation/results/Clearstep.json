@@ -1,0 +1,106 @@
+{
+  "basic_info": {
+    "name": "Clearstep",
+    "category": "deployed-product",
+    "description": "Clearstep is a cloud-based AI symptom-checking, self-triage and care-navigation platform sold to US health systems, which combines a probabilistic natural-language-processing layer with a rules-based clinical expert system built on the Dr. Barton Schmitt / Schmitt-Thompson telephone triage protocols. Its most load-bearing credential is the NEJM Catalyst case study of Mount Sinai Health System's deployment (branded \"Check Symptoms & Get Care\", live from early 2023): from 60,000+ visits, ~22,000 patients completed triage sessions (37% initiation, ~80% completion), system-usability score 85.5, ~75% rating >=8/10, 71% after-hours use, zero reported safety incidents, and 88-96% concordance with physician triage under blinded clinician comparison. It has since expanded into pre-visit AI clinical intake (patient history, HPI, ROS) that generates structured clinical summaries and decision support written back into the EHR. It is cloud-only, English/US-centric, and is not an NRCeS/ABDM FHIR document emitter and has no offline mode.",
+    "organization": "Clearstep Health (Clearstep, Inc.) - founded 2018; co-founders Adeel Malik (CEO) and Bilal Naved (Chief Product Officer)",
+    "country": "United States (Chicago, Illinois)",
+    "status": "production",
+    "source_urls": [
+      {
+        "url": "https://catalyst.nejm.org/doi/full/10.1056/CAT.25.0394",
+        "label": "NEJM Catalyst case study (Naved et al., 2026;7(8):CAT250394) - primary evaluation"
+      },
+      {
+        "url": "https://www.newswise.com/articles/check-symptoms-get-care-mount-sinai-s-ai-triage-solution",
+        "label": "Mount Sinai / Newswise summary of the NEJM Catalyst findings"
+      },
+      {
+        "url": "https://clearstep.health/",
+        "label": "Clearstep official homepage and platform modules"
+      },
+      {
+        "url": "https://clearstep.health/platform",
+        "label": "Clearstep platform module detail incl. AI Clinical Intake & Decision Support"
+      },
+      {
+        "url": "https://content.clearstep.health/capabilities/ai-intake-clinical-decision-support",
+        "label": "Clearstep AI Intake + Clinical Decision Support capability page"
+      },
+      {
+        "url": "https://www.clearstep.health/faq",
+        "label": "Clearstep FAQ - pricing model, EMR integrations, PHI handling"
+      },
+      {
+        "url": "https://www.clearstep.health/smart-access-virtual-triage",
+        "label": "Clearstep Smart Access Virtual Triage - Schmitt basis and claimed accuracy"
+      },
+      {
+        "url": "https://content.clearstep.health/security",
+        "label": "Clearstep security page - AWS KMS, encryption, SOC 2"
+      },
+      {
+        "url": "https://www.nature.com/articles/s41746-025-01779-9",
+        "label": "npj Digital Medicine 2025 peer-reviewed NLP model evaluation"
+      },
+      {
+        "url": "https://healthjournalism.org/blog/2026/08/ai-powered-symptom-checkers/",
+        "label": "AHCJ coverage with Mount Sinai implementation detail"
+      },
+      {
+        "url": "https://www.cbinsights.com/company/clearstep/financials",
+        "label": "CB Insights funding rounds and valuation"
+      }
+    ],
+    "last_verified_date": "2026-09-16"
+  },
+  "technical_features": {
+    "what_it_does": "Guides a patient through a conversational symptom assessment (free-text entry plus 10-15 clinically relevant follow-up questions), triages acuity, and routes or books them to the appropriate level of care (primary care, telemedicine, ED, urgent care, ambulance, specialist) down to provider, visit type, slot and modality. A newer AI Clinical Intake module instead collects patient history, HPI and ROS before the visit or at the front-desk, then generates a structured clinical summary plus decision-support items (differential diagnosis list and recommended diagnostics) that flow into the EHR. For MediKiosk Module C the relevant capability is the pre-visit structured summary generation; the triage/routing engine is the part with the strongest published safety and concordance evidence.",
+    "architecture": "Hybrid design: a probabilistic NLP layer (a supervised recurrent-convolutional + dense neural network classifier trained on >45,000 annotated patient free-text inputs across 506 symptom/need classes, thresholded at 0.46 probability) combined with a rules-based clinical expert system encoding Schmitt-Thompson triage protocols. All modules share one \"unified clinical engine\"; workflow logic is configurable via a drag-and-drop Workflow Builder. Hosted as containerized services on AWS managed infrastructure (KMS, GuardDuty, Inspector); SOC 2 Type II. The published NLP model was developed and deployed by Mount Sinai-affiliated authors and used across ~15 US health systems.",
+    "inputs": "Patient free-text descriptions of symptoms, structured follow-up questionnaire answers, patient demographics (age/sex asked conditionally), and, for intake, prior history/HPI/ROS responses. In deployment it also consumes facility/provider inventory, scheduling and CRM/EHR data to compute routing endpoints.",
+    "outputs": "Care-level triage recommendation with routing/scheduling links and self-care education; for intake, a structured clinical summary (HPI, problem list context, differential diagnosis list, recommended diagnostics) written back into the EHR/CRM as an encounter summary record. Outputs are EHR-native records and UI content, not an HL7 FHIR Bundle or NRCeS Composition; no FHIR DocumentReference/Composition emission against a named IG is documented.",
+    "standards_compliance": "[uncertain] Documented: SOC 2 Type II; HIPAA-compliant architecture with full audit trails; integrates with major EHRs (Epic via App Orchard/Showroom/Interconnect, Cerner, athenahealth, eClinicalWorks, Meditech) using secure APIs and SMART on FHIR; scheduling/CRM integrations (Salesforce, Genesys, ServiceNow). No evidence found that Clearstep's emitted summary conforms to a formal FHIR profile (NRCeS FHIR IG for ABDM, HL7 IPS, US Core) or that it performs SNOMED CT / LOINC / ICD-coded document generation with validated profile conformance; coding is not a marketed feature. Conformance is therefore integration-level, not standards-document-validated.",
+    "offline_capability": "None. Clearstep is a cloud SaaS delivered from AWS; there is no on-premises, edge or offline/store-and-forward mode documented, and no local encrypted storage described. Connectivity is assumed for every interaction.",
+    "languages_supported": "[uncertain] English (US). Clearstep is a US-market, white-label product and no Hindi, Devanagari, Hinglish or other Indic language support is documented; Spanish support was not confirmed either way.",
+    "deployment_model": "Cloud SaaS on AWS (containerized managed services), white-labelled and embedded in health-system websites, patient portals/MyChart, mobile apps, call centers and (newer) voice channels; also embedded within the EHR (Epic, Cerner, athenahealth, etc.). No kiosk, clinic-LAN, on-device or room-server deployment; no stated local hardware requirements because none is installed."
+  },
+  "performance_metrics": {
+    "accuracy_or_quality_metrics": "Peer-reviewed NLP classifier (npj Digital Medicine 2025): recall 0.71-0.93, precision 0.69-0.91, F-score 0.70-0.92 as the number of included classes grows from the most prevalent to ~300 classes; average on the top 24 classes was F=0.80; GPT-4 given a curated master list performed comparably (F=0.80). Mount Sinai deployment (NEJM Catalyst 2026): 88-96% concordance with physician triage under blinded clinician comparison and continuous post-deployment review; zero reported safety incidents; SUS 85.5. Vendor claims >95% (\"97%+\" on the platform page) clinical/triage accuracy versus an ER-physician panel in a double-blinded community-hospital study, and 99% protocol compliance for the call-center module. Note that NLP accuracy is symptom-classification accuracy, not summary-fidelity accuracy, and the 88-96% figure is triage-level concordance rather than summary correctness.",
+    "latency": "Average time to triage <3 minutes (vendor platform claim). No formal per-request latency or throughput benchmark with hardware context is published, as the system is cloud-hosted and hardware-abstracted.",
+    "resource_requirements": "Not applicable to customers: fully cloud-hosted, so no local RAM/VRAM/CPU requirement is published. Internally the NLP classifier is a modest convolutional/recurrent network, but Clearstep sells it as SaaS, not as an on-device or on-prem package.",
+    "scale_metrics": "Platform is used by 300+ hospitals and health systems (vendor). Mount Sinai: 60,000+ visits and ~22,000 completed triage sessions in the reported year, 71% outside business hours. Published NLP model: 887,640 uses between March 2020 and March 2024 across ~15 health systems, all 50 US states, Puerto Rico and the US Virgin Islands. Selected by the Defense Innovation Unit (DIU) and Defense Health Agency (DHA) to power the Military Health System Digital Front Door smart-routing engine for 9.5 million military beneficiaries. Company: ~22-29 employees, estimated ~$1.2-2.4M annual revenue.",
+    "evaluation_protocol": "Two peer-reviewed evaluations plus vendor claims. (1) NEJM Catalyst 2026 case study (Naved et al., CAT250394): single health-system post-deployment study reporting initiation/completion, satisfaction (SUS + 8/10 ratings), after-hours utilisation, blinded clinician comparison for concordance (88-96%) and continuous safety monitoring - cohort/observational, not a randomised trial. (2) npj Digital Medicine 2025 (Naved et al., vol. 8, art. 390): model performance and head-to-head comparison against a bag-of-words baseline and GPT-4, plus LLM-assisted re-annotation study. (3) Vendor-claimed double-blinded triage accuracy study (>95%) and usability/satisfaction surveys; these are vendor- or institution-reported rather than independently audited."
+  },
+  "milestone_significance": {
+    "relevance_to_module_c": "Clearstep supplies the strongest published safety-and-concordance measurement model available for a patient-facing conversational system, and is the most directly analogous deployed capability ('AI Clinical Intake') to Module C's pre-visit structured summary. Its NEJM Catalyst metrics - session initiation and completion rate, system-usability score, blinded physician concordance percentage, safety-incident count, after-hours utilisation, and the delta between patients' intended care level and the clinically recommended level - are immediately reusable as the MediKiosk Module C pilot KPI set. It also demonstrates that a hybrid probabilistic-NLP + deterministic rules expert system can operate at health-system scale with zero reported safety incidents, which supports the architecture direction of a deterministic structured-summary renderer. It does NOT supply an offline, ABDM/NRCeS-conformant, patient-elicited-summary precedent.",
+    "what_to_adopt_or_reject": "Adopt (a) the measurement model as the Module C pilot metric set: initiation/completion rates, SUS score, blinded-physician concordance %, zero-incident safety count, after-hours usage, intent-vs-recommendation concordance; (b) the hybrid probabilistic-NLP + deterministic rules expert-system architecture, which maps cleanly onto an elicit-not-diagnose kiosk; (c) clinician-visible rationale / auditable recommendations (the announced 'show your work' transparency function) as inspiration for per-field provenance display. Reject (a) generating differential diagnoses and 'recommended diagnostics' from the kiosk lane, because that contradicts MediKiosk's elicit-never-diagnose constraint; (b) cloud-only dependency and EHR-write-back-as-the-only-output model, because Module C must run offline and emit an NRCeS OPConsultRecord Bundle; (c) treating symptom-classification accuracy as a proxy for summary fidelity - those are different measurements.",
+    "limitations_and_risks": "Cloud-only with no offline or on-prem mode; no Indic/Hindi/Hinglish support; not an ABDM/NRCeS FHIR document emitter and no verified profile conformance; its pre-visit intake module actively outputs a differential-diagnosis list, which is exactly the behaviour MediKiosk must avoid. The published accuracy is (i) symptom classification, not summary faithfulness, and (ii) triage concordance, measured against clinicians on a protocol-bound task, so it does not transfer directly to a free-form history summary. The flagship evaluation is a single-health-system observational case study; claims such as >95% triage accuracy and 97%+ clinical accuracy are vendor- or institution-reported. Its consumer-facing peer KHealth/Ada/Mediktor alternate is not clinically validated the same way, and independent studies (Mass General Brigham; a separate Mount Sinai study) found general chatbots badly undertriage, so 'Clearstep-like' marketing is often confused with unvalidated chatbots.",
+    "differentiator_vs_medikiosk": "Clearstep is cloud-first, English, US-market, EHR-integrated, and outputs triage/routing recommendations plus an HPI/DDx into Epic rather than an NRCeS-conformant, physician-attested OPConsultRecord. MediKiosk differentiates on offline-first operation, India data residency, NRCeS FHIR IG (ABDM OPConsultRecord) emission, per-field provenance, and a strict elicit-never-diagnose posture. Clearstep does not erode that differentiation because it occupies a different deployment reality (US cloud + Epic) and stops short of standards-conformant summary emission; instead it strengthens the case by proving that a pre-visit, patient-elicited, structured-summary product with rigorous safety/concordance measurement can reach large-scale production use."
+  },
+  "business_info": {
+    "license": "Proprietary commercial SaaS; no open-source license or public source code.",
+    "pricing": "SaaS licensed for a fixed monthly fee plus variable fees tied to selected features and implementation scale; no public price list - enterprise quotes via sales/demo. (Historical cost data point for virtual triage per encounter, $3.92 vs $20-40 for nurse-line triage, appears in the npj paper and reflects the underlying programme economics, not Clearstep's list price.)",
+    "funding": "[uncertain] Aggregators disagree. CB Insights: $7.04M over 10 rounds, latest a $4.25M Series A on 2025-01-10 led by Baleon Capital. Tracxn: $7.26M over 7 rounds. LeadIQ: ~$11M over 6 rounds. Investors include Baleon Capital, OCA Ventures, Newark Venture Partners, RRE Ventures and Techstars. Exact total raised and valuation are unconfirmed.",
+    "commercial_status": "Commercial enterprise product (privately held, venture-backed), sold to health systems, hospitals, medical groups, retail pharmacies and payers."
+  },
+  "competition_ecosystem": {
+    "competitors": "Ada Health (Berlin), Mediktor (Barcelona), K Health, Hyro and Assort Health in the digital symptom-checker/care-navigation segment; Phreesia occupies the broader patient-access/intake layer and MiiHealth AI (DAINA) is the closest funded pre-visit patient-elicited-intake analogue. Clearstep's own positioning is that it is the most widely implemented agentic AI for clinical navigation and the only provider of Schmitt clinical content for chat-and-voice digital self-triage.",
+    "integrations": "EHR: Epic (App Orchard/Showroom/Interconnect, SMART on FHIR), Cerner, athenahealth, eClinicalWorks, Meditech. Enterprise/workflow: Salesforce, Genesys, ServiceNow, CRM and contact-center (CCaaS) platforms, scheduling and provider/facility inventory databases, IVR. Encounter summaries can be pushed back and stored as an EHR record. No ABDM HIP/HIU/PHR gateway role, no Health Locker integration, no NRCeS profile support.",
+    "ecosystem_notes": "Clearstep benefits from US 'digital front door' and access/contact-center procurement tailwinds and from rising scrutiny of general consumer chatbots (found to undertriage emergencies), which favours clinically-grade, protocol-bound incumbents. The counter-pressure is the Epic Showroom per-site security review and BAA gauntlet, which repeats for every customer and lengthens enterprise cycles. The DIU/DHA Military Health System selection (9.5M beneficiaries) is a strong government-procurement signal. Nothing in this ecosystem transfers to India's ABDM/DPDP regime, so it is a competitive signal for the measurement model rather than for MediKiosk's market."
+  },
+  "history": {
+    "release_date": "Company founded 2018; Mount Sinai deployment went live in early 2023 after an RFP process beginning in 2021.",
+    "key_milestones": "2018 founded; 2021 Mount Sinai market evaluation/RFP; 2020-2024 NLP model accumulates 887,640 uses across ~15 health systems; early 2023 'Check Symptoms & Get Care' goes live on Mount Sinai website and MyMountSinai app; 2024-06 company reports deployment across 300+ hospitals/100+ hospital regions; 2025-01-10 $4.25M Series A (Baleon Capital); 2025-07-01 npj Digital Medicine NLP paper published; selected by DIU/DHA to power the Military Health System Digital Front Door smart-routing engine; 2026-07 NEJM Catalyst case study published.",
+    "recent_changes_last_6_months": "The dominant event is the peer-reviewed NEJM Catalyst case study published 15 July 2026 (NEJM Catal Innov Care Deliv 2026;7(8):CAT250394), which publicised the 88-96% physician concordance, SUS 85.5 and zero-safety-incident results and a tiered adoption roadmap. Clearstep simultaneously rebranded its marketing around 'Advancing Clinical Superintelligence' and a six-module platform that adds AI Voice Automation, AI Clinical Intake & Decision Support, AI Call Center Decision Support, AI Optimized Scheduling and an AI Workflow Builder. Mount Sinai authors have stated they are exploring a 'show your work' transparency function and a post-booking follow-up checker. The DIU/DHA Military Health System achievement (9.5 million beneficiaries) also surfaced in this window."
+  },
+  "market_positioning": {
+    "target_users": "US health systems, hospitals, medical groups, retail pharmacies, payers and digital health companies; deployment stakeholders are digital/patient-experience, marketing and IT executives. Not built for individual patients outside a health-system deployment.",
+    "market_segment": "Digital front door / patient intake, symptom checking, self-triage and care navigation, with an expanding pre-visit clinical-intake and decision-support footprint.",
+    "positioning_statement": "In its own words: 'Clearstep is the AI brain that optimizes how patients access care across your entire system', offering 'AI agents and toolkit to redesign access, contact center, triage and scheduling operations', and marketing itself as 'the most prevalently implemented agentic AI for clinical navigation' and as 'Advancing Clinical Superintelligence'."
+  },
+  "uncertain": [
+    "technical_features.standards_compliance",
+    "technical_features.languages_supported",
+    "business_info.funding"
+  ]
+}

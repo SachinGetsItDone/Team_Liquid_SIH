@@ -1,0 +1,24 @@
+{
+  "schema": "medikiosk-ros/1",
+  "comment": "Focused review-of-systems sets selected by the detected complaint's rosSet. Answers are captured as positive/negative observations with provenance.",
+  "sets": {
+    "chest": [
+      { "id": "ros.rest_breathless", "system": "cardio", "symptom": "breathlessness at rest", "en": "Breathless even while sitting at rest?", "hi": "बैठे-बैठे भी सांस फूलती है?" },
+      { "id": "ros.palpitations", "system": "cardio", "symptom": "palpitations", "en": "Heart racing / palpitations?", "hi": "धड़कन तेज़ होना?" },
+      { "id": "ros.fever_cough", "system": "resp", "symptom": "fever or cough", "en": "Fever or cough?", "hi": "बुखार या खांसी?" },
+      { "id": "ros.calf", "system": "vascular", "symptom": "calf pain or swelling", "en": "Pain or swelling in the calves?", "hi": "पिंडलियों में दर्द या सूजन?" }
+    ],
+    "knee": [
+      { "id": "ros.fever", "system": "general", "symptom": "fever", "en": "Fever?", "hi": "बुखार?" },
+      { "id": "ros.injury", "system": "msk", "symptom": "recent fall or injury", "en": "Any recent fall or injury?", "hi": "हाल में गिरने या चोट लगनी?" },
+      { "id": "ros.stiffness", "system": "msk", "symptom": "morning stiffness > 30 min", "en": "Morning stiffness for more than half an hour?", "hi": "सुबह आधे घंटे से ज़्यादा अकड़न?" },
+      { "id": "ros.tingling", "system": "neuro", "symptom": "numbness or tingling", "en": "Numbness or tingling?", "hi": "सुन्नपन या झनझनाहट?" }
+    ],
+    "general": [
+      { "id": "ros.fever_g", "system": "general", "symptom": "fever", "en": "Fever?", "hi": "बुखार?" },
+      { "id": "ros.weight", "system": "general", "symptom": "unintentional weight loss", "en": "Losing weight without trying?", "hi": "बिना कारण वज़न घटना?" },
+      { "id": "ros.appetite", "system": "gi", "symptom": "loss of appetite", "en": "Loss of appetite?", "hi": "भूख कम लगना?" },
+      { "id": "ros.sleep", "system": "general", "symptom": "sleep disturbance", "en": "Trouble sleeping?", "hi": "नींद में तकलीफ?" }
+    ]
+  }
+}

@@ -88,7 +88,7 @@ console.log([
   "  MediKiosk demo — local server",
   "  ----------------------------------------------------------",
   "  URL:   " + url,
-  "  Voice: use Chrome or Edge; allow the microphone when asked.",
+  "  Voice: allow the microphone when the browser asks.",
   "         (Hindi/Hinglish input = hi-IN recognizer, English = en-IN.)",
   "  Keep this window open while presenting.",
   "  Stop:  close this window or press Ctrl+C.",

@@ -20,18 +20,18 @@ const now = () => Date.now();
 section("1 · Interview sequence matches confirmed flow");
 {
   const list = MK.turnListFor("chest").map((t) => t.id);
-  const expectPrefix = ["narrative", "cc",
+  const expectPrefix = ["bodymap", "narrative", "cc",
     "socrates.site", "socrates.onset", "socrates.character", "socrates.radiation",
     "socrates.associations", "socrates.timing", "socrates.exacerbating", "socrates.severity",
     "safety",
     "pmh", "meds", "allergies", "family", "social.smoke", "social.alcohol"];
   ok(JSON.stringify(list.slice(0, expectPrefix.length)) === JSON.stringify(expectPrefix),
-    "turn order = narrative → CC → SOCRATES(8) → safety → PMH → meds → allergies → family → social");
+    "turn order = body map → narrative → CC → SOCRATES(8) → safety → PMH → meds → allergies → family → social");
   const tail = list.slice(expectPrefix.length);
   ok(tail.length === 6 && tail[4] === "ice.worry" && tail[5] === "ice.expect",
     "4 focused-ROS items then ICE(worry, expect): " + tail.join(", "));
   ok(new Set(list).size === list.length, "turn ids unique");
-  ok(list.indexOf("safety") === 10, "safety screen sits between SOCRATES and history (step 3 of confirmed sequence)");
+  ok(list.indexOf("safety") === 11, "safety screen sits between SOCRATES and history (step 3 of confirmed sequence)");
   ok(MK.turnListFor("knee").length === list.length, "knee path has same length (4 ROS items each)");
 }
 
@@ -99,7 +99,7 @@ section("5 · Slot states — fabrication is structurally impossible");
   const partial = MK.cannedState("redflag", "readback", "socrates.severity", "rom");
   const dq = MK.dataQuality(partial.answers, "chest");
   ok(dq.not_elicited > 0, "stopped-early run shows explicit not_elicited (" + dq.not_elicited + " fields)");
-  ok(dq.total === 22, "expected field count = 22 (narrative+cc+8 SOCRATES+6 history+4 ROS+2 ICE)");
+  ok(dq.total === 23, "expected field count = 23 (bodymap+narrative+cc+8 SOCRATES+6 history+4 ROS+2 ICE)");
   ok(dq.captured + dq.needs_review + dq.not_answered + dq.not_elicited === dq.total, "every field has an explicit state");
 }
 
@@ -224,6 +224,69 @@ section("9 · Voice-input clinical excerpt (what gets stored from speech)");
     "excerpted narrative still triggers RF-2 (safety rules run on what is actually stored)");
   ok(MK.detectComplaint(ce("Doctor sahab, ghutne mein dard ho raha hai", "narrative")).id === "knee",
     "complaint detection still works on the excerpted utterance");
+}
+
+section("10 · Body-map touch entry (zero-literacy starter)");
+{
+  ok(MK.BODYMAP_REGIONS.length === 8, "8 tappable regions on the figure");
+  const map = { head: "headache", chest: "chest", abdomen: "abdomen", armL: "general", armR: "general", legL: "knee", legR: "knee", back: "back" };
+  for (const region of Object.keys(map)) {
+    const pick = MK.bodymapPick(region, 0, "patient");
+    ok(pick.complaintId === map[region] && pick.slot.v === region && pick.narrative.en.indexOf("Pointed to") === 0,
+      "tap " + region + " → complaint " + map[region] + " + pointed-to narrative");
+  }
+  ok(MK.turnListFor("general")[0].id === "bodymap", "body map is the first turn of every interview");
+  let s = MK.reducer(MK.initialState(), { type: "START", lang: "rom", scriptId: "free" });
+  ok(s.cursor === "bodymap", "interview starts at the body map");
+  const pick = MK.bodymapPick("chest", now(), "patient");
+  s = MK.reducer(s, { type: "ANSWER", turnId: "bodymap", slot: pick.slot });
+  ok(s.complaintId === "chest" && s.cursor === "narrative", "bodymap tap sets complaintId (drives CC confirm + ROS set)");
+  s = MK.reducer(s, { type: "ANSWER", turnId: "narrative", slot: pick.narrative });
+  ok(s.cursor === "cc", "pointed-to narrative advances to the CC step");
+  const canned = MK.cannedState("redflag", "readback", null, "rom");
+  ok(canned.answers.bodymap && canned.answers.bodymap.v === "chest", "scripted demo records the body-map tap");
+  ok(canned.answers.narrative && canned.answers.narrative.en.indexOf("Pointed to") === 0, "canned narrative = pointed-to text");
+}
+
+section("11 · Repeat visits — carry-confirm + delta summary");
+{
+  const s = MK.cannedState("repeat", "readback", null, "rom");
+  ok(s.visitType === "repeat" && s.respondent === "proxy" && s.relation === "son", "repeat script carries visit type + respondent + relation");
+  ok(s.baseline && s.baseline.visitDate === "15 Aug 2026", "prior-visit baseline loaded");
+  ok(s.answers.pmh.carriedFrom === "15 Aug 2026" && s.answers.pmh.by === "patient", "carried PMH keeps patient provenance + carry tag");
+  ok(s.answers["social.smoke"].en === "Used to — now quit", "stable field carried verbatim");
+  const d = MK.computeDelta(s.baseline, s.answers, s.complaintId);
+  const changedIds = d.changed.map((c) => c.id);
+  const sev = d.changed.find((c) => c.id === "socrates.severity");
+  ok(sev && sev.from === "6 / 10" && sev.to === "3 / 10", "delta catches severity 6 → 3");
+  ok(changedIds.indexOf("meds") !== -1, "delta catches medicine change (Amlodipine → Metoprolol)");
+  ok(changedIds.indexOf("ros.rest_breathless") !== -1, "delta catches resolved breathlessness");
+  ok(changedIds.indexOf("socrates.associations") !== -1, "delta catches cleared associations");
+  ok(d.same.indexOf("pmh") !== -1 && d.same.indexOf("family") !== -1, d.same.length + " fields confirmed same as last visit");
+  ok(s.redFlag.hits.length === 0, "follow-up script → zero red-flag hits (routine queue)");
+  const secs = MK.summarySections(s);
+  ok(secs[0].id === "delta" && secs[0].rows.length >= 3, "summary opens with the what-changed table (" + secs[0].rows.length + " changes)");
+  ok(secs[0].sameCount === d.same.length, "unchanged count shown alongside");
+}
+
+section("12 · Proxy mode — provenance tags + subjective guardrail");
+{
+  const keep = MK.applyProxyRule({ state: "captured", v: 8, en: "8 / 10" }, "socrates.severity", "patient");
+  ok(keep.state === "captured" && !keep.proxyReview, "patient's own severity stays captured");
+  const flag = MK.applyProxyRule({ state: "captured", v: 8, en: "8 / 10" }, "socrates.severity", "proxy");
+  ok(flag.state === "needs_review" && flag.proxyReview === true, "attendant-spoken severity → needs_review + proxyReview");
+  const fact = MK.applyProxyRule({ state: "captured", v: "x", en: "Metoprolol 25 mg" }, "meds", "proxy");
+  ok(fact.state === "captured" && !fact.proxyReview, "attendant-spoken medicine stays captured (tagged, not flagged)");
+  let s = MK.reducer(MK.initialState(), { type: "START", lang: "rom", scriptId: "free", respondent: "proxy", relation: "son" });
+  ok(s.respondent === "proxy" && s.relation === "son" && s.baseline === null, "START carries respondent/relation; no baseline for free script");
+  s = MK.reducer(s, { type: "ANSWER", turnId: "socrates.severity", slot: { state: "captured", v: 3, en: "3 / 10", hi: "3 / 10", utterance: null, source: "touch", ts: now() } });
+  ok(s.answers["socrates.severity"].by === "proxy" && s.answers["socrates.severity"].state === "needs_review", "reducer stamps by=proxy and applies the subjective guardrail");
+  ok(s.log[s.log.length - 1].who === "proxy", "conversation log marks the speaker as proxy");
+  const rep = MK.cannedState("repeat", "readback", null, "rom");
+  const ps = MK.proxyStats(rep.answers);
+  ok(ps.count > 0 && ps.subjective.indexOf("socrates.severity") !== -1, ps.count + " attendant-stated answers tagged; severity in the confirm-with-patient set");
+  ok(rep.answers["socrates.severity"].state === "needs_review", "scripted proxy severity → needs_review in canned state too");
+  ok(rep.answers.pmh.by === "patient", "carried confirmations are NOT counted as attendant-stated");
 }
 
 console.log("\n" + (failed === 0 ? "ALL " + passed + " CHECKS PASSED" : failed + " FAILED / " + passed + " passed"));

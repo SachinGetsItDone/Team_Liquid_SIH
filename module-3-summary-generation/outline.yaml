@@ -1,0 +1,151 @@
+topic: Module 3 - Structured History Summary Generation (MediKiosk / SIH26047)
+project_context: >
+  MediKiosk is a patient-facing OPD kiosk for SIH26047 (Ministry of Ayush / AIIA).
+  Module 3 (Module C) synthesizes a signed HistoryBundle from Module A (conversational
+  history) plus FHIR extracts from Module B (document digitization) into one structured,
+  physician-ready, bilingual, editable summary. Output contract is NRCeS FHIR IG for ABDM
+  (OPConsultRecord). Hard constraints - offline-first, India data residency, CPU/iGPU-only
+  kiosk (~4GB RAM, no discrete GPU), elicit-never-diagnose, physician attestation.
+research_window: last 6 months
+items:
+  - name: Phreesia
+    category: Prior Art - Deployed Product (International)
+    description: US pre-visit administrative intake platform (forms, insurance, payments) delivered via kiosk and mobile; ~4,700 healthcare organizations, 170M+ patient visits annually. Administrative only - no deep clinical HPI, no document digitization, no national FHIR record push. Assess as the closest deployed intake-kiosk analogue and what it does NOT do clinically.
+    known_url: https://www.phreesia.com/
+  - name: Abridge
+    category: Prior Art - Deployed Product (International)
+    description: Commercial ambient AI medical scribe generating clinical notes from doctor-patient conversation. Doctor-side, during-visit. Evaluate note-quality evidence, deployment scale, and how pre-visit patient-elicited capture differs.
+    known_url: https://www.abridge.com/
+  - name: Nuance DAX Copilot
+    category: Prior Art - Deployed Product (International)
+    description: Microsoft ambient clinical documentation assistant that drafts notes during the encounter. Evaluate published evaluations, EHR integration, and limitations relevant to a pre-consultation summary generator.
+    known_url: https://www.microsoft.com/en-us/health-solutions/clinical-workflow/dax-copilot
+  - name: Ambience Healthcare
+    category: Prior Art - Deployed Product (International)
+    description: AI clinical documentation and coding platform (ambient scribe plus coding/CDI). Evaluate whether it supports pre-visit patient-elicited history and how it renders physician-facing summaries.
+    known_url: https://www.ambiencehealthcare.com/
+  - name: Clearstep
+    category: Prior Art - Deployed Product (International)
+    description: AI symptom checking and care-navigation / self-triage platform; deployed at Mount Sinai Health System with published NEJM Catalyst evaluation (completion, satisfaction, physician concordance, safety). Relevant as the strongest published safety + concordance measurement model to adopt for a pilot metric set.
+    known_url: https://catalyst.nejm.org/doi/full/10.1056/CAT.25.0394
+  - name: Augnito Omni
+    category: Prior Art - Deployed Product (India)
+    description: Indian voice-powered medical reporting and EMR-from-conversation product by Augnito India Private Limited (Mumbai). Doctor-side dictation plus ambient EMR. Evaluate Indic ASR claims, deployment, and absence of patient-facing pre-visit intake.
+    known_url: https://www.augnito.ai/
+  - name: EkaScribe and Eka Care
+    category: Prior Art - Deployed Product (India)
+    description: Indian ABDM-compliant PHR plus ambient scribe and medical records analyser (OCR of prescriptions/labs to FHIR); 140M+ records managed, 1M+ EkaScribe sessions. App-first and cloud. Closest Indian patient-side digitization prior art for Module C.
+    known_url: https://www.eka.care/
+  - name: Sunoh.ai
+    category: Prior Art - Deployed Product (India)
+    description: Ambient AI medical scribe from eClinicalWorks/healow, 100k+ providers; listens during the visit and drafts progress notes plus order capture. Doctor-side comparator.
+    known_url: https://sunoh.ai/
+  - name: NirogStreet Vaidya Tool
+    category: Prior Art - Deployed Product (India)
+    description: AYUSH practitioner-side SaaS for patient records, prescriptions and follow-ups. Site was reported returning WEBSITE TEMPORARILY UNAVAILABLE as of 2026-09-11 - verify current live status before citing as active competition.
+  - name: eSanjeevani
+    category: Prior Art - Deployed Product (India)
+    description: India's national telemedicine service built by C-DAC (doctor-to-doctor and patient-to-doctor, store-and-forward plus real-time video, DICOM/TWAIN device interfacing). Establishes national scale rails but does not solve in-person OPD history capture.
+    known_url: https://esanjeevani.mohfw.gov.in/
+  - name: Yolo HealthATM
+    category: Prior Art - Deployed Product (India)
+    description: Indian health kiosk / HealthATM measuring 60+ vital parameters with teleconsult; 750+ installations with state government clients and an ABDM certificate badge. Measures the body, not the story - no history elicitation, no document pipeline.
+    known_url: https://yolohealth.in/
+  - name: CureNet
+    category: Prior Art - Deployed Product (India)
+    description: ABDM-native offline-first clinical intelligence platform (labishbardiya/CureNet) that digitizes handwritten prescriptions and lab reports into FHIR R4 records using edge AI (Gemma 4 via Ollama), with AES-256-GCM encrypted local storage and claimed ABDM M1/M2/M3 compliance. NEW find - directly overlaps the offline + ABDM + FHIR positioning; needs close scrutiny of claims, licenses and real ABDM validation.
+    known_url: https://github.com/labishbardiya/CureNet
+  - name: Open-Nucleus server
+    category: Prior Art - Deployed Product (International)
+    description: Open-source offline-first EHR for zero-connectivity environments (military forward bases, disaster relief, small clinics). FHIR R4 write pipeline across 18 resource types, Git-based sync with FHIR-aware merge, per-patient AES-256-GCM encryption with crypto-erasure, SMART on FHIR plus consent middleware. Strong architectural comparator for offline-first + sync + encryption + consent.
+    known_url: https://github.com/Open-Nucleus/server
+  - name: rohit-h11 medikiosk-sih-26047
+    category: Competitor - SIH26047
+    description: Competing SIH26047 team repository. Cloud-first stack (FastAPI + React, Supabase with pgvector RAG, Groq Llama-3.3-70B, Sarvam ASR/TTS, IndicConformer/IndicTrans2/Bhashini) with an /api/v1/summary endpoint producing "30-second FHIR-shaped summaries" and a doctor Q&A assistant. Previously read in full; NO LICENSE file. Re-verify current commit activity, any v6.5.0 NRCeS profile validation, and whether the CCRAS PAS / NAMASTE / ICD-11 claims hardened.
+    known_url: https://github.com/rohit-h11/medikiosk-sih-26047
+  - name: g-AMIE
+    category: Research Prototype
+    description: Google DeepMind conversational medical AI agent with physician-centered oversight - conducts intake, summarizes the case, and proposes differential and management for PCP review; evaluated across 60 scenarios with a guardrail agent blocking individualized medical advice. Strongest research prior art for pre-consultation summary plus oversight design.
+    known_url: https://arxiv.org/abs/2507.15743
+  - name: MEDCOD and Note2Chat
+    category: Research Prototype
+    description: Research pattern of a deterministic dialogue manager owning history-taking state while an LLM handles natural-language understanding. Foundational to the Module A/B hybrid-dialogue design and relevant to how a deterministic summary renderer should consume structured slots.
+    known_url: https://arxiv.org/abs/2111.09381
+  - name: MiiHealth AI DAINA
+    category: Research Prototype
+    description: Funded US pre-visit intake agent (DAINA - Dynamic AI Intake and Navigation Agent) that conducts phone-call intake in the patient's native language and writes a structured note into the chart; $2.8M seed Aug 2026. Closest funded prior art for pre-visit patient-elicited history and structured writeback.
+    known_url: https://www.finsmes.com/2026/08/miihealth-ai-closes-funding.html
+  - name: NRCeS OPConsultRecord
+    category: Standard - ABDM Output Contract
+    description: The canonical physician-facing consult-summary contract in the NRCeS FHIR Implementation Guide for ABDM (v6.5.0 released 2025-05-08; v7.0.0 in preview). Composition profile with fixed type SNOMED 371530004, mandatory status/type/subject/encounter/date/author/title, a mandatory attester slot, and 12 SNOMED-sliced sections; emitted as Bundle.type=document. CRITICAL - re-verify the current published version, the exact section slice codes, and any v7.0.0 changes before the emitter design is locked.
+    known_url: https://nrces.in/ndhm/fhir/r4/StructureDefinition-OPConsultRecord.html
+  - name: ABDM HealthDocumentRecord profile
+    category: Standard - ABDM Output Contract
+    description: NRCeS ABDM Composition profile for unstructured historical health records uploaded by patients through the Health Locker - the named profile for the kiosk paper-scan use case. Relevant to deciding which ABDM artifact should carry a kiosk-generated pre-visit summary (open question - no NRCeS profile exists for patient-elicited summaries).
+    known_url: https://nrces.in/ndhm/fhir/r4/
+  - name: HL7 International Patient Summary
+    category: Standard - Summary Interoperability
+    description: HL7 FHIR Implementation Guide (STU 2 / v2.0.1) defining a cross-border, computable patient summary as a Composition-based Bundle with standard clinical sections (allergies, medications, problems, immunizations, procedures, diagnostic results, vital signs, past history, social history, pregnancy, functional status). Prior art for the concept of a standards-based summary document.
+    known_url: http://hl7.org/fhir/uv/ips/
+  - name: DPDP Rules 2025
+    category: Regulation - India Data Protection
+    description: Digital Personal Data Protection Rules 2025 notified by MeitY (G.S.R. 846(E)); official PIB announcement dated 14 November 2025, with an 18-month phased compliance horizon (~14 May 2027). Requires standalone, itemized, plain-language consent notices, Consent Manager registration (Indian company, INR 2 crore net worth), breach reporting, retention and erasure obligations. A derived kiosk summary is processed personal data - resolve whether it needs fresh notice separate from intake consent.
+    known_url: https://www.pib.gov.in/PressReleasePage.aspx?PRID=2190014
+  - name: SNOMED CT India and CDCI
+    category: Standard - Clinical Terminology
+    description: SNOMED CT India (NRCeS / C-DAC Pune is the National Release Centre; affiliate licensing free for use within India via MLDS) plus CDCI (Common Drug Codes for India, a National Extension) used by ABDM medication ValueSets. Determine the exact licensing and sublicensing obligations for a commercial kiosk product.
+    known_url: https://www.snomed.org/members/india
+  - name: NAMASTE Portal
+    category: Standard - AYUSH Terminology
+    description: National Ayush Morbidity and Standardized Terminologies Electronic Portal (Ministry of Ayush) providing morbidity codes and terminology modules for Ayurveda, Siddha and Unani with WHO ICD-10 and ICD-11 tabs; dashboards reported 256 hospitals registered and 1.21 crore OPD records. Needed because OPConsultRecord has no explicit AYUSH sections (Prakriti, Vikriti) - verify current code sets, licensing and any FHIR representation.
+    known_url: https://namaste.ayush.gov.in/
+  - name: HAPI FHIR
+    category: OSS - FHIR Implementation
+    description: Java FHIR R4/R5 implementation with parser, validator, JPA server, client and terminology services; Apache-2.0, maintained by Smile Digital Health, public test server at hapi.fhir.org. The reference validation and persistence layer for emitting NRCeS-profiled ABDM resources. Verify current version and any NRCeS/NDHM package support.
+    known_url: https://hapifhir.io/
+  - name: fhir.resources Python package
+    category: OSS - FHIR Implementation
+    description: Python Pydantic models for FHIR (nazrulworld/fhir.resources), BSD on PyPI but NOASSERTION on GitHub, single maintainer (bus-factor risk). IMPORTANT - from v7 there is no FHIR R4 sub-package (default R5, previous R4B/STU3), which matters because ABDM profiles are FHIR R4. Verify current version, R4 support path and validation limits.
+    known_url: https://pypi.org/project/fhir.resources/
+  - name: smart-on-fhir client-js
+    category: OSS - FHIR Client
+    description: SMART-on-FHIR client for browser and Node (OAuth, FHIR REST); Apache-2.0 confirmed via LICENSE file (Boston Children's Hospital). Relevant to any physician-screen or HIS-side integration. Verify maintenance activity.
+    known_url: https://github.com/smart-on-fhir/client-js
+  - name: matchbox FHIR validation server
+    category: OSS - FHIR Validation
+    description: ahdis/matchbox - FHIR validation and mapping server (fork of the HAPI JPA starter, homepage matchbox.health), Apache-2.0, used in HL7 projectathons and the Swiss community. Candidate for validating emitted bundles against NRCeS profiles. Verify current release and whether the NDHM/ABDM package can be loaded.
+    known_url: https://github.com/ahdis/matchbox
+  - name: FHIRPath libraries
+    category: OSS - FHIR Tooling
+    description: FHIRPath expression evaluation libraries - HL7/fhirpath.js (BSD-style NLM/LHNCBC license, actively maintained) and beda-software/fhirpath-py (MIT, active) versus the stale nazrulworld/fhirpath. Relevant to conformance checking and section extraction.
+    known_url: https://github.com/HL7/fhirpath.js
+  - name: IndicTrans2
+    category: OSS - Indic Translation
+    description: AI4Bharat neural translation models covering English and 22 scheduled Indian languages, MIT licensed, with a CPU-capable CTranslate2 path. Candidate offline lane for rendering the patient-language summary on a kiosk. Verify current version, model sizes vs the ~4GB kiosk budget, and Hindi/Hinglish quality.
+    known_url: https://github.com/AI4Bharat/IndicTrans2
+  - name: Qwen3 small models
+    category: Engine - On-device LLM
+    description: Qwen3 small dense models (1.7B / 4B class), Apache-2.0, strong multilingual coverage including Hindi, commonly run quantized via llama.cpp on CPU. Candidate local engine for constrained NLU and, in phase 2, narrative summary generation gated behind the eval harness. Verify current releases, quantization footprint and CPU throughput.
+    known_url: https://huggingface.co/Qwen/Qwen3-4B
+  - name: MedGemma
+    category: Engine - Clinical LLM
+    description: Google Health AI Developer Foundations clinical model family. Previously rejected for document digitization because it is a clinical-image comprehension model under gated non-permissive terms. Re-check for any new text-summarization variant relevant to clinical note generation.
+  - name: Gemma 4 edge models
+    category: Engine - On-device LLM
+    description: Google Gemma 4 family used for local inference by offline ABDM entrants (CureNet runs Gemma 4 E4B for latency-sensitive work and a 31B dense vision variant on a clinic workstation). Evaluate small-variant CPU footprint, license terms and suitability for summarization versus Qwen3.
+  - name: ACI-BENCH
+    category: Benchmark - Clinical Note Generation
+    description: Benchmark dataset (Yim et al.) of 207 full doctor-patient conversation to clinic-note pairs, described as the largest such dataset at publication; used as the full-note and note-to-dialogue benchmark in MEDIQA-Chat 2023. The reference corpus for measuring summary fidelity.
+    known_url: https://arxiv.org/abs/2306.02022
+  - name: MTS-Dialog and MEDIQA-Chat 2023
+    category: Benchmark - Clinical Note Generation
+    description: MEDIQA-Chat 2023 (ClinicalNLP @ ACL 2023, 17 teams) with Task A on MTS-Dialog (1.7k dialogue-summary pairs, 1,201/100/200 split) and Tasks B/C on ACI-Bench; official metrics ROUGE, BERTScore, BLEURT plus human evaluation. Includes participant results (WangLab GPT-4 ICL preferred about as often as human notes; UMASS_BioNLP "medical concept recall"). Reference protocol for the Module C eval harness.
+    known_url: https://aclanthology.org/2023.clinicalnlp-1.52/
+  - name: Clinical note omission and hallucination evaluation papers
+    category: Benchmark - Evaluation Methodology
+    description: Recent evaluation-methodology findings for AI clinical notes - omission blindness in LLM judges (arXiv:2608.31016 "LLM Judges Verify Presence, Not Absence") and the contested hallucination-measurement result of 35% lexical versus 9% inference-aware rates (arXiv:2604.14829). Directly shapes how the Module C eval harness must check for absent content rather than only present content. Verify current status and any newer follow-ups.
+    known_url: https://arxiv.org/abs/2608.31016
+execution:
+  batch_size: 4
+  items_per_agent: 2
+  output_dir: ./results
